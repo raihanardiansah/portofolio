@@ -320,7 +320,7 @@ function LiveTime({ timezone, displayFormat, t }) {
 }
 
 // ── ExpCard ──────────────────────────────────────────────────────
-function ExpCard({ title, role, role_id, period, description, description_id, points, points_id, tags, logo, t, lang }) {
+function ExpCard({ title, role, role_id, role_zh, period, description, description_id, description_zh, points, points_id, points_zh, tags, logo, t, lang }) {
   const [open, setOpen] = useState(false);
 
   return (
