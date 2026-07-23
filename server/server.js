@@ -3,9 +3,17 @@ const cors = require('cors');
 const multer = require('multer');
 const fs = require('fs');
 const path = require('path');
+const rateLimit = require('express-rate-limit');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
+
+// Rate Limiter
+const apiLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 20, // limit each IP to 20 POST requests per windowMs
+  message: { error: 'Terlalu banyak percobaan. Silakan coba lagi setelah 15 menit.' }
+});
 
 // Middleware
 app.use(cors());
@@ -65,7 +73,7 @@ app.get('/api/data', (req, res) => {
 });
 
 // Update data (Protected)
-app.post('/api/data', authMiddleware, (req, res) => {
+app.post('/api/data', apiLimiter, authMiddleware, (req, res) => {
   try {
     const newData = req.body;
     fs.writeFileSync(DATA_FILE, JSON.stringify(newData, null, 2));
@@ -76,7 +84,7 @@ app.post('/api/data', authMiddleware, (req, res) => {
 });
 
 // Upload image (Protected)
-app.post('/api/upload', authMiddleware, upload.single('image'), (req, res) => {
+app.post('/api/upload', apiLimiter, authMiddleware, upload.single('image'), (req, res) => {
   if (!req.file) {
     return res.status(400).json({ error: 'No image provided' });
   }

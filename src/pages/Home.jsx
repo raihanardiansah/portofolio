@@ -324,49 +324,56 @@ function ExpCard({ title, role, role_id, role_zh, period, description, descripti
   const [open, setOpen] = useState(false);
 
   return (
-    <article className="border-b border-zinc-200/60 dark:border-zinc-700/50 last:border-b-0">
+    <article className="relative pl-6 sm:pl-8 py-3 group">
+      {/* Timeline line & dot */}
+      <div className="absolute left-[7px] sm:left-[11px] top-10 bottom-[-12px] w-[2px] bg-zinc-200 dark:bg-zinc-800 group-last:hidden"></div>
+      <div className="absolute left-[3px] sm:left-[7px] top-[30px] w-[10px] h-[10px] rounded-full bg-zinc-300 dark:bg-zinc-600 outline outline-4 outline-[var(--bg)] transition-colors group-hover:bg-zinc-500 dark:group-hover:bg-zinc-400"></div>
+
       <button
         type="button"
         onClick={() => setOpen(!open)}
         aria-expanded={open}
-        className="w-full flex items-start justify-between gap-3 py-4 text-left hover:bg-zinc-50/70 dark:hover:bg-zinc-800/20 transition-colors cursor-pointer bg-transparent border-0"
+        className="w-full flex items-start justify-between gap-3 text-left hover:bg-zinc-50/70 dark:hover:bg-zinc-800/40 transition-all duration-300 rounded-xl p-2.5 -ml-2.5 cursor-pointer bg-transparent border-0 group-hover:translate-x-1"
       >
-        <span className="flex items-start gap-3 min-w-0">
-          <span
-            className="mt-1.5 text-[10px] text-zinc-400 transition-transform duration-200 shrink-0"
-            style={{ transform: open ? 'rotate(90deg)' : 'none', display: 'inline-block' }}
-            aria-hidden="true"
-          >▶</span>
+        <span className="flex items-start gap-3.5 min-w-0">
+          <svg className={`w-3.5 h-3.5 text-zinc-400 transition-transform duration-300 shrink-0 mt-1.5 ${open ? 'rotate-90 text-zinc-600 dark:text-zinc-200' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" />
+          </svg>
+          
           {logo && (
             <img src={logo} alt={`${title} logo`} className="w-10 h-10 rounded-md object-cover border border-zinc-200/50 dark:border-zinc-700/50 bg-[var(--surface)] shrink-0" />
           )}
           <span>
-            <span className="block text-sm font-semibold text-zinc-800 dark:text-zinc-100">{title}</span>
+            <span className="block text-sm font-bold text-zinc-800 dark:text-zinc-100">{title}</span>
             <span className="block text-xs text-zinc-500 dark:text-zinc-400 mt-0.5">{lang === 'zh' && role_zh ? role_zh : lang === 'id' && role_id ? role_id : role}</span>
           </span>
         </span>
         <span className="text-right shrink-0">
           <span className="block text-[11px] text-zinc-400 font-mono">{period}</span>
-          <span className="block text-[10px] text-zinc-400 mt-1">{open ? t.hideDetail : t.viewDetail}</span>
+          <span className="block text-[10px] text-zinc-400 mt-1 transition-opacity">{open ? t.hideDetail : t.viewDetail}</span>
         </span>
       </button>
-      <div
-        className="overflow-hidden transition-all duration-300"
-        style={{ maxHeight: open ? '800px' : '0px', opacity: open ? 1 : 0 }}
+      
+      {/* CSS Grid Smooth Accordion */}
+      <div 
+        className="grid transition-all duration-300 ease-in-out"
+        style={{ gridTemplateRows: open ? '1fr' : '0fr', opacity: open ? 1 : 0 }}
       >
-        <div className="pb-4 pl-6">
-          <p className="text-xs text-zinc-500 dark:text-zinc-400 leading-relaxed mb-2.5">{lang === 'zh' && description_zh ? description_zh : lang === 'id' && description_id ? description_id : description}</p>
-          <ul className="space-y-1 mb-2.5">
-            {(lang === 'zh' && points_zh ? points_zh : lang === 'id' && points_id ? points_id : points).map((p, i) => (
-              <li key={i} className="text-xs text-zinc-500 dark:text-zinc-400 pl-3.5 relative before:content-['−'] before:absolute before:left-0 before:text-zinc-300 dark:before:text-zinc-600">
-                {p}
-              </li>
-            ))}
-          </ul>
-          <div className="flex flex-wrap gap-1">
-            {tags.map(t => (
-              <span key={t} className="text-[10px] px-2 py-0.5 bg-zinc-50 dark:bg-zinc-800/50 border border-zinc-200 dark:border-zinc-700 rounded text-zinc-500 dark:text-zinc-400 font-mono">{t}</span>
-            ))}
+        <div className="overflow-hidden">
+          <div className="pt-3 pb-1 pl-9 sm:pl-11">
+            <p className="text-xs text-zinc-500 dark:text-zinc-400 leading-relaxed mb-3">{lang === 'zh' && description_zh ? description_zh : lang === 'id' && description_id ? description_id : description}</p>
+            <ul className="space-y-1.5 mb-3.5">
+              {(lang === 'zh' && points_zh ? points_zh : lang === 'id' && points_id ? points_id : points).map((p, i) => (
+                <li key={i} className="text-xs text-zinc-500 dark:text-zinc-400 pl-4 relative before:content-['−'] before:absolute before:left-0 before:text-zinc-300 dark:before:text-zinc-600">
+                  {p}
+                </li>
+              ))}
+            </ul>
+            <div className="flex flex-wrap gap-1.5">
+              {tags.map(t => (
+                <span key={t} className="text-[10px] px-2 py-0.5 bg-zinc-100 dark:bg-zinc-800/80 border border-zinc-200 dark:border-zinc-700/80 rounded text-zinc-600 dark:text-zinc-400 font-mono transition-colors hover:border-zinc-300 dark:hover:border-zinc-500">{t}</span>
+              ))}
+            </div>
           </div>
         </div>
       </div>
@@ -538,64 +545,81 @@ export default function Home() {
     }
   }, [location.hash]);
 
-  // Combined scroll listener (Progress + Spy)
+  // SEO: Update Title and Meta Description
+  useEffect(() => {
+    if (data.profile.name) {
+      document.title = `Portfolio - ${data.profile.name}`;
+      let metaDesc = document.querySelector('meta[name="description"]');
+      if (!metaDesc) {
+        metaDesc = document.createElement('meta');
+        metaDesc.name = "description";
+        document.head.appendChild(metaDesc);
+      }
+      metaDesc.setAttribute("content", data.profile.bio && data.profile.bio.length > 0 ? data.profile.bio[0] : t.subtitle);
+    }
+  }, [data.profile.name, data.profile.bio, t.subtitle]);
+
+  // Combined scroll listener (Progress + Parallax) optimized with requestAnimationFrame
   useEffect(() => {
     if (!splashDone) return;
     
+    let ticking = false;
+    
     const onScroll = () => {
-      // 1. Progress Bar
-      const progress = document.getElementById('scroll-progress');
-      if (progress) {
-        const scrollTop = window.scrollY;
-        const docHeight = Math.max(document.documentElement.scrollHeight - window.innerHeight, 1);
-        progress.style.transform = `scaleX(${scrollTop / docHeight})`;
-      }
-
-      // 2. Map Parallax Zoom (Sticky)
-      const mapZoom = document.getElementById('world-map-zoom');
-      const mapWrapper = document.getElementById('world-map-wrapper');
-      if (mapZoom && mapWrapper) {
-        const maxScroll = 300; 
-        const scrollPct = Math.min(window.scrollY / maxScroll, 1);
-        
-        const ease = scrollPct < 0.5 ? 2 * scrollPct * scrollPct : 1 - Math.pow(-2 * scrollPct + 2, 2) / 2;
-        const scale = 1 + (ease * 4); // Zooms from 1x to 5x
-        // Fades out extremely fast so it vanishes before text sweeps it
-        const opacity = Math.max(0, 1 - (scrollPct * 2.5)); 
-        
-        mapZoom.style.transform = `scale(${scale})`;
-        mapWrapper.style.opacity = opacity.toString();
-      }
-
-      // 3. Scroll Spy (Active Section)
-      const ids = ['home', 'proj', 'exp', 'stack', 'contact'];
-      const focalPoint = window.innerHeight * 0.3; // Detect when a section reaches top 30% of screen
-      
-      let currentId = activeSection;
-      
-      for (const id of ids) {
-        const el = document.getElementById(id);
-        if (el) {
-          const rect = el.getBoundingClientRect();
-          // If the section's top is above our focal point, and its bottom is below it
-          if (rect.top <= focalPoint && rect.bottom >= focalPoint) {
-            currentId = id;
-            break;
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          // 1. Progress Bar
+          const progress = document.getElementById('scroll-progress');
+          if (progress) {
+            const scrollTop = window.scrollY;
+            const docHeight = Math.max(document.documentElement.scrollHeight - window.innerHeight, 1);
+            progress.style.transform = `scaleX(${scrollTop / docHeight})`;
           }
-          // If we've scrolled all the way to the bottom of the page
-          if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 50) {
-            currentId = 'contact';
+
+          // 2. Map Parallax Zoom (Sticky)
+          const mapZoom = document.getElementById('world-map-zoom');
+          const mapWrapper = document.getElementById('world-map-wrapper');
+          if (mapZoom && mapWrapper) {
+            const maxScroll = 300; 
+            const scrollPct = Math.min(window.scrollY / maxScroll, 1);
+            const ease = scrollPct < 0.5 ? 2 * scrollPct * scrollPct : 1 - Math.pow(-2 * scrollPct + 2, 2) / 2;
+            const scale = 1 + (ease * 4); // Zooms from 1x to 5x
+            const opacity = Math.max(0, 1 - (scrollPct * 2.5)); 
+            
+            mapZoom.style.transform = `scale(${scale})`;
+            mapWrapper.style.opacity = opacity.toString();
           }
-        }
+          ticking = false;
+        });
+        ticking = true;
       }
-      
-      setActiveSection(prev => prev !== currentId ? currentId : prev);
     };
 
     window.addEventListener('scroll', onScroll, { passive: true });
     onScroll();
     return () => window.removeEventListener('scroll', onScroll);
-  }, [splashDone, activeSection]);
+  }, [splashDone]);
+
+  // 3. Scroll Spy (Active Section) optimized with IntersectionObserver
+  useEffect(() => {
+    if (!splashDone) return;
+    const ids = ['home', 'stack', 'exp', 'proj', 'contact'];
+    
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          setActiveSection(entry.target.id);
+        }
+      });
+    }, { rootMargin: '-30% 0px -60% 0px', threshold: 0 }); // Trigger when section hits top 30%
+
+    ids.forEach(id => {
+      const el = document.getElementById(id);
+      if (el) observer.observe(el);
+    });
+
+    return () => observer.disconnect();
+  }, [splashDone]);
 
   const copyToClipboard = async (text, id) => {
     try {
@@ -646,7 +670,9 @@ export default function Home() {
             href={`#${s}`}
             className={`w-2 h-2 rounded-full transition-all duration-200 hover:scale-125 hover:bg-black dark:bg-white text-white dark:text-black ${activeSection === s ? 'bg-black dark:bg-white text-white dark:text-black scale-125 shadow-[0_0_0_4px_rgba(0,0,0,0.1)] dark:shadow-[0_0_0_4px_rgba(255,255,255,0.1)]' : 'bg-zinc-300 dark:bg-zinc-700'}`}
             aria-current={activeSection === s ? 'location' : undefined}
-          />
+          >
+            <span className="sr-only">Go to {sectionLabels[s]}</span>
+          </a>
         ))}
       </nav>
 
