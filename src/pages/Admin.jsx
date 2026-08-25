@@ -2,13 +2,15 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import {
   usePortfolioData,
-  saveToBackend,
-  resetPortfolioData,
+  saveToLocal,
+  resetToDefaults,
+  exportDataJs,
   checkAdminPassword,
   setAdminPassword,
   generateSlug,
   generateId,
-  defaultData
+  defaultData,
+  getCachedData,
 } from '../store';
 
 // Toast component for notifications
@@ -51,20 +53,14 @@ export default function Admin() {
     }
   };
 
-  const handleSave = async (updatedSection, sectionName) => {
+  const handleSave = (updatedSection, sectionName) => {
     const newData = { ...currentData, ...updatedSection };
+    const ok = saveToLocal(newData);
     updateLocal(newData);
-
-    const pwd = prompt('Enter admin password to save to server (default: rahasia123):');
-    if (pwd) {
-      const ok = await saveToBackend(newData, pwd);
-      if (ok) {
-        showToast(`${sectionName} saved to server!`);
-      } else {
-        showToast(`Failed to save. Wrong password or server error.`, 'error');
-      }
+    if (ok) {
+      showToast(`${sectionName} saved! Download data.js in Settings to make it permanent.`);
     } else {
-      showToast(`Save cancelled. You must provide a password.`, 'error');
+      showToast('Failed to save.', 'error');
     }
   };
 
@@ -120,7 +116,13 @@ export default function Admin() {
             </button>
           ))}
         </nav>
-        <div className="p-3 border-t border-zinc-800 hidden md:block">
+        <div className="p-3 border-t border-zinc-800 hidden md:flex md:flex-col gap-1">
+          <button
+            onClick={() => exportDataJs(getCachedData())}
+            className="w-full px-4 py-2 rounded-lg text-sm font-mono text-left text-emerald-400 hover:bg-zinc-800 transition-colors"
+          >
+            ⬇ Download data.js
+          </button>
           <button 
             onClick={() => setAuth(false)}
             className="w-full px-4 py-2 rounded-lg text-sm font-mono text-left text-red-400 hover:bg-zinc-800 transition-colors"
@@ -140,7 +142,13 @@ export default function Admin() {
           {activeTab === 'Learning' && <LearningSection learning={currentData.currentlyLearning} onSave={(l) => handleSave({currentlyLearning: l}, 'Learning')} />}
           {activeTab === 'Gallery' && <GallerySection gallery={currentData.gallery || []} onSave={(g) => handleSave({gallery: g}, 'Gallery')} />}
           {activeTab === 'Blog' && <BlogSection blogs={currentData.blogs || []} onSave={(b) => handleSave({blogs: b}, 'Blog')} />}
-          {activeTab === 'Settings' && <SettingsSection onReset={() => { resetPortfolioData(); updateLocal(defaultData); showToast('Data reset to defaults'); }} />}
+          {activeTab === 'Settings' && <SettingsSection onReset={() => {
+            if (confirm('Reset semua data ke default? Perubahan yang belum di-download akan hilang.')) {
+              resetToDefaults();
+              updateLocal(null);
+              showToast('Data reset to defaults');
+            }
+          }} onExport={() => { exportDataJs(getCachedData()); }} />}
         </div>
       </main>
 
@@ -163,10 +171,14 @@ function ProfileSection({ profile, onSave }) {
   const [bio, setBio] = useState(profile.bio ? profile.bio.join('\n') : '');
   const [bioId, setBioId] = useState(profile.bio_id ? profile.bio_id.join('\n') : '');
   const [bioZh, setBioZh] = useState(profile.bio_zh ? profile.bio_zh.join('\n') : '');
+  const [bioJa, setBioJa] = useState(profile.bio_ja ? profile.bio_ja.join('\n') : '');
+  const [bioKo, setBioKo] = useState(profile.bio_ko ? profile.bio_ko.join('\n') : '');
+  const [editLang, setEditLang] = useState('en');
+  const langs = ['en', 'id', 'zh', 'ja', 'ko'];
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onSave({ ...p, bio: bio.split('\n').filter(l => l.trim()), bio_id: bioId.split('\n').filter(l => l.trim()), bio_zh: bioZh.split('\n').filter(l => l.trim()) });
+    onSave({ ...p, bio: bio.split('\n').filter(l => l.trim()), bio_id: bioId.split('\n').filter(l => l.trim()), bio_zh: bioZh.split('\n').filter(l => l.trim()), bio_ja: bioJa.split('\n').filter(l => l.trim()), bio_ko: bioKo.split('\n').filter(l => l.trim()) });
   };
 
   return (
@@ -200,12 +212,17 @@ function ProfileSection({ profile, onSave }) {
         </label>
       </div>
       <div>
-        <label className={labelCls}>Bio (EN) (One point per line)</label>
-        <textarea className={`${inputCls} h-32 mb-4`} value={bio} onChange={e=>setBio(e.target.value)} required />
-        <label className={labelCls}>Bio (ID) (Satu poin per baris)</label>
-        <textarea className={`${inputCls} h-32`} value={bioId} onChange={e=>setBioId(e.target.value)} />
-        <label className={labelCls}>Bio (ZH) (每行一点)</label>
-        <textarea className={`${inputCls} h-32`} value={bioZh} onChange={e=>setBioZh(e.target.value)} />
+        <label className={labelCls}>Bio (One point per line)</label>
+        <div className="flex gap-2 mb-2">
+          {langs.map(l => (
+            <button type="button" key={l} onClick={()=>setEditLang(l)} className={`px-2 py-1 text-xs font-mono rounded ${editLang === l ? 'bg-black text-white dark:bg-white dark:text-black' : 'bg-zinc-200 text-zinc-600 dark:bg-zinc-800 dark:text-zinc-400'}`}>{l.toUpperCase()}</button>
+          ))}
+        </div>
+        {editLang === 'en' && <textarea className={`${inputCls} h-32 mb-4`} value={bio} onChange={e=>setBio(e.target.value)} required placeholder="Bio (EN)" />}
+        {editLang === 'id' && <textarea className={`${inputCls} h-32 mb-4`} value={bioId} onChange={e=>setBioId(e.target.value)} placeholder="Bio (ID)" />}
+        {editLang === 'zh' && <textarea className={`${inputCls} h-32 mb-4`} value={bioZh} onChange={e=>setBioZh(e.target.value)} placeholder="Bio (ZH)" />}
+        {editLang === 'ja' && <textarea className={`${inputCls} h-32 mb-4`} value={bioJa} onChange={e=>setBioJa(e.target.value)} placeholder="Bio (JA)" />}
+        {editLang === 'ko' && <textarea className={`${inputCls} h-32 mb-4`} value={bioKo} onChange={e=>setBioKo(e.target.value)} placeholder="Bio (KO)" />}
       </div>
       <button type="submit" className={btnSaveCls}>Save Profile</button>
     </form>
@@ -275,6 +292,7 @@ function ProjectsSection({ projects, onSave }) {
 
 function ProjectForm({ project, onSave, onCancel }) {
   const [p, setP] = useState({...project, tags: project.tags.join(', '), gallery: project.gallery.join('\n')});
+  const [editLang, setEditLang] = useState('en');
   return (
     <form onSubmit={(e) => {
       e.preventDefault();
@@ -283,20 +301,26 @@ function ProjectForm({ project, onSave, onCancel }) {
       <h3 className="text-lg font-bold font-mono mb-4">{project.title ? 'Edit Project' : 'New Project'}</h3>
       <div className="space-y-4">
         <div><label className={labelCls}>Title</label><input type="text" className={inputCls} value={p.title} onChange={e=>setP({...p, title:e.target.value})} required/></div>
-        <div><label className={labelCls}>Short Desc (EN)</label><textarea className={`${inputCls} h-20`} value={p.desc} onChange={e=>setP({...p, desc:e.target.value})} required/></div>
-        <div className="grid grid-cols-2 gap-4">
-          <div><label className={labelCls}>Short Desc (ID)</label><textarea className={`${inputCls} h-20`} value={p.desc_id || ''} onChange={e=>setP({...p, desc_id:e.target.value})} /></div>
-          <div><label className={labelCls}>Short Desc (ZH)</label><textarea className={`${inputCls} h-20`} value={p.desc_zh || ''} onChange={e=>setP({...p, desc_zh:e.target.value})} /></div>
-        </div>
-        <div><label className={labelCls}>Full Overview (EN)</label><textarea className={`${inputCls} h-32`} value={p.overview} onChange={e=>setP({...p, overview:e.target.value})} required/></div>
-        <div className="grid grid-cols-2 gap-4">
-          <div><label className={labelCls}>Full Overview (ID)</label><textarea className={`${inputCls} h-32`} value={p.overview_id || ''} onChange={e=>setP({...p, overview_id:e.target.value})} /></div>
-          <div><label className={labelCls}>Full Overview (ZH)</label><textarea className={`${inputCls} h-32`} value={p.overview_zh || ''} onChange={e=>setP({...p, overview_zh:e.target.value})} /></div>
-        </div>
-        <div><label className={labelCls}>Role (EN)</label><input type="text" className={inputCls} value={p.role} onChange={e=>setP({...p, role:e.target.value})} required/></div>
-        <div className="grid grid-cols-2 gap-4">
-          <div><label className={labelCls}>Role (ID)</label><input type="text" className={inputCls} value={p.role_id || ''} onChange={e=>setP({...p, role_id:e.target.value})} /></div>
-          <div><label className={labelCls}>Role (ZH)</label><input type="text" className={inputCls} value={p.role_zh || ''} onChange={e=>setP({...p, role_zh:e.target.value})} /></div>
+        <div className="border border-zinc-200 dark:border-zinc-700 rounded-lg p-4 bg-zinc-50 dark:bg-zinc-800/30">
+          <div className="flex gap-2 mb-4">
+            {['en', 'id', 'zh', 'ja', 'ko'].map(l => (
+              <button type="button" key={l} onClick={()=>setEditLang(l)} className={`px-3 py-1 text-xs font-mono rounded ${editLang === l ? 'bg-black text-white dark:bg-white dark:text-black' : 'bg-zinc-200 text-zinc-600 dark:bg-zinc-800 dark:text-zinc-400'}`}>{l.toUpperCase()}</button>
+            ))}
+          </div>
+          
+          <div className={editLang === 'en' ? 'block' : 'hidden'}>
+            <div className="mb-3"><label className={labelCls}>Role (EN)</label><input type="text" className={inputCls} value={p.role || ''} onChange={e=>setP({...p, role:e.target.value})} required/></div>
+            <div className="mb-3"><label className={labelCls}>Short Desc (EN)</label><textarea className={`${inputCls} h-20`} value={p.desc || ''} onChange={e=>setP({...p, desc:e.target.value})} required/></div>
+            <div><label className={labelCls}>Full Overview (EN)</label><textarea className={`${inputCls} h-32`} value={p.overview || ''} onChange={e=>setP({...p, overview:e.target.value})} required/></div>
+          </div>
+          
+          {['id', 'zh', 'ja', 'ko'].map(l => (
+            <div key={l} className={editLang === l ? 'block' : 'hidden'}>
+              <div className="mb-3"><label className={labelCls}>Role ({l.toUpperCase()})</label><input type="text" className={inputCls} value={p[`role_${l}`] || ''} onChange={e=>setP({...p, [`role_${l}`]:e.target.value})} /></div>
+              <div className="mb-3"><label className={labelCls}>Short Desc ({l.toUpperCase()})</label><textarea className={`${inputCls} h-20`} value={p[`desc_${l}`] || ''} onChange={e=>setP({...p, [`desc_${l}`]:e.target.value})} /></div>
+              <div><label className={labelCls}>Full Overview ({l.toUpperCase()})</label><textarea className={`${inputCls} h-32`} value={p[`overview_${l}`] || ''} onChange={e=>setP({...p, [`overview_${l}`]:e.target.value})} /></div>
+            </div>
+          ))}
         </div>
         <div><label className={labelCls}>Tags (comma separated)</label><input type="text" className={inputCls} value={p.tags} onChange={e=>setP({...p, tags:e.target.value})} required/></div>
         <div><label className={labelCls}>Gallery Image URLs (one per line)</label><textarea className={`${inputCls} h-32`} value={p.gallery} onChange={e=>setP({...p, gallery:e.target.value})}/></div>
@@ -329,8 +353,9 @@ function ExperienceSection({ experiences, onSave }) {
   };
 
   const emptyExp = {title:'', role:'', period:'', description:'', points:[], tags:[]};
-  const [eData, setEData] = useState({...emptyExp, points: '', points_id: '', points_zh: '', tags: ''});
+  const [eData, setEData] = useState({...emptyExp, points: '', points_id: '', points_zh: '', points_ja: '', points_ko: '', tags: ''});
   const [editIndex, setEditIndex] = useState(null);
+  const [editLang, setEditLang] = useState('en');
 
   const openExpForm = (index) => {
     const exp = index === -1 ? emptyExp : list[index];
@@ -339,17 +364,27 @@ function ExperienceSection({ experiences, onSave }) {
       points: (exp.points || []).join('\n'),
       points_id: exp.points_id ? exp.points_id.join('\n') : '',
       points_zh: exp.points_zh ? exp.points_zh.join('\n') : '',
+      points_ja: exp.points_ja ? exp.points_ja.join('\n') : '',
+      points_ko: exp.points_ko ? exp.points_ko.join('\n') : '',
       tags: (exp.tags || []).join(', '),
       logo: exp.logo || '',
     });
     setEditIndex(index);
+    setEditLang('en');
   };
 
   if (editIndex !== null) {
     return (
       <form onSubmit={(e) => {
         e.preventDefault();
-        const obj = {...eData, points: eData.points.split('\n').filter(Boolean), points_id: eData.points_id.split('\n').filter(Boolean), points_zh: eData.points_zh.split('\n').filter(Boolean), tags: eData.tags.split(',').map(s=>s.trim()).filter(Boolean)};
+        const obj = {...eData, 
+          points: eData.points.split('\n').filter(Boolean), 
+          points_id: eData.points_id ? eData.points_id.split('\n').filter(Boolean) : [], 
+          points_zh: eData.points_zh ? eData.points_zh.split('\n').filter(Boolean) : [], 
+          points_ja: eData.points_ja ? eData.points_ja.split('\n').filter(Boolean) : [], 
+          points_ko: eData.points_ko ? eData.points_ko.split('\n').filter(Boolean) : [], 
+          tags: eData.tags.split(',').map(s=>s.trim()).filter(Boolean)
+        };
         delete obj.logo;
         if (eData.logo) obj.logo = eData.logo;
         const newList = [...list];
@@ -365,22 +400,29 @@ function ExperienceSection({ experiences, onSave }) {
             <div><label className={labelCls}>Title / Company</label><input type="text" className={inputCls} value={eData.title} onChange={e=>setEData({...eData, title:e.target.value})} required/></div>
             <div><label className={labelCls}>Company Logo URL (optional)</label><input type="url" className={inputCls} value={eData.logo || ''} onChange={e=>setEData({...eData, logo:e.target.value})} placeholder="https://..." /></div>
           </div>
-          <div className="grid grid-cols-2 gap-4">
-            <div><label className={labelCls}>Role (EN)</label><input type="text" className={inputCls} value={eData.role} onChange={e=>setEData({...eData, role:e.target.value})} required/></div>
-            <div><label className={labelCls}>Role (ID)</label><input type="text" className={inputCls} value={eData.role_id || ''} onChange={e=>setEData({...eData, role_id:e.target.value})} /></div>
-          </div>
-          <div><label className={labelCls}>Role (ZH)</label><input type="text" className={inputCls} value={eData.role_zh || ''} onChange={e=>setEData({...eData, role_zh:e.target.value})} /></div>
           <div><label className={labelCls}>Period (e.g. 2021 - Present)</label><input type="text" className={inputCls} value={eData.period} onChange={e=>setEData({...eData, period:e.target.value})} required/></div>
-          <div className="grid grid-cols-2 gap-4">
-            <div><label className={labelCls}>Desc (EN)</label><textarea className={`${inputCls} h-20`} value={eData.description} onChange={e=>setEData({...eData, description:e.target.value})} required/></div>
-            <div><label className={labelCls}>Desc (ID)</label><textarea className={`${inputCls} h-20`} value={eData.description_id || ''} onChange={e=>setEData({...eData, description_id:e.target.value})} /></div>
+          
+          <div className="border border-zinc-200 dark:border-zinc-700 rounded-lg p-4 bg-zinc-50 dark:bg-zinc-800/30">
+            <div className="flex gap-2 mb-4">
+              {['en', 'id', 'zh', 'ja', 'ko'].map(l => (
+                <button type="button" key={l} onClick={()=>setEditLang(l)} className={`px-3 py-1 text-xs font-mono rounded ${editLang === l ? 'bg-black text-white dark:bg-white dark:text-black' : 'bg-zinc-200 text-zinc-600 dark:bg-zinc-800 dark:text-zinc-400'}`}>{l.toUpperCase()}</button>
+              ))}
+            </div>
+            
+            <div className={editLang === 'en' ? 'block' : 'hidden'}>
+              <div className="mb-3"><label className={labelCls}>Role (EN)</label><input type="text" className={inputCls} value={eData.role || ''} onChange={e=>setEData({...eData, role:e.target.value})} required/></div>
+              <div className="mb-3"><label className={labelCls}>Desc (EN)</label><textarea className={`${inputCls} h-20`} value={eData.description || ''} onChange={e=>setEData({...eData, description:e.target.value})} required/></div>
+              <div><label className={labelCls}>Bullet Points (EN)</label><textarea className={`${inputCls} h-32`} value={eData.points || ''} onChange={e=>setEData({...eData, points:e.target.value})} required/></div>
+            </div>
+            
+            {['id', 'zh', 'ja', 'ko'].map(l => (
+              <div key={l} className={editLang === l ? 'block' : 'hidden'}>
+                <div className="mb-3"><label className={labelCls}>Role ({l.toUpperCase()})</label><input type="text" className={inputCls} value={eData[`role_${l}`] || ''} onChange={e=>setEData({...eData, [`role_${l}`]:e.target.value})} /></div>
+                <div className="mb-3"><label className={labelCls}>Desc ({l.toUpperCase()})</label><textarea className={`${inputCls} h-20`} value={eData[`description_${l}`] || ''} onChange={e=>setEData({...eData, [`description_${l}`]:e.target.value})} /></div>
+                <div><label className={labelCls}>Bullet Points ({l.toUpperCase()})</label><textarea className={`${inputCls} h-32`} value={eData[`points_${l}`] || ''} onChange={e=>setEData({...eData, [`points_${l}`]:e.target.value})} /></div>
+              </div>
+            ))}
           </div>
-          <div><label className={labelCls}>Desc (ZH)</label><textarea className={`${inputCls} h-20`} value={eData.description_zh || ''} onChange={e=>setEData({...eData, description_zh:e.target.value})} /></div>
-          <div className="grid grid-cols-2 gap-4">
-            <div><label className={labelCls}>Bullet Points (EN)</label><textarea className={`${inputCls} h-32`} value={eData.points} onChange={e=>setEData({...eData, points:e.target.value})} required/></div>
-            <div><label className={labelCls}>Bullet Points (ID)</label><textarea className={`${inputCls} h-32`} value={eData.points_id} onChange={e=>setEData({...eData, points_id:e.target.value})} /></div>
-          </div>
-          <div><label className={labelCls}>Bullet Points (ZH)</label><textarea className={`${inputCls} h-32`} value={eData.points_zh || ''} onChange={e=>setEData({...eData, points_zh:e.target.value})} /></div>
           <div><label className={labelCls}>Tags (comma separated)</label><input type="text" className={inputCls} value={eData.tags} onChange={e=>setEData({...eData, tags:e.target.value})} required/></div>
         </div>
         <div className="mt-6 flex gap-3">
@@ -597,7 +639,7 @@ function GallerySection({ gallery, onSave }) {
   );
 }
 
-function SettingsSection({ onReset }) {
+function SettingsSection({ onReset, onExport }) {
   const [curr, setCurr] = useState('');
   const [newPass, setNewPass] = useState('');
   const [msg, setMsg] = useState('');
@@ -621,7 +663,20 @@ function SettingsSection({ onReset }) {
   return (
     <div>
       <h2 className="text-2xl font-bold font-mono border-b border-zinc-200 dark:border-zinc-700 pb-2 mb-6">Settings</h2>
-      
+
+      <div className={`${cardCls} border-emerald-200 dark:border-emerald-900/50 bg-emerald-50/50 dark:bg-emerald-950/20`}>
+        <h3 className="font-bold font-mono text-emerald-700 dark:text-emerald-400 mb-2">⬇ Export &amp; Publish</h3>
+        <p className="text-sm text-zinc-600 dark:text-zinc-400 mb-4">
+          Download file yang sudah diedit, lalu replace di project dan <code className="bg-zinc-100 dark:bg-zinc-800 px-1 rounded">git push</code> — Vercel akan otomatis deploy.
+        </p>
+        <button onClick={onExport} className="bg-emerald-600 hover:bg-emerald-700 text-white px-5 py-2.5 rounded-lg text-sm font-medium font-mono transition-colors">
+          ⬇ Download data.js
+        </button>
+        <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-3 font-mono">
+          Replace file lama di: <code>src/data.js</code>
+        </p>
+      </div>
+
       <div className={cardCls}>
         <h3 className="font-bold font-mono mb-4">Change Admin Password</h3>
         <form onSubmit={handleChangePass} className="max-w-sm space-y-4">
@@ -634,12 +689,8 @@ function SettingsSection({ onReset }) {
 
       <div className={`${cardCls} border-red-200 dark:border-red-900/50 bg-red-50/50 dark:bg-red-950/20`}>
         <h3 className="font-bold font-mono text-red-600 dark:text-red-400 mb-2">Danger Zone</h3>
-        <p className="text-sm text-zinc-600 dark:text-zinc-400 mb-4">This will reset all your portfolio data back to the initial default template. This cannot be undone.</p>
-        <button onClick={()=>{
-          if(confirm('Are you absolutely sure you want to reset all data? ALL changes will be lost.')){
-            onReset();
-          }
-        }} className="bg-red-600 hover:bg-red-700 text-white px-5 py-2.5 rounded-lg text-sm font-medium font-mono transition-colors">
+        <p className="text-sm text-zinc-600 dark:text-zinc-400 mb-4">Reset semua data ke template default. Pastikan sudah download data.js terlebih dahulu.</p>
+        <button onClick={onReset} className="bg-red-600 hover:bg-red-700 text-white px-5 py-2.5 rounded-lg text-sm font-medium font-mono transition-colors">
           Reset All Data to Defaults
         </button>
       </div>
@@ -647,35 +698,10 @@ function SettingsSection({ onReset }) {
   );
 }
 
+
 function BlogForm({ post, onSave, onCancel }) {
-  const [bData, setBData] = useState({...post, tags: (post.tags||[]).join(', '), title_zh: post.title_zh || '', excerpt_zh: post.excerpt_zh || '', content_zh: post.content_zh || ''});
-  
-  const handleImageUpload = async (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
-    const pwd = prompt('Enter admin password to upload image (default: rahasia123):');
-    if (!pwd) return;
-
-    const formData = new FormData();
-    formData.append('image', file);
-
-    try {
-      const res = await fetch('http://localhost:5000/api/upload', {
-        method: 'POST',
-        headers: { 'Authorization': `Bearer ${pwd}` },
-        body: formData
-      });
-      const data = await res.json();
-      if (data.success) {
-        setBData({...bData, content: bData.content + `\n\n![Image](${data.imageUrl})`});
-        alert('Image uploaded and URL appended to Content (EN). You can copy it to Content (ID) if needed.');
-      } else {
-        alert('Upload failed: ' + data.error);
-      }
-    } catch (err) {
-      alert('Upload failed: ' + err.message);
-    }
-  };
+  const [bData, setBData] = useState({...post, tags: (post.tags||[]).join(', '), title_zh: post.title_zh || '', excerpt_zh: post.excerpt_zh || '', content_zh: post.content_zh || '', title_ja: post.title_ja || '', excerpt_ja: post.excerpt_ja || '', content_ja: post.content_ja || '', title_ko: post.title_ko || '', excerpt_ko: post.excerpt_ko || '', content_ko: post.content_ko || ''});
+  const [editLang, setEditLang] = useState('en');
 
   return (
     <form onSubmit={(e) => {
@@ -685,36 +711,34 @@ function BlogForm({ post, onSave, onCancel }) {
     }} className={cardCls}>
       <h3 className="text-lg font-bold font-mono mb-4">{!post.slug ? 'New Post' : 'Edit Post'}</h3>
       <div className="space-y-4">
-        <div className="grid grid-cols-2 gap-4">
-          <div><label className={labelCls}>Title (EN)</label><input type="text" className={inputCls} value={bData.title} onChange={e=>setBData({...bData, title:e.target.value})} required/></div>
-          <div><label className={labelCls}>Title (ID)</label><input type="text" className={inputCls} value={bData.title_id || ''} onChange={e=>setBData({...bData, title_id:e.target.value})} /></div>
-        </div>
-        <div><label className={labelCls}>Title (ZH)</label><input type="text" className={inputCls} value={bData.title_zh || ''} onChange={e=>setBData({...bData, title_zh:e.target.value})} /></div>
         <div><label className={labelCls}>Date (YYYY-MM-DD)</label><input type="date" className={inputCls} value={bData.date} onChange={e=>setBData({...bData, date:e.target.value})} required/></div>
-        <div className="grid grid-cols-2 gap-4">
-          <div><label className={labelCls}>Excerpt (EN)</label><textarea className={`${inputCls} h-20`} value={bData.excerpt} onChange={e=>setBData({...bData, excerpt:e.target.value})} required/></div>
-          <div><label className={labelCls}>Excerpt (ID)</label><textarea className={`${inputCls} h-20`} value={bData.excerpt_id || ''} onChange={e=>setBData({...bData, excerpt_id:e.target.value})} /></div>
-        </div>
-        <div><label className={labelCls}>Excerpt (ZH)</label><textarea className={`${inputCls} h-20`} value={bData.excerpt_zh || ''} onChange={e=>setBData({...bData, excerpt_zh:e.target.value})} /></div>
-        <div className="grid grid-cols-2 gap-4">
-          <div>
-            <div className="flex justify-between items-center mb-1">
-              <label className={labelCls}>Content (EN)</label>
-              <label className="text-[10px] bg-zinc-200 dark:bg-zinc-700 px-2 py-0.5 rounded cursor-pointer hover:bg-zinc-300 dark:hover:bg-zinc-600 transition-colors">
-                Upload Image
-                <input type="file" className="hidden" accept="image/*" onChange={handleImageUpload} />
-              </label>
+        
+        <div className="border border-zinc-200 dark:border-zinc-700 rounded-lg p-4 bg-zinc-50 dark:bg-zinc-800/30">
+          <div className="flex gap-2 mb-4">
+            {['en', 'id', 'zh', 'ja', 'ko'].map(l => (
+              <button type="button" key={l} onClick={()=>setEditLang(l)} className={`px-3 py-1 text-xs font-mono rounded ${editLang === l ? 'bg-black text-white dark:bg-white dark:text-black' : 'bg-zinc-200 text-zinc-600 dark:bg-zinc-800 dark:text-zinc-400'}`}>{l.toUpperCase()}</button>
+            ))}
+          </div>
+          
+          <div className={editLang === 'en' ? 'block' : 'hidden'}>
+            <div className="mb-3"><label className={labelCls}>Title (EN)</label><input type="text" className={inputCls} value={bData.title || ''} onChange={e=>setBData({...bData, title:e.target.value})} required/></div>
+            <div className="mb-3"><label className={labelCls}>Excerpt (EN)</label><textarea className={`${inputCls} h-20`} value={bData.excerpt || ''} onChange={e=>setBData({...bData, excerpt:e.target.value})} required/></div>
+            <div>
+              <div className="flex justify-between items-center mb-1">
+                <label className={labelCls}>Content (EN)</label>
+                <span className="text-[10px] text-zinc-400 font-mono">Gambar: paste URL → <code>![alt](https://...)</code></span>
+              </div>
+              <textarea className={`${inputCls} h-64`} value={bData.content || ''} onChange={e=>setBData({...bData, content:e.target.value})} required/>
             </div>
-            <textarea className={`${inputCls} h-64`} value={bData.content} onChange={e=>setBData({...bData, content:e.target.value})} required/>
           </div>
-          <div>
-            <label className={labelCls}>Content (ID)</label>
-            <textarea className={`${inputCls} h-64`} value={bData.content_id || ''} onChange={e=>setBData({...bData, content_id:e.target.value})} />
-          </div>
-        </div>
-        <div>
-          <label className={labelCls}>Content (ZH)</label>
-          <textarea className={`${inputCls} h-64`} value={bData.content_zh || ''} onChange={e=>setBData({...bData, content_zh:e.target.value})} />
+          
+          {['id', 'zh', 'ja', 'ko'].map(l => (
+            <div key={l} className={editLang === l ? 'block' : 'hidden'}>
+              <div className="mb-3"><label className={labelCls}>Title ({l.toUpperCase()})</label><input type="text" className={inputCls} value={bData[`title_${l}`] || ''} onChange={e=>setBData({...bData, [`title_${l}`]:e.target.value})} /></div>
+              <div className="mb-3"><label className={labelCls}>Excerpt ({l.toUpperCase()})</label><textarea className={`${inputCls} h-20`} value={bData[`excerpt_${l}`] || ''} onChange={e=>setBData({...bData, [`excerpt_${l}`]:e.target.value})} /></div>
+              <div><label className={labelCls}>Content ({l.toUpperCase()})</label><textarea className={`${inputCls} h-64`} value={bData[`content_${l}`] || ''} onChange={e=>setBData({...bData, [`content_${l}`]:e.target.value})} /></div>
+            </div>
+          ))}
         </div>
         <div><label className={labelCls}>Tags (comma separated)</label><input type="text" className={inputCls} value={bData.tags} onChange={e=>setBData({...bData, tags:e.target.value})} /></div>
         <label className="flex items-center gap-2 cursor-pointer">

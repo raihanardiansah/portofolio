@@ -50,7 +50,7 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 
 // Security (Simple password check)
-const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'rahasia123';
+const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'admin123';
 
 const authMiddleware = (req, res, next) => {
   const token = req.headers['authorization'];

@@ -39,6 +39,15 @@ export default function Gallery() {
     setLightboxIndex(prev => (prev === null ? null : (prev - 1 + filteredImages.length) % filteredImages.length));
   }, [filteredImages.length]);
 
+  // Clamp or reset lightboxIndex if filteredImages shrinks (e.g. filter changed while lightbox open)
+  useEffect(() => {
+    setLightboxIndex(prev => {
+      if (prev === null) return null;
+      if (filteredImages.length === 0) return null;
+      return prev >= filteredImages.length ? filteredImages.length - 1 : prev;
+    });
+  }, [filteredImages.length]);
+
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (lightboxIndex === null) return;
@@ -119,7 +128,7 @@ export default function Gallery() {
         )}
       </div>
 
-      {lightboxIndex !== null && (
+      {lightboxIndex !== null && filteredImages[lightboxIndex] && (
         <div 
           className="fixed inset-0 z-50 bg-black/90 backdrop-blur-sm flex items-center justify-center"
           onClick={closeLightbox}
@@ -140,6 +149,7 @@ export default function Gallery() {
           
           <div className="max-w-[90vw] max-h-[90vh] flex flex-col items-center" onClick={e => e.stopPropagation()}>
             <img 
+              key={filteredImages[lightboxIndex].src}
               src={filteredImages[lightboxIndex].src} 
               alt={filteredImages[lightboxIndex].alt || filteredImages[lightboxIndex].caption}
               className="max-h-[80vh] max-w-full rounded-xl object-contain shadow-2xl"

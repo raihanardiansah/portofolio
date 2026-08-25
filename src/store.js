@@ -5,38 +5,13 @@ import {
   experiences as defaultExperiences,
   projects as defaultProjects,
   currentlyLearning as defaultCurrentlyLearning,
+  defaultProfile,
 } from './data';
 
-// ── API Config ────────────────────────────────────────────────────
-const API_BASE = window.location.hostname === 'localhost'
-  ? 'http://localhost:5000'
-  : ''; // VPS: same origin (frontend & backend on one server)
-
-// ── Auth keys (still in localStorage) ─────────────────────────────
+// ── Storage keys ──────────────────────────────────────────────────
 export const ADMIN_PASSWORD_KEY = 'portfolio_admin_pass';
 export const DEFAULT_PASSWORD = 'admin123';
-
-// ── Default profile ───────────────────────────────────────────────
-export const defaultProfile = {
-  name: 'Raihan',
-  location: 'Semarang, Indonesia',
-  timezone: 'Asia/Jakarta',
-  timezoneLabel: 'WIB',
-  mapX: 76.6,
-  mapY: 54,
-  email: 'raihanardiansah@gmail.com',
-  github: 'raihanardiansah',
-  linkedin: 'raihanardiansah',
-  whatsapp: '+6281234567890',
-  availableForWork: true,
-  bio: [
-    'Building practical websites and full-stack applications beyond the demo stage.',
-    'Connecting design, code, and deployment into products people can actually use.',
-    'Solving problems end to end — from understanding context to iterating on feedback.',
-    'Open to opportunities in software engineering, web development, and tech roles.',
-  ],
-  cvUrl: '',
-};
+const DATA_STORAGE_KEY = 'portfolio_data';
 
 // ── Default data ──────────────────────────────────────────────────
 export const defaultData = {
@@ -58,58 +33,28 @@ function notify() {
   listeners.forEach(fn => fn());
 }
 
-// ── API helpers ───────────────────────────────────────────────────
-function fetchWithTimeout(url, options = {}) {
-  const controller = new AbortController();
-  const timeout = setTimeout(() => controller.abort(), 3000); // 3s timeout
-  return fetch(url, { ...options, signal: controller.signal }).finally(() => clearTimeout(timeout));
-}
-
-async function apiGet(path) {
-  const res = await fetchWithTimeout(`${API_BASE}${path}`);
-  if (!res.ok) throw new Error(`GET ${path} failed: ${res.status}`);
-  return res.json();
-}
-
-async function apiPost(path, body, password) {
-  const res = await fetch(`${API_BASE}${path}`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${password}`
-    },
-    body: JSON.stringify(body)
-  });
-  if (!res.ok) throw new Error(`POST ${path} failed: ${res.status}`);
-  return res.json();
-}
-
-function mergeDefaults(backendData) {
+function mergeDefaults(data) {
   return {
     ...defaultData,
-    ...backendData,
-    profile: { ...defaultProfile, ...(backendData.profile || {}) },
+    ...data,
+    profile: { ...defaultProfile, ...(data.profile || {}) },
   };
 }
 
-// ── Read ──────────────────────────────────────────────────────────
-export async function getPortfolioData() {
+// ── Read from localStorage (falls back to data.js defaults) ────────
+export function getCachedData() {
+  if (cachedData) return cachedData;
   try {
-    const data = await apiGet('/api/data');
-    if (data && Object.keys(data).length > 0) {
-      cachedData = mergeDefaults(data);
+    const stored = localStorage.getItem(DATA_STORAGE_KEY);
+    if (stored) {
+      cachedData = mergeDefaults(JSON.parse(stored));
       return cachedData;
     }
   } catch (e) {
-    console.warn('Failed to fetch portfolio data, using cache/defaults:', e.message);
+    console.warn('Failed to read localStorage:', e.message);
   }
-  if (cachedData) return cachedData;
-  return { ...defaultData, profile: { ...defaultProfile } };
-}
-
-export function getCachedData() {
-  if (cachedData) return cachedData;
-  return { ...defaultData, profile: { ...defaultProfile } };
+  cachedData = { ...defaultData, profile: { ...defaultProfile } };
+  return cachedData;
 }
 
 // ── Subscribe to data changes ─────────────────────────────────────
@@ -118,38 +63,50 @@ export function onDataChange(fn) {
   return () => { listeners.delete(fn); };
 }
 
-// ── Write ─────────────────────────────────────────────────────────
-export async function setPortfolioData(data, password) {
+// ── Write to localStorage ─────────────────────────────────────────
+export function saveToLocal(data) {
   try {
-    await apiPost('/api/data', data, password);
     cachedData = mergeDefaults(data);
+    localStorage.setItem(DATA_STORAGE_KEY, JSON.stringify(cachedData));
     notify();
     return true;
   } catch (e) {
-    console.warn('Failed to save portfolio data:', e.message);
+    console.warn('Failed to save to localStorage:', e.message);
     return false;
   }
 }
 
-// Alias
-export async function saveToBackend(data, password) {
-  return setPortfolioData(data, password);
+// ── Reset to defaults (clears localStorage) ───────────────────────
+export function resetToDefaults() {
+  localStorage.removeItem(DATA_STORAGE_KEY);
+  cachedData = { ...defaultData, profile: { ...defaultProfile } };
+  notify();
 }
 
-// ── Reset ─────────────────────────────────────────────────────────
-export async function resetPortfolioData(password) {
-  try {
-    await apiPost('/api/data', defaultData, password);
-    cachedData = { ...defaultData, profile: { ...defaultProfile } };
-    notify();
-  } catch (e) {
-    console.warn('Failed to reset data:', e.message);
-  }
-}
+// ── Export: generate & download data.js ───────────────────────────
+export function exportDataJs(data) {
+  const d = data || getCachedData();
+  const content = `// ── Portfolio data ──
 
-// ── Sync (called on app load) ─────────────────────────────────────
-export async function syncPortfolioData() {
-  return getPortfolioData();
+export const defaultProfile = ${JSON.stringify(d.profile, null, 2)};
+
+export const greetings = ${JSON.stringify(d.greetings, null, 2)};
+
+export const stack = ${JSON.stringify(d.stack, null, 2)};
+
+export const experiences = ${JSON.stringify(d.experiences, null, 2)};
+
+export const projects = ${JSON.stringify(d.projects, null, 2)};
+
+export const currentlyLearning = ${JSON.stringify(d.currentlyLearning, null, 2)};
+`;
+  const blob = new Blob([content], { type: 'text/javascript' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'data.js';
+  a.click();
+  URL.revokeObjectURL(url);
 }
 
 // ── Admin auth ────────────────────────────────────────────────────
@@ -193,15 +150,7 @@ export function usePortfolioData() {
   const [data, setData] = useState(getCachedData);
 
   useEffect(() => {
-    let cancelled = false;
-    getPortfolioData().then(d => {
-      if (!cancelled) setData(d);
-    });
-    return onDataChange(() => {
-      getPortfolioData().then(d => {
-        if (!cancelled) setData(d);
-      });
-    });
+    return onDataChange(() => setData(getCachedData()));
   }, []);
 
   return data;

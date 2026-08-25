@@ -110,8 +110,89 @@ const i18n = {
     collapse: '收起',
     expand: '展开',
     backToTop: '返回顶部 ↑'
+  },
+  ja: {
+    available: '就業可能',
+    welcome: 'ようこそ、私の',
+    portfolio: 'ポートフォリオへ',
+    subtitle: '現実世界のニーズに応える実用的なウェブサイト、アプリケーション、システムを構築します。',
+    aboutMe: '私について',
+    home: 'ホーム',
+    cv: '履歴書準備中',
+    stack: '技術スタック',
+    experience: '経歴',
+    projects: 'プロジェクト',
+    contact: '連絡先',
+    navHome: 'ホーム',
+    navStack: 'スタック',
+    navExp: '経歴',
+    navProj: 'プロジェクト',
+    navContact: '連絡先',
+    navGallery: 'ギャラリー',
+    navBlog: 'ブログ',
+    learning: '現在学習中',
+    githubAct: 'GitHub アクティビティ',
+    viewDetail: '詳細を見る',
+    hideDetail: '詳細を隠す',
+    selectedWork: '厳選された作品',
+    of: '/',
+    seeAllProj: 'すべてのプロジェクトを見る →',
+    idea: 'アイデアやプロジェクトはありますか？',
+    build: '一緒に役立つものを作りましょう。',
+    viewProf: 'プロフィールを見る →',
+    ghUnavail: 'GitHub アクティビティは利用できません —',
+    visitProf: 'プロフィールにアクセス →',
+    localTime: '現地時間:',
+    collapse: '折りたたむ',
+    expand: '展開する',
+    backToTop: 'トップへ戻る ↑'
+  },
+  ko: {
+    available: '업무 가능',
+    welcome: '환영합니다, 저의',
+    portfolio: '포트폴리오에',
+    subtitle: '실제 요구 사항에 맞는 실용적인 웹사이트, 애플리케이션 및 시스템을 구축합니다.',
+    aboutMe: '내 소개',
+    home: '홈',
+    cv: '이력서 준비 중',
+    stack: '기술 스택',
+    experience: '경력',
+    projects: '프로젝트',
+    contact: '연락처',
+    navHome: '홈',
+    navStack: '스택',
+    navExp: '경력',
+    navProj: '프로젝트',
+    navContact: '연락처',
+    navGallery: '갤러리',
+    navBlog: '블로그',
+    learning: '현재 학습 중',
+    githubAct: 'GitHub 활동',
+    viewDetail: '자세히 보기',
+    hideDetail: '자세히 숨기기',
+    selectedWork: '선택된 작업',
+    of: '/',
+    seeAllProj: '모든 프로젝트 보기 →',
+    idea: '아이디어나 프로젝트가 있으신가요?',
+    build: '함께 유용한 것을 만들어 봅시다.',
+    viewProf: '프로필 보기 →',
+    ghUnavail: 'GitHub 활동을 사용할 수 없음 —',
+    visitProf: '프로필 방문 →',
+    localTime: '현지 시간:',
+    collapse: '접기',
+    expand: '펼치기',
+    backToTop: '맨 위로 ↑'
   }
 };
+
+// ── Localization Helper ──────────────────────────────────────────
+function getLoc(lang, base, id, zh, ja, ko) {
+  if (lang === 'zh' && zh) return zh;
+  if (lang === 'ja' && ja) return ja;
+  if (lang === 'ko' && ko) return ko;
+  if (lang === 'id' && id) return id;
+  return base;
+}
 
 // ── Dark mode hook ──────────────────────────────────────────────
 function useDarkMode() {
@@ -320,7 +401,7 @@ function LiveTime({ timezone, displayFormat, t }) {
 }
 
 // ── ExpCard ──────────────────────────────────────────────────────
-function ExpCard({ title, role, role_id, role_zh, period, description, description_id, description_zh, points, points_id, points_zh, tags, logo, t, lang }) {
+function ExpCard({ title, role, role_id, role_zh, role_ja, role_ko, period, description, description_id, description_zh, description_ja, description_ko, points, points_id, points_zh, points_ja, points_ko, tags, logo, t, lang }) {
   const [open, setOpen] = useState(false);
 
   return (
@@ -345,7 +426,7 @@ function ExpCard({ title, role, role_id, role_zh, period, description, descripti
           )}
           <span>
             <span className="block text-sm font-bold text-zinc-800 dark:text-zinc-100">{title}</span>
-            <span className="block text-xs text-zinc-500 dark:text-zinc-400 mt-0.5">{lang === 'zh' && role_zh ? role_zh : lang === 'id' && role_id ? role_id : role}</span>
+            <span className="block text-xs text-zinc-500 dark:text-zinc-400 mt-0.5">{getLoc(lang, role, role_id, role_zh, role_ja, role_ko)}</span>
           </span>
         </span>
         <span className="text-right shrink-0">
@@ -361,9 +442,9 @@ function ExpCard({ title, role, role_id, role_zh, period, description, descripti
       >
         <div className="overflow-hidden">
           <div className="pt-3 pb-1 pl-9 sm:pl-11">
-            <p className="text-xs text-zinc-500 dark:text-zinc-400 leading-relaxed mb-3">{lang === 'zh' && description_zh ? description_zh : lang === 'id' && description_id ? description_id : description}</p>
+            <p className="text-xs text-zinc-500 dark:text-zinc-400 leading-relaxed mb-3">{getLoc(lang, description, description_id, description_zh, description_ja, description_ko)}</p>
             <ul className="space-y-1.5 mb-3.5">
-              {(lang === 'zh' && points_zh ? points_zh : lang === 'id' && points_id ? points_id : points).map((p, i) => (
+              {getLoc(lang, points, points_id, points_zh, points_ja, points_ko).map((p, i) => (
                 <li key={i} className="text-xs text-zinc-500 dark:text-zinc-400 pl-4 relative before:content-['−'] before:absolute before:left-0 before:text-zinc-300 dark:before:text-zinc-600">
                   {p}
                 </li>
@@ -517,8 +598,8 @@ export default function Home() {
   const lang = useLanguage();
 
   const t = i18n[lang] || i18n.en;
-  const toggleLang = () => {
-    const next = lang === 'en' ? 'id' : lang === 'id' ? 'zh' : 'en';
+  const toggleLanguage = () => {
+    const next = lang === 'en' ? 'id' : lang === 'id' ? 'zh' : lang === 'zh' ? 'ja' : lang === 'ja' ? 'ko' : 'en';
     setLanguage(next);
   };
 
@@ -692,7 +773,13 @@ export default function Home() {
             ))}
           </nav>
           <div className="flex items-center gap-2.5">
-            <LangToggle lang={lang} toggleLang={toggleLang} />
+            <div className="flex gap-4">
+              {['en', 'id', 'zh', 'ja', 'ko'].map(l => (
+                <button key={l} onClick={() => setLanguage(l)} className={`font-mono text-xs uppercase ${lang === l ? 'text-black dark:text-white font-bold' : 'text-zinc-500 hover:text-black dark:hover:text-white'}`}>
+                  {l}
+                </button>
+              ))}
+            </div>
             <DarkModeToggle toggleDark={toggleDark} dark={dark} />
             <HeaderIcons github={data.profile.github} linkedin={data.profile.linkedin} />
           </div>
@@ -884,7 +971,7 @@ export default function Home() {
                   <h3 className="text-sm font-semibold text-zinc-800 dark:text-zinc-100">{p.title}</h3>
                   <span className="text-[11px] font-mono text-black dark:text-white">{t.viewDetail} →</span>
                 </div>
-                <p className="text-xs text-zinc-500 dark:text-zinc-400 leading-relaxed mb-2 line-clamp-2">{lang === 'zh' && p.desc_zh ? p.desc_zh : lang === 'id' && p.desc_id ? p.desc_id : p.desc}</p>
+                <p className="text-xs text-zinc-500 dark:text-zinc-400 leading-relaxed mb-2 line-clamp-2">{getLoc(lang, p.desc, p.desc_id, p.desc_zh, p.desc_ja, p.desc_ko)}</p>
                 <div className="flex flex-wrap gap-1">
                   {p.tags.map(t => (
                     <span key={t} className="text-[10px] px-2 py-0.5 bg-zinc-50 dark:bg-zinc-800/50 border border-zinc-200 dark:border-zinc-700 rounded text-zinc-500 dark:text-zinc-400 font-mono">{t}</span>

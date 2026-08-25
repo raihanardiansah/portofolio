@@ -1,5 +1,4 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { useEffect } from 'react';
 import Home from './pages/Home';
 import Projects from './pages/Projects';
 import ProjectDetail from './pages/ProjectDetail';
@@ -8,13 +7,8 @@ import Blog from './pages/Blog';
 import BlogDetail from './pages/BlogDetail';
 import Admin from './pages/Admin';
 import CustomCursor from './CustomCursor';
-import { syncPortfolioData } from './store';
 
 export default function App() {
-  useEffect(() => {
-    syncPortfolioData();
-  }, []);
-
   return (
     <BrowserRouter>
       <CustomCursor />

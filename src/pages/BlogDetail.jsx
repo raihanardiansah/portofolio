@@ -8,7 +8,7 @@ export default function BlogDetail() {
   const data = usePortfolioData();
   const lang = useLanguage();
 
-  const blog = (data.blogs || []).find(item => item.slug === slug);
+  const blog = (data.blogs || []).find(item => item.slug === slug && !item.draft);
 
   useEffect(() => {
     if (!blog) { navigate('/blog', { replace: true }); return; }
