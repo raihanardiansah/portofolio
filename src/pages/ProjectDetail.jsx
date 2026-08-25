@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
-import { usePortfolioData, useLanguage } from '../store';
+import { usePortfolioData, useLanguage, getLoc } from '../store';
 
 function useDark() {
   const [dark, setDark] = useState(() => document.documentElement.classList.contains('dark'));
@@ -38,20 +38,22 @@ export default function ProjectDetail() {
         {/* Back link */}
         <Link
           to="/projects"
-          className="inline-flex items-center gap-2 text-xs font-mono text-zinc-500 hover:text-black dark:text-white transition-colors mb-10 no-underline"
+          className="inline-block text-xs font-mono text-zinc-500 hover:text-black dark:text-white transition-colors mb-10 no-underline"
         >
-          {lang === 'id' ? '← Kembali ke proyek' : lang === 'zh' ? '← 返回项目' : '← Back to projects'}
+          {getLoc(lang, '← Back to projects', '← Kembali ke proyek', '← 返回项目', '← プロジェクトに戻る', '← 프로젝트로 돌아가기')}
         </Link>
 
         {/* Header */}
-        <header className="mb-10">
-          <p className="text-[11px] font-mono uppercase tracking-[0.2em] text-black dark:text-white mb-3">{lang === 'id' ? 'Detail proyek' : lang === 'zh' ? '项目详情' : 'Project detail'}</p>
-          <h1 className="text-3xl sm:text-5xl font-semibold tracking-tight text-zinc-900 dark:text-white leading-tight">
+        <header className="mb-12">
+          <p className="text-[11px] font-mono uppercase tracking-[0.2em] text-black dark:text-white mb-3">{getLoc(lang, 'Project detail', 'Detail proyek', '项目详情', 'プロジェクト詳細', '프로젝트 세부 정보')}</p>
+          <h1 className="text-4xl sm:text-5xl font-bold tracking-tight text-zinc-900 dark:text-white mb-6 leading-tight">
             {project.title}
           </h1>
-          <p className="mt-5 max-w-2xl text-sm sm:text-base leading-relaxed text-zinc-500 dark:text-zinc-400">
-            {lang === 'zh' && project.overview_zh ? project.overview_zh : lang === 'id' && project.overview_id ? project.overview_id : project.overview}
-          </p>
+          <div className="prose dark:prose-invert max-w-none text-zinc-600 dark:text-zinc-300 leading-relaxed">
+            <p className="whitespace-pre-wrap">
+              {getLoc(lang, project.overview, project.overview_id, project.overview_zh, project.overview_ja, project.overview_ko)}
+            </p>
+          </div>
           <div className="flex flex-wrap gap-2 mt-5">
             {project.tags.map(tag => (
               <span
@@ -66,10 +68,10 @@ export default function ProjectDetail() {
 
         {/* Gallery */}
         {project.gallery?.length > 0 && (
-          <section aria-labelledby="gallery-title" className="mb-12">
-            <div className="flex items-center justify-between mb-4">
-              <h2 id="gallery-title" className="text-sm font-semibold text-zinc-800 dark:text-zinc-100">{lang === 'id' ? 'Galeri' : lang === 'zh' ? '画廊' : 'Gallery'}</h2>
-              <span className="text-[11px] font-mono text-zinc-400">{project.gallery.length} {lang === 'id' ? 'pratinjau' : lang === 'zh' ? '张预览' : (project.gallery.length > 1 ? 'previews' : 'preview')}</span>
+          <section aria-labelledby="gallery-title" className="mt-16">
+            <div className="flex items-end justify-between border-b border-zinc-200 dark:border-zinc-800 pb-3 mb-6">
+              <h2 id="gallery-title" className="text-sm font-semibold text-zinc-800 dark:text-zinc-100">{getLoc(lang, 'Gallery', 'Galeri', '画廊', 'ギャラリー', '갤러리')}</h2>
+              <span className="text-[11px] font-mono text-zinc-400">{project.gallery.length} {getLoc(lang, project.gallery.length > 1 ? 'previews' : 'preview', 'pratinjau', '张预览', 'プレビュー', '미리보기')}</span>
             </div>
             <div className="grid gap-4 sm:grid-cols-2">
               {project.gallery.map((image, index) => (
@@ -92,9 +94,11 @@ export default function ProjectDetail() {
                   >
                     <span className="text-xs font-mono text-zinc-400">Image unavailable</span>
                   </div>
-                  <figcaption className="px-3 py-2 text-[11px] font-mono text-zinc-400">
-                    {lang === 'id' ? 'Pratinjau' : lang === 'zh' ? '预览' : 'Preview'} {String(index + 1).padStart(2, '0')}
-                  </figcaption>
+                  <div className="mt-3 flex justify-between items-center px-1">
+                    <span className="text-xs font-mono text-zinc-500">
+                      {getLoc(lang, 'Preview', 'Pratinjau', '预览', 'プレビュー', '미리보기')} {String(index + 1).padStart(2, '0')}
+                    </span>
+                  </div>
                 </figure>
               ))}
             </div>
@@ -103,9 +107,9 @@ export default function ProjectDetail() {
 
         {/* Meta + CTA */}
         <section className={`grid gap-5 border-t border-zinc-200 dark:border-zinc-800 pt-6 items-start ${project.liveUrl ? 'sm:grid-cols-[1fr_auto]' : ''}`}>
-          <div>
-            <p className="text-[11px] uppercase tracking-[0.18em] text-zinc-400 font-mono mb-2">{lang === 'id' ? 'Peran saya' : lang === 'zh' ? '我的角色' : 'My role'}</p>
-            <p className="text-sm text-zinc-600 dark:text-zinc-300">{lang === 'zh' && project.role_zh ? project.role_zh : lang === 'id' && project.role_id ? project.role_id : project.role}</p>
+          <div className="md:w-1/3">
+            <p className="text-[11px] uppercase tracking-[0.18em] text-zinc-400 font-mono mb-2">{getLoc(lang, 'My role', 'Peran saya', '我的角色', '私の役割', '내 역할')}</p>
+            <p className="text-sm text-zinc-600 dark:text-zinc-300">{getLoc(lang, project.role, project.role_id, project.role_zh, project.role_ja, project.role_ko)}</p>
           </div>
           {project.liveUrl && (
             <a
@@ -120,18 +124,18 @@ export default function ProjectDetail() {
         </section>
 
         {/* Footer nav */}
-        <div className="mt-12 pt-6 border-t border-zinc-200/60 dark:border-zinc-700/50 flex items-center justify-between">
+        <div className="mt-20 pt-8 border-t border-zinc-200 dark:border-zinc-800 flex justify-between items-center">
           <Link
             to="/projects"
-            className="text-xs font-mono text-zinc-400 hover:text-black dark:text-white transition-colors no-underline"
+            className="text-sm font-mono text-zinc-500 hover:text-black dark:text-white transition-colors"
           >
-            {lang === 'id' ? '← Semua proyek' : lang === 'zh' ? '← 所有项目' : '← All projects'}
+            {getLoc(lang, '← All projects', '← Semua proyek', '← 所有项目', '← すべてのプロジェクト', '← 모든 프로젝트')}
           </Link>
           <Link
             to="/"
-            className="text-xs font-mono text-zinc-400 hover:text-black dark:text-white transition-colors no-underline"
+            className="text-sm font-mono text-zinc-500 hover:text-black dark:text-white transition-colors"
           >
-            {lang === 'id' ? 'Beranda →' : lang === 'zh' ? '首页 →' : 'Home →'}
+            {getLoc(lang, 'Home →', 'Beranda →', '首页 →', 'ホーム →', '홈 →')}
           </Link>
         </div>
 

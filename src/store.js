@@ -167,3 +167,11 @@ export function useLanguage() {
 
   return lang;
 }
+
+export function getLoc(lang, base, id, zh, ja, ko) {
+  if (lang === 'zh' && zh) return zh;
+  if (lang === 'ja' && ja) return ja;
+  if (lang === 'ko' && ko) return ko;
+  if (lang === 'id' && id) return id;
+  return base;
+}

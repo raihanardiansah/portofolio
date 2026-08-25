@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { Link } from 'react-router-dom';
-import { usePortfolioData, useLanguage } from '../store';
+import { usePortfolioData, useLanguage, getLoc } from '../store';
 
 export default function Gallery() {
   const data = usePortfolioData();
@@ -63,17 +63,17 @@ export default function Gallery() {
     <main className="min-h-screen bg-[var(--bg)] text-[var(--text)]">
       <div className="max-w-[1024px] mx-auto px-5 py-8 sm:py-14">
         <Link to="/" className="inline-block text-xs font-mono text-zinc-500 hover:text-black dark:text-white transition-colors mb-10 no-underline">
-          {lang === 'id' ? '← Kembali' : lang === 'zh' ? '← 返回' : '← Back'}
+          {getLoc(lang, '← Back', '← Kembali', '← 返回', '← 戻る', '← 뒤로가기')}
         </Link>
         <header className="mb-10">
-          <h1 className="text-4xl font-mono font-bold text-zinc-900 dark:text-white">{lang === 'id' ? 'Galeri.' : lang === 'zh' ? '画廊.' : 'Gallery.'}</h1>
+          <h1 className="text-4xl font-mono font-bold text-zinc-900 dark:text-white">{getLoc(lang, 'Gallery.', 'Galeri.', '画廊.', 'ギャラリー.', '갤러리.')}</h1>
           <p className="mt-2 text-sm text-zinc-500 dark:text-zinc-400 font-mono">
-            {lang === 'id' ? 'Gambar-gambar dari proyek dan lingkungan saya.' : lang === 'zh' ? '来自我的项目和环境的图像。' : 'Visuals from my projects and environment.'}
+            {getLoc(lang, 'Visuals from my projects and environment.', 'Gambar-gambar dari proyek dan lingkungan saya.', '来自我的项目和环境的图像。', 'プロジェクトや環境のビジュアル。', '프로젝트와 환경의 시각 자료입니다.')}
           </p>
         </header>
 
         <div className="flex items-center justify-between border-b border-zinc-200 dark:border-zinc-800 pb-4 mb-6">
-          <span className="text-xs font-mono text-zinc-500">{allImages.length} {lang === 'id' ? 'gambar' : lang === 'zh' ? '张图片' : 'images'}</span>
+          <span className="text-xs font-mono text-zinc-500">{allImages.length} {getLoc(lang, 'images', 'gambar', '张图片', '枚の画像', '개의 이미지')}</span>
         </div>
 
         <div className="flex overflow-x-auto gap-2 pb-2 mb-6 scrollbar-hide">
@@ -94,7 +94,7 @@ export default function Gallery() {
 
         {filteredImages.length === 0 ? (
            <div className="text-center py-20 text-zinc-500 dark:text-zinc-400 font-mono text-sm">
-             {lang === 'id' ? 'Tidak ada gambar yang ditemukan.' : lang === 'zh' ? '未找到图片。' : 'No images found.'}
+             {getLoc(lang, 'No images found.', 'Tidak ada gambar yang ditemukan.', '未找到图片。', '画像が見つかりません。', '이미지를 찾을 수 없습니다.')}
            </div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
@@ -160,7 +160,7 @@ export default function Gallery() {
             />
              <div className="hidden h-[60vh] w-[80vw] max-w-3xl bg-gradient-to-br from-zinc-800 to-zinc-900 rounded-xl items-center justify-center flex-col gap-4 text-center p-8">
                  <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" className="text-zinc-600"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
-                 <span className="text-sm font-mono text-zinc-400">{lang === 'id' ? 'Gambar tidak tersedia' : lang === 'zh' ? '图片不可用' : 'Image unavailable'}</span>
+                 <span className="text-sm font-mono text-zinc-400">{getLoc(lang, 'Image unavailable', 'Gambar tidak tersedia', '图片不可用', '画像を利用できません', '이미지를 사용할 수 없습니다')}</span>
              </div>
             <div className="mt-4 text-center">
               <p className="text-white text-lg font-semibold">{filteredImages[lightboxIndex].caption}</p>

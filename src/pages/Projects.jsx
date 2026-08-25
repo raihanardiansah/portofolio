@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { usePortfolioData, useLanguage } from '../store';
+import { usePortfolioData, useLanguage, getLoc } from '../store';
 
 export default function Projects() {
   const data = usePortfolioData();
@@ -22,18 +22,18 @@ export default function Projects() {
     <main className="min-h-screen bg-[var(--bg)] text-[var(--text)]">
       <div className="max-w-[760px] mx-auto px-5 py-8 sm:py-14">
         <Link to="/" className="inline-block text-xs font-mono text-zinc-500 hover:text-black dark:text-white transition-colors mb-10 no-underline">
-          {lang === 'id' ? '← Kembali' : lang === 'zh' ? '← 返回' : '← Back'}
+          {getLoc(lang, '← Back', '← Kembali', '← 返回', '← 戻る', '← 뒤로가기')}
         </Link>
         <header className="mb-10">
-          <h1 className="text-4xl font-mono font-bold text-zinc-900 dark:text-white">{lang === 'id' ? 'Proyek.' : lang === 'zh' ? '项目.' : 'Projects.'}</h1>
+          <h1 className="text-4xl font-mono font-bold text-zinc-900 dark:text-white">{getLoc(lang, 'Projects.', 'Proyek.', '项目.', 'プロジェクト.', '프로젝트.')}</h1>
           <p className="mt-2 text-sm text-zinc-500 dark:text-zinc-400 font-mono">
-            {lang === 'id' ? 'Kumpulan karya yang telah saya buat.' : lang === 'zh' ? '我创建的作品集合。' : "A collection of things I've built."}
+            {getLoc(lang, "A collection of things I've built.", 'Kumpulan karya yang telah saya buat.', '我创建的作品集合。', '私が構築した作品のコレクション。', '제가 만든 작업물 모음입니다.')}
           </p>
         </header>
 
         <div className="flex items-center justify-between border-b border-zinc-200 dark:border-zinc-800 pb-4 mb-6">
-          <span className="text-xs font-mono text-zinc-500">{projects.length} {lang === 'id' ? 'proyek' : lang === 'zh' ? '个项目' : 'projects'}</span>
-          <span className="text-xs font-mono text-zinc-500">{allTags.length - 1} {lang === 'id' ? 'tag unik' : lang === 'zh' ? '个标签' : 'unique tags'}</span>
+          <span className="text-xs font-mono text-zinc-500">{projects.length} {getLoc(lang, 'projects', 'proyek', '个项目', 'プロジェクト', '프로젝트')}</span>
+          <span className="text-xs font-mono text-zinc-500">{allTags.length - 1} {getLoc(lang, 'unique tags', 'tag unik', '个标签', 'ユニークなタグ', '고유 태그')}</span>
         </div>
 
         <div className="flex overflow-x-auto gap-2 pb-2 mb-6 scrollbar-hide">
@@ -54,7 +54,7 @@ export default function Projects() {
 
         {filteredProjects.length === 0 ? (
           <div className="text-center py-20 text-zinc-500 dark:text-zinc-400 font-mono text-sm">
-            {lang === 'id' ? `Tidak ada proyek untuk tag "${filter}".` : lang === 'zh' ? `未找到标签为"${filter}"的项目。` : `No projects found for "${filter}".`}
+            {getLoc(lang, `No projects found for "${filter}".`, `Tidak ada proyek untuk tag "${filter}".`, `未找到标签为"${filter}"的项目。`, `"${filter}" のプロジェクトは見つかりません。`, `"${filter}" 태그에 대한 프로젝트가 없습니다.`)}
           </div>
         ) : (
           <div className="grid gap-4 sm:grid-cols-2">
@@ -72,7 +72,7 @@ export default function Projects() {
                 <div className="mt-auto pt-4 border-t border-zinc-100 dark:border-zinc-700/50 flex flex-wrap items-center justify-between gap-2">
                   <span className="text-[11px] text-zinc-400 font-mono">{lang === 'zh' && p.role_zh ? p.role_zh : lang === 'id' && p.role_id ? p.role_id : p.role}</span>
                   <div className="flex items-center gap-2">
-                    <Link to={`/projects/${p.slug}`} className="text-[11px] font-mono text-black dark:text-white hover:text-black dark:text-white">{lang === 'id' ? 'Lihat detail →' : lang === 'zh' ? '查看详情 →' : 'View detail →'}</Link>
+                    <Link to={`/projects/${p.slug}`} className="text-[11px] font-mono text-black dark:text-white hover:text-black dark:text-white">{getLoc(lang, 'View detail →', 'Lihat detail →', '查看详情 →', '詳細を見る →', '세부 정보 보기 →')}</Link>
                     {p.liveUrl && (
                       <a href={p.liveUrl} target="_blank" rel="noopener noreferrer" className="text-[11px] font-mono px-2 py-1 rounded bg-zinc-100 dark:bg-zinc-700 text-zinc-600 dark:text-zinc-300 hover:bg-zinc-200 dark:hover:bg-zinc-600 transition-colors">Live ↗</a>
                     )}
