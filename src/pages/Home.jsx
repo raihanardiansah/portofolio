@@ -870,7 +870,7 @@ export default function Home() {
           <span className="h-px flex-1 bg-zinc-200/80 dark:bg-zinc-800" />
         </div>
         <ul className="space-y-3">
-          {(data.profile[`bio_${lang}`] || data.profile.bio || []).map((t, i) => (
+          {(getLoc(lang, data.profile.bio, data.profile.bio_id, data.profile.bio_zh, data.profile.bio_ja, data.profile.bio_ko) || []).map((t, i) => (
             <li key={i} className="pl-5 relative text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed before:content-['→'] before:absolute before:left-0 before:text-black dark:before:text-white before:font-mono before:text-xs">
               {t}
             </li>

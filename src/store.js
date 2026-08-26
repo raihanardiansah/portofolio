@@ -11,7 +11,7 @@ import {
 // ── Storage keys ──────────────────────────────────────────────────
 export const ADMIN_PASSWORD_KEY = 'portfolio_admin_pass';
 export const DEFAULT_PASSWORD = 'admin123';
-const DATA_STORAGE_KEY = 'portfolio_data';
+const DATA_STORAGE_KEY = 'portfolio_data_v5';
 
 // ── Default data ──────────────────────────────────────────────────
 export const defaultData = {
@@ -194,9 +194,18 @@ export function useLanguage() {
 }
 
 export function getLoc(lang, base, id, zh, ja, ko) {
-  if (lang === 'zh' && zh) return zh;
-  if (lang === 'ja' && ja) return ja;
-  if (lang === 'ko' && ko) return ko;
-  if (lang === 'id' && id) return id;
+  const check = (val) => {
+    if (!val) return false;
+    if (Array.isArray(val)) return val.length > 0;
+    if (typeof val === 'string') {
+      const noSpace = val.replace(/\s+/g, '');
+      return noSpace !== '' && noSpace !== '<p><br></p>' && noSpace !== '<p><br/></p>' && noSpace !== '<p></p>';
+    }
+    return true;
+  };
+  if (lang === 'zh' && check(zh)) return zh;
+  if (lang === 'ja' && check(ja)) return ja;
+  if (lang === 'ko' && check(ko)) return ko;
+  if (lang === 'id' && check(id)) return id;
   return base;
 }

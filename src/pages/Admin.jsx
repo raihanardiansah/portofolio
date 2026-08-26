@@ -336,8 +336,9 @@ function ProjectForm({ project, onSave, onCancel }) {
         </div>
         <div><label className={labelCls}>Tags (comma separated)</label><input type="text" className={inputCls} value={p.tags} onChange={e=>setP({...p, tags:e.target.value})} required/></div>
         <div><label className={labelCls}>Gallery Image URLs (one per line)</label><textarea className={`${inputCls} h-32`} value={p.gallery} onChange={e=>setP({...p, gallery:e.target.value})}/></div>
-        <div className="grid grid-cols-2 gap-4">
-          <div><label className={labelCls}>Live URL (optional)</label><input type="url" className={inputCls} value={p.liveUrl} onChange={e=>setP({...p, liveUrl:e.target.value})} /></div>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div><label className={labelCls}>GitHub URL (Source Code)</label><input type="url" className={inputCls} value={p.githubUrl || ''} onChange={e=>setP({...p, githubUrl:e.target.value})} placeholder="https://github.com/..." /></div>
+          <div><label className={labelCls}>Live URL</label><input type="url" className={inputCls} value={p.liveUrl || ''} onChange={e=>setP({...p, liveUrl:e.target.value})} /></div>
           <div><label className={labelCls}>Live Button Label</label><input type="text" className={inputCls} value={p.liveLabel || ''} onChange={e=>setP({...p, liveLabel:e.target.value})} placeholder="e.g. Open live project" /></div>
         </div>
         <label className="flex items-center gap-2 pt-2 cursor-pointer">
