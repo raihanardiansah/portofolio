@@ -253,7 +253,7 @@ function LangToggle({ lang, toggleLang }) {
 
 // ── HeaderIcons ─────────────────────────────────────────────────
 function HeaderIcons({ github, linkedin }) {
-  const linkCls = 'text-zinc-400 hover:text-zinc-700 dark:text-zinc-500 dark:hover:text-zinc-200 transition-colors flex items-center';
+  const linkCls = 'text-zinc-500 dark:text-zinc-400 hover:text-zinc-700 dark:text-zinc-500 dark:hover:text-zinc-200 transition-colors flex items-center';
   return (
     <div className="flex items-center gap-2">
       <a href={`https://github.com/${github}`} target="_blank" rel="noopener noreferrer" className={linkCls} aria-label="GitHub">
@@ -330,12 +330,12 @@ function Section({ id, label, children, startOpen = false, t }) {
         className="w-full flex items-center gap-2 px-4 py-4 border-b border-zinc-200/80 dark:border-zinc-800 text-left hover:bg-zinc-50/80 dark:hover:bg-zinc-800/30 transition-colors cursor-pointer bg-transparent"
       >
         <span
-          className="text-xs text-zinc-400 font-mono transition-transform duration-300"
+          className="text-xs text-zinc-500 dark:text-zinc-400 font-mono transition-transform duration-300"
           style={{ transform: open ? 'rotate(90deg)' : 'none', display: 'inline-block' }}
           aria-hidden="true"
         >▶</span>
-        <span className="font-mono text-xs font-semibold tracking-[0.15em] uppercase text-zinc-400">{label}</span>
-        <span className="ml-auto text-[10px] font-mono text-zinc-400 dark:text-zinc-500">{open ? t.collapse : t.expand}</span>
+        <span className="font-mono text-xs font-semibold tracking-[0.15em] uppercase text-zinc-500 dark:text-zinc-400">{label}</span>
+        <span className="ml-auto text-[10px] font-mono text-zinc-500 dark:text-zinc-400 dark:text-zinc-500">{open ? t.collapse : t.expand}</span>
       </button>
       <div
         id={`${id}-content`}
@@ -417,7 +417,7 @@ function ExpCard({ title, role, role_id, role_zh, role_ja, role_ko, period, desc
         className="w-full flex items-start justify-between gap-3 text-left hover:bg-zinc-50/70 dark:hover:bg-zinc-800/40 transition-all duration-300 rounded-xl p-2.5 -ml-2.5 cursor-pointer bg-transparent border-0 group-hover:translate-x-1"
       >
         <span className="flex items-start gap-3.5 min-w-0">
-          <svg className={`w-3.5 h-3.5 text-zinc-400 transition-transform duration-300 shrink-0 mt-1.5 ${open ? 'rotate-90 text-zinc-600 dark:text-zinc-200' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <svg className={`w-3.5 h-3.5 text-zinc-500 dark:text-zinc-400 transition-transform duration-300 shrink-0 mt-1.5 ${open ? 'rotate-90 text-zinc-600 dark:text-zinc-200' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" />
           </svg>
           
@@ -430,8 +430,8 @@ function ExpCard({ title, role, role_id, role_zh, role_ja, role_ko, period, desc
           </span>
         </span>
         <span className="text-right shrink-0">
-          <span className="block text-[11px] text-zinc-400 font-mono">{period}</span>
-          <span className="block text-[10px] text-zinc-400 mt-1 transition-opacity">{open ? t.hideDetail : t.viewDetail}</span>
+          <span className="block text-[11px] text-zinc-500 dark:text-zinc-400 font-mono">{period}</span>
+          <span className="block text-[10px] text-zinc-500 dark:text-zinc-400 mt-1 transition-opacity">{open ? t.hideDetail : t.viewDetail}</span>
         </span>
       </button>
       
@@ -759,14 +759,14 @@ export default function Home() {
 
       {/* Header */}
       <div className="sticky top-0 z-40 w-full bg-[var(--bg)]/70 backdrop-blur-md border-b border-zinc-200/50 dark:border-zinc-800/50">
-        <header className="max-w-[760px] mx-auto px-5 py-4 flex items-center justify-between">
-          <span className="text-sm font-semibold">{data.profile.name}</span>
+        <header className="max-w-[760px] mx-auto px-5 py-4 flex items-center justify-between gap-4">
+          <span className="text-sm font-semibold shrink-0">{data.profile.name.split(' ')[0]}</span>
           <nav className="flex gap-4 max-md:hidden" aria-label="Section links">
             {sections.map(l => (
               <a
                 key={l}
                 href={`#${l}`}
-                className={`text-xs font-mono transition-colors ${activeSection === l ? 'text-black dark:text-white' : 'text-zinc-400 hover:text-zinc-700 dark:text-zinc-500 dark:hover:text-zinc-200'}`}
+                className={`text-xs font-mono transition-colors ${activeSection === l ? 'text-black dark:text-white' : 'text-zinc-500 dark:text-zinc-400 hover:text-zinc-700 dark:text-zinc-500 dark:hover:text-zinc-200'}`}
               >
                 /{sectionLabels[l]}
               </a>
@@ -797,7 +797,7 @@ export default function Home() {
             href={`#${s}`}
             aria-label={`Go to ${s}`}
             aria-current={activeSection === s ? 'location' : undefined}
-            className={`flex-1 min-w-0 text-center truncate px-1.5 py-1.5 rounded-xl text-[10px] font-mono transition-colors ${activeSection === s ? 'bg-black dark:bg-white text-white dark:text-black text-white' : 'text-zinc-500 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-800'}`}
+            className={`flex-1 min-w-0 text-center truncate px-1.5 py-1.5 rounded-xl text-[10px] font-mono transition-colors ${activeSection === s ? 'bg-black dark:bg-white text-white dark:text-black' : 'text-zinc-500 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-800'}`}
           >
             /{sectionLabels[s]}
           </a>
@@ -819,9 +819,9 @@ export default function Home() {
             className="w-[120px] h-[120px] md:w-[160px] md:h-[160px] shrink-0 rounded-full object-cover bg-gradient-to-br from-zinc-200 to-zinc-300 dark:from-zinc-700 dark:to-zinc-800 border border-zinc-200 dark:border-zinc-700 shadow-sm"
           />
           <div>
-            <div className="mb-4 text-[11px] font-mono uppercase tracking-[0.18em] text-zinc-400 text-left max-sm:text-center">
+            <div className="mb-4 text-[11px] font-mono uppercase tracking-[0.18em] text-zinc-500 dark:text-zinc-400 text-left max-sm:text-center">
               {data.profile.availableForWork ? (
-                <a href="#contact" className="inline-block text-center text-zinc-400 hover:text-black dark:hover:text-white transition-colors no-underline">
+                <a href="#contact" className="inline-block text-center text-zinc-500 dark:text-zinc-400 hover:text-black dark:hover:text-white transition-colors no-underline">
                   <span className="max-sm:block max-sm:mb-1">
                     <span className="inline-block w-1.5 h-1.5 rounded-full bg-black dark:bg-white shadow-[0_0_0_4px_rgba(0,0,0,0.1)] dark:shadow-[0_0_0_4px_rgba(255,255,255,0.1)] mr-2 relative -top-0.5" />
                     {t.available}
@@ -832,13 +832,13 @@ export default function Home() {
                   </span>
                 </a>
               ) : (
-                <a href="#contact" className="text-zinc-400 hover:text-black dark:text-white transition-colors no-underline">
+                <a href="#contact" className="text-zinc-500 dark:text-zinc-400 hover:text-black dark:text-white transition-colors no-underline">
                   {data.profile.location}
                 </a>
               )}
             </div>
-            <h1 className="font-mono text-xl md:text-2xl text-black dark:text-white mb-4 leading-tight tracking-widest">
-              <span className="text-3xl md:text-4xl font-bold">{data.profile.name.split(' ')[0]}</span> {data.profile.name.split(' ').slice(1).join(' ')}
+            <h1 className="font-mono text-3xl md:text-4xl font-bold text-black dark:text-white mb-4 leading-tight tracking-widest">
+              {data.profile.name}
             </h1>
             <p className="font-mono text-xs text-zinc-500 dark:text-zinc-400 mb-5 max-w-[430px] leading-relaxed">
               {t.subtitle}
@@ -866,7 +866,7 @@ export default function Home() {
       {/* Bio */}
       <Reveal className="max-w-[760px] mx-auto px-5 pb-[30px]">
         <div className="flex items-center gap-3 mb-4">
-          <span className="text-[11px] font-mono font-semibold tracking-[0.18em] uppercase text-zinc-400">{t.aboutMe}</span>
+          <span className="text-[11px] font-mono font-semibold tracking-[0.18em] uppercase text-zinc-500 dark:text-zinc-400">{t.aboutMe}</span>
           <span className="h-px flex-1 bg-zinc-200/80 dark:bg-zinc-800" />
         </div>
         <ul className="space-y-3">
@@ -881,7 +881,7 @@ export default function Home() {
       {/* Currently learning */}
       <section className="max-w-[760px] mx-auto px-5 pb-[30px]">
         <div className="flex items-center gap-3 mb-3">
-          <span className="text-[11px] font-mono font-semibold tracking-[0.18em] uppercase text-zinc-400">{t.learning}</span>
+          <span className="text-[11px] font-mono font-semibold tracking-[0.18em] uppercase text-zinc-500 dark:text-zinc-400">{t.learning}</span>
           <span className="h-px flex-1 bg-zinc-200/80 dark:bg-zinc-800" />
         </div>
         <div className="flex flex-wrap gap-2">
@@ -899,7 +899,7 @@ export default function Home() {
       {/* GitHub Activity */}
       <section className="max-w-[760px] mx-auto px-5 pb-[30px]">
         <div className="flex items-center justify-between mb-3">
-          <span className="text-[11px] font-mono font-semibold tracking-[0.18em] uppercase text-zinc-400">{t.githubAct}</span>
+          <span className="text-[11px] font-mono font-semibold tracking-[0.18em] uppercase text-zinc-500 dark:text-zinc-400">{t.githubAct}</span>
           <a
             href={`https://github.com/${data.profile.github}`}
             target="_blank"
@@ -911,7 +911,7 @@ export default function Home() {
         </div>
         <div className="bg-[var(--surface)] dark:bg-zinc-800/50 border border-zinc-200/70 dark:border-zinc-700/50 rounded-xl px-4 py-2 overflow-x-auto flex items-center justify-center">
           {chartError ? (
-            <div className="flex items-center justify-center text-xs font-mono text-zinc-400 dark:text-zinc-600 py-6">
+            <div className="flex items-center justify-center text-xs font-mono text-zinc-500 dark:text-zinc-600 py-6">
               <span>{t.ghUnavail} </span>
               <a href={`https://github.com/${data.profile.github}`} target="_blank" rel="noopener noreferrer" className="text-black dark:text-white ml-1 hover:underline">{t.visitProf}</a>
             </div>
@@ -933,7 +933,7 @@ export default function Home() {
         <Section id="stack" label={t.stack} startOpen t={t}>
           {Object.entries(data.stack).map(([cat, items]) => (
             <div key={cat} className="mb-4 last:mb-0">
-              <p className="text-[11px] font-semibold uppercase tracking-wider text-zinc-400 mb-2 font-mono">{cat}</p>
+              <p className="text-[11px] font-semibold uppercase tracking-wider text-zinc-500 dark:text-zinc-400 mb-2 font-mono">{cat}</p>
               <div className="flex flex-wrap gap-2">
                 {items.map(item => (
                   <span
@@ -957,8 +957,8 @@ export default function Home() {
         {/* Projects */}
         <Section id="proj" label={t.projects} startOpen t={t}>
           <div className="mb-3 flex items-center justify-between">
-            <span className="text-[11px] font-mono text-zinc-400 uppercase tracking-[0.18em]">{t.selectedWork}</span>
-            <span className="text-[11px] text-zinc-400">{displayProjects.length} {t.of} {data.projects.length} {t.projects.toLowerCase()}</span>
+            <span className="text-[11px] font-mono text-zinc-500 dark:text-zinc-400 uppercase tracking-[0.18em]">{t.selectedWork}</span>
+            <span className="text-[11px] text-zinc-500 dark:text-zinc-400">{displayProjects.length} {t.of} {data.projects.length} {t.projects.toLowerCase()}</span>
           </div>
           <div className="flex flex-col gap-2.5">
             {displayProjects.map(p => (
@@ -995,10 +995,10 @@ export default function Home() {
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             {[
-              { id: 'email', label: data.profile.email, href: `mailto:${data.profile.email}`, copyText: data.profile.email, icon: 'mail', colorCls: 'text-zinc-400' },
-              { id: 'whatsapp', label: 'WhatsApp', href: `https://wa.me/${(data.profile.whatsapp || '').replace(/[^0-9]/g, '')}`, copyText: data.profile.whatsapp || '', icon: 'whatsapp', colorCls: 'text-zinc-400' },
-              { id: 'github', label: `github.com/${data.profile.github}`, href: `https://github.com/${data.profile.github}`, copyText: `https://github.com/${data.profile.github}`, icon: 'github', colorCls: 'text-zinc-400' },
-              { id: 'linkedin', label: `linkedin.com/in/${data.profile.linkedin}`, href: `https://linkedin.com/in/${data.profile.linkedin}`, copyText: `https://linkedin.com/in/${data.profile.linkedin}`, icon: 'linkedin', colorCls: 'text-zinc-400' }
+              { id: 'email', label: data.profile.email, href: `mailto:${data.profile.email}`, copyText: data.profile.email, icon: 'mail', colorCls: 'text-zinc-500 dark:text-zinc-400' },
+              { id: 'whatsapp', label: 'WhatsApp', href: `https://wa.me/${(data.profile.whatsapp || '').replace(/[^0-9]/g, '')}`, copyText: data.profile.whatsapp || '', icon: 'whatsapp', colorCls: 'text-zinc-500 dark:text-zinc-400' },
+              { id: 'github', label: `github.com/${data.profile.github}`, href: `https://github.com/${data.profile.github}`, copyText: `https://github.com/${data.profile.github}`, icon: 'github', colorCls: 'text-zinc-500 dark:text-zinc-400' },
+              { id: 'linkedin', label: `linkedin.com/in/${data.profile.linkedin}`, href: `https://linkedin.com/in/${data.profile.linkedin}`, copyText: `https://linkedin.com/in/${data.profile.linkedin}`, icon: 'linkedin', colorCls: 'text-zinc-500 dark:text-zinc-400' }
             ].map(c => (
               <div key={c.id} className="flex items-center gap-2 px-3 py-2 bg-transparent border border-zinc-200/80 dark:border-zinc-800 rounded-lg text-xs text-zinc-500 dark:text-zinc-400 font-mono h-11">
                 <a href={c.href} target={c.id === 'email' ? undefined : '_blank'} rel={c.id === 'email' ? undefined : 'noopener noreferrer'} className="flex items-center gap-2 min-w-0 flex-1 text-zinc-500 dark:text-zinc-400 hover:text-black dark:hover:text-white transition-colors no-underline">
@@ -1023,17 +1023,17 @@ export default function Home() {
       {/* Footer */}
       <footer className="max-w-[760px] mx-auto px-5 pt-12 pb-32 md:pb-40 border-t border-zinc-200/60 dark:border-zinc-700/50">
         <div className="flex flex-col md:flex-row items-center justify-between gap-6">
-          <div className="text-[11px] font-mono text-zinc-400 dark:text-zinc-600 flex flex-col items-center md:items-start gap-1">
+          <div className="text-[11px] font-mono text-zinc-500 dark:text-zinc-600 flex flex-col items-center md:items-start gap-1">
             <p>© {new Date().getFullYear()} {data.profile.name}.</p>
             <p><LiveTime timezone={data.profile.timezone} displayFormat={data.profile.timezoneLabel} t={t} /></p>
           </div>
           <div className="flex flex-col items-center md:items-end gap-2 md:gap-1">
             <div className="flex items-center gap-4 flex-wrap">
-              <Link to="/blog" className="text-[10px] font-mono text-zinc-400 hover:text-zinc-700 dark:hover:text-zinc-200 transition-colors">/{t.navBlog}</Link>
-              <Link to="/gallery" className="text-[10px] font-mono text-zinc-400 hover:text-zinc-700 dark:hover:text-zinc-200 transition-colors">/{t.navGallery}</Link>
-              <Link to="/projects" className="text-[10px] font-mono text-zinc-400 hover:text-zinc-700 dark:hover:text-zinc-200 transition-colors">/{t.navProj}</Link>
+              <Link to="/blog" className="text-[10px] font-mono text-zinc-500 dark:text-zinc-400 hover:text-zinc-700 dark:hover:text-zinc-200 transition-colors">/{t.navBlog}</Link>
+              <Link to="/gallery" className="text-[10px] font-mono text-zinc-500 dark:text-zinc-400 hover:text-zinc-700 dark:hover:text-zinc-200 transition-colors">/{t.navGallery}</Link>
+              <Link to="/projects" className="text-[10px] font-mono text-zinc-500 dark:text-zinc-400 hover:text-zinc-700 dark:hover:text-zinc-200 transition-colors">/{t.navProj}</Link>
             </div>
-            <button onClick={() => window.scrollTo({top: 0, behavior: 'smooth'})} className="text-[10px] font-mono text-zinc-400 hover:text-zinc-700 dark:hover:text-zinc-200 transition-colors cursor-pointer bg-transparent border-0 mt-0 md:mt-1">
+            <button onClick={() => window.scrollTo({top: 0, behavior: 'smooth'})} className="text-[10px] font-mono text-zinc-500 dark:text-zinc-400 hover:text-zinc-700 dark:hover:text-zinc-200 transition-colors cursor-pointer bg-transparent border-0 mt-0 md:mt-1">
               {t.backToTop}
             </button>
           </div>

@@ -1,12 +1,13 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import ReactQuill from 'react-quill';
-import 'react-quill/dist/quill.snow.css';
+import ReactQuill from 'react-quill-new';
+import 'react-quill-new/dist/quill.snow.css';
 import {
   usePortfolioData,
   saveToLocal,
   resetToDefaults,
   exportDataJs,
+  copyDataJs,
   checkAdminPassword,
   setAdminPassword,
   generateSlug,
@@ -124,6 +125,15 @@ export default function Admin() {
             className="w-full px-4 py-2 rounded-lg text-sm font-mono text-left text-emerald-400 hover:bg-zinc-800 transition-colors"
           >
             ⬇ Download data.js
+          </button>
+          <button
+            onClick={async () => {
+              const ok = await copyDataJs(getCachedData());
+              setToast(ok ? { message: 'Code copied to clipboard!', type: 'success' } : { message: 'Failed to copy', type: 'error' });
+            }}
+            className="w-full px-4 py-2 rounded-lg text-sm font-mono text-left text-blue-400 hover:bg-zinc-800 transition-colors"
+          >
+            📋 Copy Code
           </button>
           <button 
             onClick={() => setAuth(false)}

@@ -49,11 +49,10 @@ export default function ProjectDetail() {
           <h1 className="text-4xl sm:text-5xl font-bold tracking-tight text-zinc-900 dark:text-white mb-6 leading-tight">
             {project.title}
           </h1>
-          <div className="prose dark:prose-invert max-w-none text-zinc-600 dark:text-zinc-300 leading-relaxed">
-            <p className="whitespace-pre-wrap">
-              {getLoc(lang, project.overview, project.overview_id, project.overview_zh, project.overview_ja, project.overview_ko)}
-            </p>
-          </div>
+          <div 
+            className="prose dark:prose-invert max-w-none text-zinc-600 dark:text-zinc-300 leading-relaxed"
+            dangerouslySetInnerHTML={{ __html: getLoc(lang, project.overview, project.overview_id, project.overview_zh, project.overview_ja, project.overview_ko) }}
+          />
           <div className="flex flex-wrap gap-2 mt-5">
             {project.tags.map(tag => (
               <span

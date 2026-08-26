@@ -109,6 +109,31 @@ export const currentlyLearning = ${JSON.stringify(d.currentlyLearning, null, 2)}
   URL.revokeObjectURL(url);
 }
 
+export async function copyDataJs(data) {
+  const d = data || getCachedData();
+  const content = `// ── Portfolio data ──
+
+export const defaultProfile = ${JSON.stringify(d.profile, null, 2)};
+
+export const greetings = ${JSON.stringify(d.greetings, null, 2)};
+
+export const stack = ${JSON.stringify(d.stack, null, 2)};
+
+export const experiences = ${JSON.stringify(d.experiences, null, 2)};
+
+export const projects = ${JSON.stringify(d.projects, null, 2)};
+
+export const currentlyLearning = ${JSON.stringify(d.currentlyLearning, null, 2)};
+`;
+  try {
+    await navigator.clipboard.writeText(content);
+    return true;
+  } catch (e) {
+    console.error('Failed to copy:', e);
+    return false;
+  }
+}
+
 // ── Admin auth ────────────────────────────────────────────────────
 export function checkAdminPassword(password) {
   const stored = localStorage.getItem(ADMIN_PASSWORD_KEY) || DEFAULT_PASSWORD;

@@ -40,11 +40,10 @@ export default function BlogDetail() {
           </div>
         </header>
 
-        <article className="prose prose-zinc dark:prose-invert prose-sm sm:prose-base max-w-none text-zinc-700 dark:text-zinc-300">
-          {getLoc(lang, blog.content, blog.content_id, blog.content_zh, blog.content_ja, blog.content_ko).split('\n').map((paragraph, idx) => (
-             paragraph.trim() ? <p key={idx} className="mb-4 leading-relaxed">{paragraph}</p> : <br key={idx} />
-          ))}
-        </article>
+        <article 
+          className="prose prose-zinc dark:prose-invert prose-sm sm:prose-base max-w-none text-zinc-700 dark:text-zinc-300"
+          dangerouslySetInnerHTML={{ __html: getLoc(lang, blog.content, blog.content_id, blog.content_zh, blog.content_ja, blog.content_ko) }}
+        />
 
         <div className="mt-20 pt-8 border-t border-zinc-200 dark:border-zinc-800 flex justify-between items-center">
           <Link to="/blog" className="text-sm font-mono text-zinc-500 hover:text-black dark:text-white transition-colors">
