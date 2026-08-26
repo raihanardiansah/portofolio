@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
 import {
   usePortfolioData,
   saveToLocal,
@@ -311,14 +313,14 @@ function ProjectForm({ project, onSave, onCancel }) {
           <div className={editLang === 'en' ? 'block' : 'hidden'}>
             <div className="mb-3"><label className={labelCls}>Role (EN)</label><input type="text" className={inputCls} value={p.role || ''} onChange={e=>setP({...p, role:e.target.value})} required/></div>
             <div className="mb-3"><label className={labelCls}>Short Desc (EN)</label><textarea className={`${inputCls} h-20`} value={p.desc || ''} onChange={e=>setP({...p, desc:e.target.value})} required/></div>
-            <div><label className={labelCls}>Full Overview (EN)</label><textarea className={`${inputCls} h-32`} value={p.overview || ''} onChange={e=>setP({...p, overview:e.target.value})} required/></div>
+            <div className="mb-3"><label className={labelCls}>Full Overview (EN)</label><div className="bg-white dark:bg-zinc-900 text-black dark:text-white"><ReactQuill theme="snow" value={p.overview || ''} onChange={val=>setP({...p, overview:val})} /></div></div>
           </div>
           
           {['id', 'zh', 'ja', 'ko'].map(l => (
             <div key={l} className={editLang === l ? 'block' : 'hidden'}>
               <div className="mb-3"><label className={labelCls}>Role ({l.toUpperCase()})</label><input type="text" className={inputCls} value={p[`role_${l}`] || ''} onChange={e=>setP({...p, [`role_${l}`]:e.target.value})} /></div>
               <div className="mb-3"><label className={labelCls}>Short Desc ({l.toUpperCase()})</label><textarea className={`${inputCls} h-20`} value={p[`desc_${l}`] || ''} onChange={e=>setP({...p, [`desc_${l}`]:e.target.value})} /></div>
-              <div><label className={labelCls}>Full Overview ({l.toUpperCase()})</label><textarea className={`${inputCls} h-32`} value={p[`overview_${l}`] || ''} onChange={e=>setP({...p, [`overview_${l}`]:e.target.value})} /></div>
+              <div className="mb-3"><label className={labelCls}>Full Overview ({l.toUpperCase()})</label><div className="bg-white dark:bg-zinc-900 text-black dark:text-white"><ReactQuill theme="snow" value={p[`overview_${l}`] || ''} onChange={val=>setP({...p, [`overview_${l}`]:val})} /></div></div>
             </div>
           ))}
         </div>
@@ -726,9 +728,8 @@ function BlogForm({ post, onSave, onCancel }) {
             <div>
               <div className="flex justify-between items-center mb-1">
                 <label className={labelCls}>Content (EN)</label>
-                <span className="text-[10px] text-zinc-400 font-mono">Gambar: paste URL → <code>![alt](https://...)</code></span>
               </div>
-              <textarea className={`${inputCls} h-64`} value={bData.content || ''} onChange={e=>setBData({...bData, content:e.target.value})} required/>
+              <div className="bg-white dark:bg-zinc-900 text-black dark:text-white"><ReactQuill theme="snow" value={bData.content || ''} onChange={val=>setBData({...bData, content:val})} /></div>
             </div>
           </div>
           
@@ -736,7 +737,7 @@ function BlogForm({ post, onSave, onCancel }) {
             <div key={l} className={editLang === l ? 'block' : 'hidden'}>
               <div className="mb-3"><label className={labelCls}>Title ({l.toUpperCase()})</label><input type="text" className={inputCls} value={bData[`title_${l}`] || ''} onChange={e=>setBData({...bData, [`title_${l}`]:e.target.value})} /></div>
               <div className="mb-3"><label className={labelCls}>Excerpt ({l.toUpperCase()})</label><textarea className={`${inputCls} h-20`} value={bData[`excerpt_${l}`] || ''} onChange={e=>setBData({...bData, [`excerpt_${l}`]:e.target.value})} /></div>
-              <div><label className={labelCls}>Content ({l.toUpperCase()})</label><textarea className={`${inputCls} h-64`} value={bData[`content_${l}`] || ''} onChange={e=>setBData({...bData, [`content_${l}`]:e.target.value})} /></div>
+              <div className="mb-3"><label className={labelCls}>Content ({l.toUpperCase()})</label><div className="bg-white dark:bg-zinc-900 text-black dark:text-white"><ReactQuill theme="snow" value={bData[`content_${l}`] || ''} onChange={val=>setBData({...bData, [`content_${l}`]:val})} /></div></div>
             </div>
           ))}
         </div>
