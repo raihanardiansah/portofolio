@@ -1,6 +1,9 @@
 import { useState, useRef, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { usePortfolioData, useLanguage, setLanguage } from '../store';
+import { usePortfolioData, useLanguage, setLanguage, getLoc } from '../store';
+import Section from '../components/Section';
+import ExpCard from '../components/ExpCard';
+import SplashScreen from '../components/SplashScreen';
 
 const i18n = {
   en: {
@@ -185,15 +188,6 @@ const i18n = {
   }
 };
 
-// ── Localization Helper ──────────────────────────────────────────
-function getLoc(lang, base, id, zh, ja, ko) {
-  if (lang === 'zh' && zh) return zh;
-  if (lang === 'ja' && ja) return ja;
-  if (lang === 'ko' && ko) return ko;
-  if (lang === 'id' && id) return id;
-  return base;
-}
-
 // ── Dark mode hook ──────────────────────────────────────────────
 function useDarkMode() {
   const [dark, setDark] = useState(() => {
@@ -220,12 +214,11 @@ function DarkModeToggle({ toggleDark, dark }) {
     <button
       onClick={toggleDark}
       className="p-2 rounded-lg bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-300 hover:bg-zinc-200 dark:hover:bg-zinc-700 transition-colors cursor-pointer border-0"
-      aria-label="Toggle theme"
+      aria-label={dark ? 'Switch to light mode' : 'Switch to dark mode'}
     >
       {dark ? (
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-          <circle cx="12" cy="12" r="5"/>
-          <line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/>
+          <circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/>
           <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
           <line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/>
           <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
@@ -239,29 +232,17 @@ function DarkModeToggle({ toggleDark, dark }) {
   );
 }
 
-function LangToggle({ lang, toggleLang }) {
-  return (
-    <button
-      onClick={toggleLang}
-      className="p-2 rounded-lg bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-300 hover:bg-zinc-200 dark:hover:bg-zinc-700 transition-colors cursor-pointer border-0 font-mono text-xs font-bold h-[34px] w-[34px] flex items-center justify-center"
-      aria-label="Toggle language"
-    >
-      {lang.toUpperCase()}
-    </button>
-  );
-}
-
 // ── HeaderIcons ─────────────────────────────────────────────────
 function HeaderIcons({ github, linkedin }) {
-  const linkCls = 'text-zinc-500 dark:text-zinc-400 hover:text-zinc-700 dark:text-zinc-500 dark:hover:text-zinc-200 transition-colors flex items-center';
+  const linkCls = 'text-zinc-500 dark:text-zinc-400 hover:text-zinc-700 dark:hover:text-zinc-200 transition-colors flex items-center';
   return (
     <div className="flex items-center gap-2">
-      <a href={`https://github.com/${github}`} target="_blank" rel="noopener noreferrer" className={linkCls} aria-label="GitHub">
+      <a href={`https://github.com/${github}`} target="_blank" rel="noopener noreferrer" className={linkCls} aria-label="GitHub profile">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
           <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.627-5.373-12-12-12z"/>
         </svg>
       </a>
-      <a href={`https://linkedin.com/in/${linkedin}`} target="_blank" rel="noopener noreferrer" className={linkCls} aria-label="LinkedIn">
+      <a href={`https://linkedin.com/in/${linkedin}`} target="_blank" rel="noopener noreferrer" className={linkCls} aria-label="LinkedIn profile">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
           <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
         </svg>
@@ -300,54 +281,6 @@ function StackIcon({ name, slug, dark }) {
   );
 }
 
-// ── Section (Accordion) ─────────────────────────────────────────
-function Section({ id, label, children, startOpen = false, t }) {
-  const [open, setOpen] = useState(startOpen);
-  const [maxH, setMaxH] = useState('0px');
-  const contentRef = useRef(null);
-
-  useEffect(() => {
-    if (!contentRef.current) return;
-    const el = contentRef.current;
-    const update = () => {
-      setMaxH(open ? (el.scrollHeight + 24) + 'px' : '0px');
-    };
-    update();
-    const ro = new ResizeObserver(update);
-    ro.observe(el);
-    return () => ro.disconnect();
-  }, [open]);
-
-  return (
-    <section
-      id={id}
-      className="rounded-2xl border border-zinc-200/80 dark:border-zinc-800 bg-white/70 dark:bg-zinc-900/40 overflow-hidden shadow-sm shadow-zinc-200/30 dark:shadow-black/10"
-    >
-      <button
-        onClick={() => setOpen(!open)}
-        aria-expanded={open}
-        aria-controls={`${id}-content`}
-        className="w-full flex items-center gap-2 px-4 py-4 border-b border-zinc-200/80 dark:border-zinc-800 text-left hover:bg-zinc-50/80 dark:hover:bg-zinc-800/30 transition-colors cursor-pointer bg-transparent"
-      >
-        <span
-          className="text-xs text-zinc-500 dark:text-zinc-400 font-mono transition-transform duration-300"
-          style={{ transform: open ? 'rotate(90deg)' : 'none', display: 'inline-block' }}
-          aria-hidden="true"
-        >▶</span>
-        <span className="font-mono text-xs font-semibold tracking-[0.15em] uppercase text-zinc-500 dark:text-zinc-400">{label}</span>
-        <span className="ml-auto text-[10px] font-mono text-zinc-500 dark:text-zinc-400 dark:text-zinc-500">{open ? t.collapse : t.expand}</span>
-      </button>
-      <div
-        id={`${id}-content`}
-        className="overflow-hidden transition-all duration-400 ease-in-out"
-        style={{ maxHeight: maxH, opacity: open ? 1 : 0 }}
-      >
-        <div ref={contentRef} className="px-4 pt-3 pb-4">{children}</div>
-      </div>
-    </section>
-  );
-}
-
 // ── Reveal ─────────────────────────────────────────────────────
 function Reveal({ children, className = '' }) {
   const ref = useRef(null);
@@ -370,8 +303,9 @@ function Reveal({ children, className = '' }) {
   );
 }
 
-// ── LiveTime ─────────────────────────────────────────────────────
+// ── LiveTime (footer, with i18n) ─────────────────────────────────
 function LiveTime({ timezone, displayFormat, t }) {
+  const lang = useLanguage();
   const [time, setTime] = useState(new Date());
 
   useEffect(() => {
@@ -379,139 +313,31 @@ function LiveTime({ timezone, displayFormat, t }) {
     return () => clearInterval(timer);
   }, []);
 
-  let formattedTime = "";
+  let formattedTime = '';
   try {
+    const locale = lang === 'en' ? 'en-GB' : lang;
     if (displayFormat === 'WIB') {
-      formattedTime = new Intl.DateTimeFormat('en-GB', {
+      formattedTime = new Intl.DateTimeFormat(locale, {
         timeZone: timezone || 'Asia/Jakarta',
+        day: '2-digit', month: 'short', year: 'numeric',
         hour: '2-digit', minute: '2-digit', second: '2-digit'
-      }).format(time) + ' WIB';
+      }).format(time).replace(',', '') + ' WIB';
     } else {
-      formattedTime = new Intl.DateTimeFormat('en-GB', {
+      formattedTime = new Intl.DateTimeFormat(locale, {
         timeZone: timezone || 'Asia/Jakarta',
+        day: '2-digit', month: 'short', year: 'numeric',
         hour: '2-digit', minute: '2-digit', second: '2-digit',
         timeZoneName: 'shortOffset'
       }).format(time).replace('GMT', 'UTC');
     }
   } catch (e) {
-    formattedTime = "00:00:00";
+    formattedTime = '00:00:00';
   }
 
   return <span>{t.localTime} {formattedTime}</span>;
 }
 
-// ── ExpCard ──────────────────────────────────────────────────────
-function ExpCard({ title, role, role_id, role_zh, role_ja, role_ko, period, description, description_id, description_zh, description_ja, description_ko, points, points_id, points_zh, points_ja, points_ko, tags, logo, t, lang }) {
-  const [open, setOpen] = useState(false);
-
-  return (
-    <article className="relative pl-6 sm:pl-8 py-3 group">
-      {/* Timeline line & dot */}
-      <div className="absolute left-[7px] sm:left-[11px] top-10 bottom-[-12px] w-[2px] bg-zinc-200 dark:bg-zinc-800 group-last:hidden"></div>
-      <div className="absolute left-[3px] sm:left-[7px] top-[30px] w-[10px] h-[10px] rounded-full bg-zinc-300 dark:bg-zinc-600 outline outline-4 outline-[var(--bg)] transition-colors group-hover:bg-zinc-500 dark:group-hover:bg-zinc-400"></div>
-
-      <button
-        type="button"
-        onClick={() => setOpen(!open)}
-        aria-expanded={open}
-        className="w-full flex items-start justify-between gap-3 text-left hover:bg-zinc-50/70 dark:hover:bg-zinc-800/40 transition-all duration-300 rounded-xl p-2.5 -ml-2.5 cursor-pointer bg-transparent border-0 group-hover:translate-x-1"
-      >
-        <span className="flex items-start gap-3.5 min-w-0">
-          <svg className={`w-3.5 h-3.5 text-zinc-500 dark:text-zinc-400 transition-transform duration-300 shrink-0 mt-1.5 ${open ? 'rotate-90 text-zinc-600 dark:text-zinc-200' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" />
-          </svg>
-          
-          {logo && (
-            <img src={logo} alt={`${title} logo`} className="w-10 h-10 rounded-md object-cover border border-zinc-200/50 dark:border-zinc-700/50 bg-[var(--surface)] shrink-0" />
-          )}
-          <span>
-            <span className="block text-sm font-bold text-zinc-800 dark:text-zinc-100">{title}</span>
-            <span className="block text-xs text-zinc-500 dark:text-zinc-400 mt-0.5">{getLoc(lang, role, role_id, role_zh, role_ja, role_ko)}</span>
-          </span>
-        </span>
-        <span className="text-right shrink-0">
-          <span className="block text-[11px] text-zinc-500 dark:text-zinc-400 font-mono">{period}</span>
-          <span className="block text-[10px] text-zinc-500 dark:text-zinc-400 mt-1 transition-opacity">{open ? t.hideDetail : t.viewDetail}</span>
-        </span>
-      </button>
-      
-      {/* CSS Grid Smooth Accordion */}
-      <div 
-        className="grid transition-all duration-300 ease-in-out"
-        style={{ gridTemplateRows: open ? '1fr' : '0fr', opacity: open ? 1 : 0 }}
-      >
-        <div className="overflow-hidden">
-          <div className="pt-3 pb-1 pl-9 sm:pl-11">
-            <p className="text-xs text-zinc-500 dark:text-zinc-400 leading-relaxed mb-3">{getLoc(lang, description, description_id, description_zh, description_ja, description_ko)}</p>
-            <ul className="space-y-1.5 mb-3.5">
-              {getLoc(lang, points, points_id, points_zh, points_ja, points_ko).map((p, i) => (
-                <li key={i} className="text-xs text-zinc-500 dark:text-zinc-400 pl-4 relative before:content-['−'] before:absolute before:left-0 before:text-zinc-300 dark:before:text-zinc-600">
-                  {p}
-                </li>
-              ))}
-            </ul>
-            <div className="flex flex-wrap gap-1.5">
-              {tags.map(t => (
-                <span key={t} className="text-[10px] px-2 py-0.5 bg-zinc-100 dark:bg-zinc-800/80 border border-zinc-200 dark:border-zinc-700/80 rounded text-zinc-600 dark:text-zinc-400 font-mono transition-colors hover:border-zinc-300 dark:hover:border-zinc-500">{t}</span>
-              ))}
-            </div>
-          </div>
-        </div>
-      </div>
-    </article>
-  );
-}
-
-// ── Splash Screen ────────────────────────────────────────────────
-function SplashScreen({ onDone, greetingsData }) {
-  const [text, setText] = useState('');
-  const [phase, setPhase] = useState('in');
-  const [tick, setTick] = useState(0);
-  const [fadeOut, setFadeOut] = useState(false);
-  const [ready, setReady] = useState(false);
-  const pRef = useRef({ word: 0, phase: 'in', endDelay: false });
-
-  useEffect(() => {
-    if (!ready) {
-      const t = setTimeout(() => setReady(true), 200);
-      return () => clearTimeout(t);
-    }
-    const p = pRef.current;
-    if (p.word >= greetingsData.length) {
-      if (!p.endDelay) {
-        p.endDelay = true;
-        const t = setTimeout(() => { setFadeOut(true); setTimeout(onDone, 300); }, 50);
-        return () => clearTimeout(t);
-      }
-      return;
-    }
-    const t = setTimeout(() => {
-      if (p.phase === 'in') { setText(greetingsData[p.word]); setPhase('show'); p.phase = 'hold'; }
-      else if (p.phase === 'hold') { setPhase('out'); p.phase = 'out'; }
-      else if (p.phase === 'out') { p.word++; setPhase('in'); p.phase = 'in'; }
-      setTick(x => x + 1);
-    }, p.phase === 'in' ? 120 : p.phase === 'hold' ? 200 : 80);
-    return () => clearTimeout(t);
-  }, [tick, onDone, ready, greetingsData]);
-
-  return (
-    <div className={`fixed inset-0 z-[9999] flex items-center justify-center bg-[#0a0a0a] transition-opacity duration-300 ${fadeOut ? 'opacity-0' : 'opacity-100'}`}>
-      <div className="text-center overflow-hidden px-4 py-8">
-        <p
-          className="font-mono text-3xl md:text-5xl text-[#e5e5e5] leading-normal"
-          style={{
-            transform: phase === 'in' ? 'translateY(-40px)' : 'translateY(0px)',
-            opacity: phase === 'show' || phase === 'hold' ? 1 : 0,
-            transition: 'transform 0.25s ease, opacity 0.2s ease',
-          }}
-        >
-          {text}
-        </p>
-      </div>
-    </div>
-  );
-}
-
+// ── LiveTimeWidget (map overlay, compact) ────────────────────────
 function LiveTimeWidget({ timezone, displayFormat }) {
   const [time, setTime] = useState(new Date());
   useEffect(() => {
@@ -519,7 +345,7 @@ function LiveTimeWidget({ timezone, displayFormat }) {
     return () => clearInterval(timer);
   }, []);
 
-  let formattedTime = "";
+  let formattedTime = '';
   try {
     if (displayFormat === 'WIB') {
       formattedTime = new Intl.DateTimeFormat('en-GB', {
@@ -534,11 +360,11 @@ function LiveTimeWidget({ timezone, displayFormat }) {
       }).format(time).replace('GMT', 'UTC');
     }
   } catch (e) {
-    formattedTime = "00:00:00";
+    formattedTime = '00:00:00';
   }
 
   return (
-    <div className="flex items-center justify-center gap-2 mt-3">
+    <div className="flex items-center justify-center mt-3 bg-[var(--bg)] px-1">
       <span className="text-[10px] font-mono text-zinc-500 uppercase tracking-widest">{formattedTime}</span>
     </div>
   );
@@ -590,6 +416,7 @@ function DetailedDottedMap({ profile }) {
   );
 }
 
+// ── Module-level splash guard ────────────────────────────────────
 let hasShownSplash = false;
 
 // ── Main Home Component ───────────────────────────────────────────
@@ -614,9 +441,16 @@ export default function Home() {
   const [activeSection, setActiveSection] = useState('home');
   const [copiedId, setCopiedId] = useState(null);
   const location = useLocation();
+  // FIX #4: chartError resets when github username changes
   const [chartError, setChartError] = useState(false);
+  const prevGithub = useRef(data.profile.github);
 
-  // Active section handled in combined scroll listener
+  useEffect(() => {
+    if (prevGithub.current !== data.profile.github) {
+      setChartError(false);
+      prevGithub.current = data.profile.github;
+    }
+  }, [data.profile.github]);
 
   // Scroll to hash
   useEffect(() => {
@@ -633,10 +467,10 @@ export default function Home() {
       let metaDesc = document.querySelector('meta[name="description"]');
       if (!metaDesc) {
         metaDesc = document.createElement('meta');
-        metaDesc.name = "description";
+        metaDesc.name = 'description';
         document.head.appendChild(metaDesc);
       }
-      metaDesc.setAttribute("content", data.profile.bio && data.profile.bio.length > 0 ? data.profile.bio[0] : t.subtitle);
+      metaDesc.setAttribute('content', data.profile.bio && data.profile.bio.length > 0 ? data.profile.bio[0] : t.subtitle);
     }
   }, [data.profile.name, data.profile.bio, t.subtitle]);
 
@@ -664,7 +498,7 @@ export default function Home() {
             const maxScroll = 300; 
             const scrollPct = Math.min(window.scrollY / maxScroll, 1);
             const ease = scrollPct < 0.5 ? 2 * scrollPct * scrollPct : 1 - Math.pow(-2 * scrollPct + 2, 2) / 2;
-            const scale = 1 + (ease * 4); // Zooms from 1x to 5x
+            const scale = 1 + (ease * 4);
             const opacity = Math.max(0, 1 - (scrollPct * 2.5)); 
             
             mapZoom.style.transform = `scale(${scale})`;
@@ -692,7 +526,7 @@ export default function Home() {
           setActiveSection(entry.target.id);
         }
       });
-    }, { rootMargin: '-30% 0px -60% 0px', threshold: 0 }); // Trigger when section hits top 30%
+    }, { rootMargin: '-30% 0px -60% 0px', threshold: 0 });
 
     ids.forEach(id => {
       const el = document.getElementById(id);
@@ -735,6 +569,17 @@ export default function Home() {
   const featuredProjects = data.projects.filter(p => p.featured);
   const displayProjects = featuredProjects.length > 0 ? featuredProjects : data.projects.slice(0, 2);
 
+  // FIX #25: Build contact list conditionally — skip whatsapp if empty
+  const contactItems = [
+    { id: 'email', label: data.profile.email, href: `mailto:${data.profile.email}`, copyText: data.profile.email, icon: 'mail', colorCls: 'text-zinc-500 dark:text-zinc-400' },
+    ...(data.profile.whatsapp ? [{ id: 'whatsapp', label: 'WhatsApp', href: `https://wa.me/${(data.profile.whatsapp || '').replace(/[^0-9]/g, '')}`, copyText: data.profile.whatsapp, icon: 'whatsapp', colorCls: 'text-zinc-500 dark:text-zinc-400' }] : []),
+    { id: 'github', label: `github.com/${data.profile.github}`, href: `https://github.com/${data.profile.github}`, copyText: `https://github.com/${data.profile.github}`, icon: 'github', colorCls: 'text-zinc-500 dark:text-zinc-400' },
+    { id: 'linkedin', label: `linkedin.com/in/${data.profile.linkedin}`, href: `https://linkedin.com/in/${data.profile.linkedin}`, copyText: `https://linkedin.com/in/${data.profile.linkedin}`, icon: 'linkedin', colorCls: 'text-zinc-500 dark:text-zinc-400' }
+  ];
+
+  // Language labels for aria-label
+  const langNames = { en: 'English', id: 'Indonesian', zh: 'Chinese', ja: 'Japanese', ko: 'Korean' };
+
   return (
     <div className="min-h-screen max-md:pb-16 bg-[var(--bg)] text-[var(--text)] antialiased">
       {/* Scroll progress bar */}
@@ -749,8 +594,9 @@ export default function Home() {
           <a
             key={s}
             href={`#${s}`}
-            className={`w-2 h-2 rounded-full transition-all duration-200 hover:scale-125 hover:bg-black dark:bg-white text-white dark:text-black ${activeSection === s ? 'bg-black dark:bg-white text-white dark:text-black scale-125 shadow-[0_0_0_4px_rgba(0,0,0,0.1)] dark:shadow-[0_0_0_4px_rgba(255,255,255,0.1)]' : 'bg-zinc-300 dark:bg-zinc-700'}`}
+            className={`w-2 h-2 rounded-full transition-all duration-200 hover:scale-125 hover:bg-black dark:hover:bg-white ${activeSection === s ? 'bg-black dark:bg-white scale-125 shadow-[0_0_0_4px_rgba(0,0,0,0.1)] dark:shadow-[0_0_0_4px_rgba(255,255,255,0.1)]' : 'bg-zinc-300 dark:bg-zinc-700'}`}
             aria-current={activeSection === s ? 'location' : undefined}
+            aria-label={`Go to ${sectionLabels[s]}`}
           >
             <span className="sr-only">Go to {sectionLabels[s]}</span>
           </a>
@@ -766,16 +612,23 @@ export default function Home() {
               <a
                 key={l}
                 href={`#${l}`}
-                className={`text-xs font-mono transition-colors ${activeSection === l ? 'text-black dark:text-white' : 'text-zinc-500 dark:text-zinc-400 hover:text-zinc-700 dark:text-zinc-500 dark:hover:text-zinc-200'}`}
+                className={`text-xs font-mono transition-colors ${activeSection === l ? 'text-black dark:text-white' : 'text-zinc-500 dark:text-zinc-400 hover:text-zinc-700 dark:hover:text-zinc-200'}`}
               >
                 /{sectionLabels[l]}
               </a>
             ))}
           </nav>
           <div className="flex items-center gap-2.5">
+            {/* FIX #26: aria-label on language buttons */}
             <div className="flex gap-4">
               {['en', 'id', 'zh', 'ja', 'ko'].map(l => (
-                <button key={l} onClick={() => setLanguage(l)} className={`font-mono text-xs uppercase ${lang === l ? 'text-black dark:text-white font-bold' : 'text-zinc-500 hover:text-black dark:hover:text-white'}`}>
+                <button
+                  key={l}
+                  onClick={() => setLanguage(l)}
+                  aria-label={`Switch to ${langNames[l]}`}
+                  aria-pressed={lang === l}
+                  className={`font-mono text-xs uppercase ${lang === l ? 'text-black dark:text-white font-bold' : 'text-zinc-500 hover:text-black dark:hover:text-white'}`}
+                >
                   {l}
                 </button>
               ))}
@@ -795,7 +648,7 @@ export default function Home() {
           <a
             key={s}
             href={`#${s}`}
-            aria-label={`Go to ${s}`}
+            aria-label={`Go to ${sectionLabels[s]}`}
             aria-current={activeSection === s ? 'location' : undefined}
             className={`flex-1 min-w-0 text-center truncate px-1.5 py-1.5 rounded-xl text-[10px] font-mono transition-colors ${activeSection === s ? 'bg-black dark:bg-white text-white dark:text-black' : 'text-zinc-500 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-800'}`}
           >
@@ -832,7 +685,7 @@ export default function Home() {
                   </span>
                 </a>
               ) : (
-                <a href="#contact" className="text-zinc-500 dark:text-zinc-400 hover:text-black dark:text-white transition-colors no-underline">
+                <a href="#contact" className="text-zinc-500 dark:text-zinc-400 hover:text-black dark:hover:text-white transition-colors no-underline">
                   {data.profile.location}
                 </a>
               )}
@@ -870,9 +723,10 @@ export default function Home() {
           <span className="h-px flex-1 bg-zinc-200/80 dark:bg-zinc-800" />
         </div>
         <ul className="space-y-3">
-          {(getLoc(lang, data.profile.bio, data.profile.bio_id, data.profile.bio_zh, data.profile.bio_ja, data.profile.bio_ko) || []).map((t, i) => (
+          {/* FIX #2 & #25: use getLoc from store (with proper empty check) */}
+          {(getLoc(lang, data.profile.bio, data.profile.bio_id, data.profile.bio_zh, data.profile.bio_ja, data.profile.bio_ko) || []).map((item, i) => (
             <li key={i} className="pl-5 relative text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed before:content-['→'] before:absolute before:left-0 before:text-black dark:before:text-white before:font-mono before:text-xs">
-              {t}
+              {item}
             </li>
           ))}
         </ul>
@@ -904,7 +758,7 @@ export default function Home() {
             href={`https://github.com/${data.profile.github}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="text-[11px] font-mono text-black dark:text-white hover:text-black dark:text-white transition-colors"
+            className="text-[11px] font-mono text-black dark:text-white hover:text-zinc-600 dark:hover:text-zinc-300 transition-colors"
           >
             {t.viewProf}
           </a>
@@ -949,12 +803,12 @@ export default function Home() {
           ))}
         </Section>
 
-        {/* Experience */}
+        {/* Experience — FIX #24: use title as key instead of index */}
         <Section id="exp" label={t.experience} startOpen t={t}>
-          {data.experiences.map((e, i) => <ExpCard key={i} {...e} t={t} lang={lang} />)}
+          {data.experiences.map((exp) => <ExpCard key={exp.title} {...exp} t={t} lang={lang} />)}
         </Section>
 
-        {/* Projects */}
+        {/* Projects — FIX #25: variable shadowing fixed (tag instead of t) */}
         <Section id="proj" label={t.projects} startOpen t={t}>
           <div className="mb-3 flex items-center justify-between">
             <span className="text-[11px] font-mono text-zinc-500 dark:text-zinc-400 uppercase tracking-[0.18em]">{t.selectedWork}</span>
@@ -973,15 +827,16 @@ export default function Home() {
                 </div>
                 <p className="text-xs text-zinc-500 dark:text-zinc-400 leading-relaxed mb-2 line-clamp-2">{getLoc(lang, p.desc, p.desc_id, p.desc_zh, p.desc_ja, p.desc_ko)}</p>
                 <div className="flex flex-wrap gap-1">
-                  {p.tags.map(t => (
-                    <span key={t} className="text-[10px] px-2 py-0.5 bg-zinc-50 dark:bg-zinc-800/50 border border-zinc-200 dark:border-zinc-700 rounded text-zinc-500 dark:text-zinc-400 font-mono">{t}</span>
+                  {/* FIX #25: renamed loop var from t to tag to avoid shadowing i18n t */}
+                  {p.tags.map(tag => (
+                    <span key={tag} className="text-[10px] px-2 py-0.5 bg-zinc-50 dark:bg-zinc-800/50 border border-zinc-200 dark:border-zinc-700 rounded text-zinc-500 dark:text-zinc-400 font-mono">{tag}</span>
                   ))}
                 </div>
               </Link>
             ))}
           </div>
           <div className="mt-3 pt-3 border-t border-zinc-200/60 dark:border-zinc-700/50 flex justify-end">
-            <Link to="/projects" className="text-[11px] font-mono text-black dark:text-white hover:text-black dark:text-white transition-colors">
+            <Link to="/projects" className="text-[11px] font-mono text-black dark:text-white hover:text-zinc-600 dark:hover:text-zinc-300 transition-colors">
               {t.seeAllProj}
             </Link>
           </div>
@@ -994,12 +849,7 @@ export default function Home() {
             <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-1">{t.build}</p>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-            {[
-              { id: 'email', label: data.profile.email, href: `mailto:${data.profile.email}`, copyText: data.profile.email, icon: 'mail', colorCls: 'text-zinc-500 dark:text-zinc-400' },
-              { id: 'whatsapp', label: 'WhatsApp', href: `https://wa.me/${(data.profile.whatsapp || '').replace(/[^0-9]/g, '')}`, copyText: data.profile.whatsapp || '', icon: 'whatsapp', colorCls: 'text-zinc-500 dark:text-zinc-400' },
-              { id: 'github', label: `github.com/${data.profile.github}`, href: `https://github.com/${data.profile.github}`, copyText: `https://github.com/${data.profile.github}`, icon: 'github', colorCls: 'text-zinc-500 dark:text-zinc-400' },
-              { id: 'linkedin', label: `linkedin.com/in/${data.profile.linkedin}`, href: `https://linkedin.com/in/${data.profile.linkedin}`, copyText: `https://linkedin.com/in/${data.profile.linkedin}`, icon: 'linkedin', colorCls: 'text-zinc-500 dark:text-zinc-400' }
-            ].map(c => (
+            {contactItems.map(c => (
               <div key={c.id} className="flex items-center gap-2 px-3 py-2 bg-transparent border border-zinc-200/80 dark:border-zinc-800 rounded-lg text-xs text-zinc-500 dark:text-zinc-400 font-mono h-11">
                 <a href={c.href} target={c.id === 'email' ? undefined : '_blank'} rel={c.id === 'email' ? undefined : 'noopener noreferrer'} className="flex items-center gap-2 min-w-0 flex-1 text-zinc-500 dark:text-zinc-400 hover:text-black dark:hover:text-white transition-colors no-underline">
                   <span className={`${c.colorCls} shrink-0`}><ContactIcon type={c.icon} /></span>

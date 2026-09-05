@@ -2,15 +2,15 @@
 
 export const defaultProfile = {
   "name": "Raihan Ardi Ansah",
-  "location": "Semarang, Indonesia",
+  "location": "Yogyakarta, Indonesia",
   "timezone": "Asia/Jakarta",
   "timezoneLabel": "WIB",
   "mapX": 76.6,
-  "mapY": 54,
+  "mapY": 54.8,
   "email": "raihanardiansah@gmail.com",
   "github": "raihanardiansah",
   "linkedin": "raihanardiansah",
-  "whatsapp": "+6281234567890",
+  "whatsapp": "",
   "availableForWork": true,
   "bio": [
     "Building practical websites and full-stack applications beyond the demo stage.",
@@ -69,16 +69,36 @@ export const stack = {
       "icon": "javascript"
     },
     {
+      "name": "TypeScript",
+      "icon": "typescript"
+    },
+    {
       "name": "React",
       "icon": "react"
+    },
+    {
+      "name": "Next.js",
+      "icon": "nextdotjs"
     },
     {
       "name": "Tailwind CSS",
       "icon": "tailwindcss"
     },
     {
+      "name": "Bootstrap",
+      "icon": "bootstrap"
+    },
+    {
       "name": "Vite",
       "icon": "vite"
+    },
+    {
+      "name": "Android",
+      "icon": "android"
+    },
+    {
+      "name": "Kotlin",
+      "icon": "kotlin"
     }
   ],
   "Backend & Database": [
@@ -91,8 +111,16 @@ export const stack = {
       "icon": "python"
     },
     {
+      "name": "C++",
+      "icon": "cplusplus"
+    },
+    {
       "name": "Laravel",
       "icon": "laravel"
+    },
+    {
+      "name": "CodeIgniter",
+      "icon": "codeigniter"
     },
     {
       "name": "PHP",
@@ -105,12 +133,58 @@ export const stack = {
     {
       "name": "PostgreSQL",
       "icon": "postgresql"
+    },
+    {
+      "name": "Supabase",
+      "icon": "supabase"
+    },
+    {
+      "name": "Firebase",
+      "icon": "firebase"
+    }
+  ],
+  "Data Science & AI": [
+    {
+      "name": "Pandas",
+      "icon": "pandas"
+    },
+    {
+      "name": "Jupyter",
+      "icon": "jupyter"
+    },
+    {
+      "name": "Streamlit",
+      "icon": "streamlit"
+    },
+    {
+      "name": "Hugging Face",
+      "icon": "huggingface"
+    },
+    {
+      "name": "Kaggle",
+      "icon": "kaggle"
+    },
+    {
+      "name": "Looker Studio",
+      "icon": "looker"
+    },
+    {
+      "name": "Excel",
+      "icon": "microsoftexcel"
     }
   ],
   "Tools & Others": [
     {
       "name": "Git",
       "icon": "git"
+    },
+    {
+      "name": "GitHub",
+      "icon": "github"
+    },
+    {
+      "name": "NPM",
+      "icon": "npm"
     },
     {
       "name": "Figma",
@@ -127,6 +201,34 @@ export const stack = {
     {
       "name": "Postman",
       "icon": "postman"
+    },
+    {
+      "name": "Vercel",
+      "icon": "vercel"
+    },
+    {
+      "name": "DigitalOcean",
+      "icon": "digitalocean"
+    },
+    {
+      "name": "Google Cloud",
+      "icon": "googlecloud"
+    },
+    {
+      "name": "Nginx",
+      "icon": "nginx"
+    },
+    {
+      "name": "Trello",
+      "icon": "trello"
+    },
+    {
+      "name": "Draw.io",
+      "icon": "drawio"
+    },
+    {
+      "name": "Lucidchart",
+      "icon": "lucid"
     }
   ]
 };
@@ -180,11 +282,11 @@ export const experiences = [
   },
   {
     "title": "Active Student",
-    "role": "AMIKOM University Yogyakarta · Informatics Engineering",
-    "role_id": "Universitas AMIKOM Yogyakarta · Teknik Informatika",
-    "role_zh": "日惹AMIKOM大学 · 信息工程",
-    "role_ja": "アミコム大学ジョグジャカルタ校 · 情報工学",
-    "role_ko": "아미콤 대학교 욕야카르타 · 정보공학",
+    "role": "AMIKOM University Yogyakarta · Information Systems",
+    "role_id": "Universitas AMIKOM Yogyakarta · Sistem Informasi",
+    "role_zh": "日惹AMIKOM大学 · 信息系统",
+    "role_ja": "アミコム大学ジョグジャカルタ校 · 情報システム",
+    "role_ko": "아미콤 대학교 욕야카르타 · 정보 시스템",
     "logo": "https://ui-avatars.com/api/?name=AM&background=18181b&color=fff&size=80",
     "period": "2024 — Present",
     "description": "Studying software engineering while building projects that combine web development, databases, and exploration of new technologies.",
@@ -244,9 +346,9 @@ export const projects = [
     "gallery": [],
     "liveUrl": "https://hanwho.vercel.app",
     "liveLabel": "Live demo",
-    "overview_ko": "<p></p>",
+    "overview_ko": "<p>개인 포트폴리오를 구축하여 채용 담당자와 클라이언트가 빠르게 이해할 수 있도록 기술적 사고와 UI 세부 사항에 대한 주의를 보여줍니다.</p>",
     "githubUrl": "https://github.com/raihanardiansah/portofolio",
-    "overview_ja": "<p></p>"
+    "overview_ja": "<p>採用担当者やクライアントが素早く理解できる個人ポートフォリオを構築し、技術的な思考とUIの細部への注意を示します。</p>"
   },
   {
     "slug": "digital-invitation-suite",
@@ -258,9 +360,8 @@ export const projects = [
     "role": "Fullstack Development, UI/UX Design",
     "role_id": "Fullstack Development, Desain UI/UX",
     "tags": [
-      "Web Development",
-      "Digital Invitation",
-      "Frontend"
+      "PHP",
+      "MySQL"
     ],
     "gallery": [],
     "githubUrl": "https://github.com/raihanardiansah/wedding-invitation"
@@ -276,9 +377,8 @@ export const projects = [
     "role_id": "Data Analyst, Python Developer",
     "tags": [
       "Python",
-      "Machine Learning",
-      "Data Analysis",
-      "Finance"
+      "Streamlit",
+      "Google Colab"
     ],
     "gallery": [],
     "githubUrl": "https://github.com/raihanardiansah/sistem-rekomendasi-saham"
@@ -293,9 +393,9 @@ export const projects = [
     "role": "Data Scientist, Researcher",
     "role_id": "Data Scientist, Peneliti",
     "tags": [
-      "Jupyter Notebook",
-      "Data Science",
-      "Data Visualization"
+      "Python",
+      "Streamlit",
+      "Google Colab"
     ],
     "gallery": [],
     "githubUrl": "https://github.com/raihanardiansah/Dashboard-Kecanduan-Media-Sosial-Mahasiswa"
@@ -311,8 +411,8 @@ export const projects = [
     "role_id": "Backend Developer",
     "tags": [
       "Python",
-      "Backend",
-      "Financial Technology"
+      "Streamlit",
+      "Kaggle"
     ],
     "gallery": [],
     "githubUrl": "https://github.com/raihanardiansah/pinjaman_online"
@@ -327,47 +427,14 @@ export const projects = [
     "role": "Fullstack Web Developer",
     "role_id": "Fullstack Web Developer",
     "tags": [
-      "PHP",
-      "Web Application",
-      "Database"
+      "Laravel",
+      "Tailwind CSS",
+      "Gemini AI"
     ],
     "gallery": [],
     "githubUrl": "https://github.com/raihanardiansah/ereport"
   },
-  {
-    "slug": "absensi-sekolah-qr",
-    "title": "Absensi QR Code",
-    "desc": "A modern school attendance system utilizing QR code scanning for fast and accurate logging.",
-    "desc_id": "Sistem absensi sekolah modern yang memanfaatkan pemindaian QR code untuk pencatatan yang cepat dan akurat.",
-    "overview": "Integrated QR code generation and scanning to streamline the daily attendance process for students and teachers, reducing administrative overhead.",
-    "overview_id": "Mengintegrasikan pembuatan dan pemindaian QR code untuk merampingkan proses absensi harian bagi siswa dan guru, serta mengurangi beban administrasi.",
-    "role": "Developer",
-    "role_id": "Developer",
-    "tags": [
-      "QR Code",
-      "Web Development",
-      "Education"
-    ],
-    "gallery": [],
-    "githubUrl": "https://github.com/raihanardiansah/absensi-sekolah-qr-code"
-  },
-  {
-    "slug": "vulnapp-pentest",
-    "title": "VulnApp Pentest",
-    "desc": "A deliberately vulnerable application created for penetration testing and cybersecurity training.",
-    "desc_id": "Aplikasi rentan yang sengaja dibuat untuk keperluan penetration testing dan pelatihan cybersecurity.",
-    "overview": "Designed a controlled environment with specific security flaws to practice ethical hacking, vulnerability scanning, and patching techniques.",
-    "overview_id": "Merancang lingkungan yang terkendali dengan kelemahan keamanan spesifik untuk mempraktikkan ethical hacking, pemindaian kerentanan, dan teknik penambalan (patching).",
-    "role": "Cybersecurity Enthusiast",
-    "role_id": "Cybersecurity Enthusiast",
-    "tags": [
-      "Cybersecurity",
-      "Penetration Testing",
-      "Security"
-    ],
-    "gallery": [],
-    "githubUrl": "https://github.com/raihanardiansah/vulnapp-pentest"
-  },
+
   {
     "slug": "svarga-app",
     "title": "Svarga Cafe App",
@@ -378,19 +445,76 @@ export const projects = [
     "role": "Fullstack Developer / Competitor",
     "role_id": "Fullstack Developer / Peserta Lomba",
     "tags": [
-      "F&B System",
-      "Web Application",
-      "Competition Project"
+      "Kotlin",
+      "Android",
+      "CodeIgniter 3",
+      "Postman"
     ],
     "gallery": [],
     "githubUrl": "https://github.com/raihanardiansah/svargaApp"
+  },
+  {
+    "slug": "bolatix",
+    "title": "Bolatix",
+    "desc": "A modern ticket booking and sports management application.",
+    "desc_id": "Aplikasi manajemen olahraga dan pemesanan tiket modern.",
+    "overview": "Developed a comprehensive platform for sports ticketing and event management using React and TypeScript for strong type safety.",
+    "overview_id": "Mengembangkan platform komprehensif untuk tiket olahraga dan manajemen acara menggunakan React dan TypeScript untuk keamanan tipe data.",
+    "role": "Frontend Developer",
+    "role_id": "Frontend Developer",
+    "tags": [
+      "React",
+      "TypeScript",
+      "Vite",
+      "Vercel"
+    ],
+    "gallery": [],
+    "githubUrl": "https://github.com/raihanardiansah/bolatix"
+  },
+  {
+    "slug": "manukan-one",
+    "title": "Manukan One",
+    "desc": "An information system for database management, attendance, and event scheduling.",
+    "desc_id": "Sistem informasi untuk manajemen database jamaah, jadwal kegiatan, dan presensi digital.",
+    "overview": "Built a scalable fullstack application utilizing Next.js and Supabase to handle real-time attendance and community data management seamlessly.",
+    "overview_id": "Membangun aplikasi fullstack yang terukur memanfaatkan Next.js dan Supabase untuk menangani presensi real-time dan manajemen data komunitas secara mulus.",
+    "role": "Fullstack Developer",
+    "role_id": "Fullstack Developer",
+    "tags": [
+      "React",
+      "TypeScript",
+      "Next.js",
+      "Supabase",
+      "Vercel"
+    ],
+    "gallery": [],
+    "liveUrl": "https://manukan.web.id",
+    "liveLabel": "Live web"
+  },
+  {
+    "slug": "caffe-app",
+    "title": "Caffe",
+    "desc": "A beautiful personal finance and habit tracking dashboard with dynamic theme support.",
+    "desc_id": "Dashboard pelacak keuangan pribadi dan kebiasaan yang indah dengan dukungan tema dinamis.",
+    "overview": "Designed and engineered an aesthetically pleasing financial tracker (Powered by Caffeine, Built for Her) with features like asset tracking, cash flow, and daily mood logging.",
+    "overview_id": "Merancang dan membangun pelacak keuangan yang memanjakan mata dengan fitur seperti pelacakan aset, arus kas, dan pencatatan suasana hati harian.",
+    "role": "Creator & Developer",
+    "role_id": "Kreator & Developer",
+    "tags": [
+      "Next.js",
+      "React",
+      "Tailwind CSS",
+      "Vercel"
+    ],
+    "gallery": [],
+    "liveUrl": "https://caffe-han.vercel.app",
+    "liveLabel": "Live app"
   }
 ];
 
 export const currentlyLearning = [
-  "Python (Data Science & Backend)",
-  "Machine Learning",
-  "Cybersecurity & Pentesting",
-  "PHP / Web Development",
-  "React & Tailwind CSS"
+  "Next.js",
+  "Cloud Deployment",
+  "Machine Learning & AI",
+  "Cybersecurity & Pentesting"
 ];

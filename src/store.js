@@ -11,7 +11,7 @@ import {
 // ── Storage keys ──────────────────────────────────────────────────
 export const ADMIN_PASSWORD_KEY = 'portfolio_admin_pass';
 export const DEFAULT_PASSWORD = 'admin123';
-const DATA_STORAGE_KEY = 'portfolio_data_v5';
+const DATA_STORAGE_KEY = 'portfolio_data_v14';
 
 // ── Default data ──────────────────────────────────────────────────
 export const defaultData = {
@@ -158,8 +158,8 @@ export function generateId() {
 }
 
 // ── Language ──────────────────────────────────────────────────────
-export const LANGUAGES = ['en', 'id', 'zh'];
-export const LANG_LABELS = { en: 'EN', id: 'ID', zh: '中文' };
+export const LANGUAGES = ['en', 'id', 'zh', 'ja', 'ko'];
+export const LANG_LABELS = { en: 'EN', id: 'ID', zh: '中文', ja: '日本語', ko: '한국어' };
 
 export function getLanguage() {
   return localStorage.getItem('portfolio_lang') || 'en';

@@ -35,6 +35,10 @@ export default function Admin() {
   const [auth, setAuth] = useState(false);
   const [passInput, setPassInput] = useState('');
   const [error, setError] = useState('');
+  // FIX #12: Rate limiting — max 5 attempts, 30 second lockout
+  const [attempts, setAttempts] = useState(0);
+  const [lockedUntil, setLockedUntil] = useState(null);
+  const [countdown, setCountdown] = useState(0);
   
   const data = usePortfolioData();
   const [localData, setLocalData] = useState(null);
@@ -46,13 +50,49 @@ export default function Admin() {
 
   const showToast = (message, type = 'success') => setToast({ message, type });
 
+  // Countdown timer for lockout
+  useEffect(() => {
+    if (!lockedUntil) return;
+    const interval = setInterval(() => {
+      const remaining = Math.ceil((lockedUntil - Date.now()) / 1000);
+      if (remaining <= 0) {
+        setLockedUntil(null);
+        setCountdown(0);
+        setAttempts(0);
+        setError('');
+        clearInterval(interval);
+      } else {
+        setCountdown(remaining);
+      }
+    }, 500);
+    return () => clearInterval(interval);
+  }, [lockedUntil]);
+
+  const MAX_ATTEMPTS = 5;
+  const LOCKOUT_SECONDS = 30;
+
   const handleLogin = (e) => {
     e.preventDefault();
+    // FIX #12: Block login if locked out
+    if (lockedUntil && Date.now() < lockedUntil) {
+      return;
+    }
     if (checkAdminPassword(passInput)) {
       setAuth(true);
       setError('');
+      setAttempts(0);
     } else {
-      setError('Incorrect password');
+      const newAttempts = attempts + 1;
+      setAttempts(newAttempts);
+      if (newAttempts >= MAX_ATTEMPTS) {
+        const until = Date.now() + LOCKOUT_SECONDS * 1000;
+        setLockedUntil(until);
+        setCountdown(LOCKOUT_SECONDS);
+        setError(`Too many failed attempts. Try again in ${LOCKOUT_SECONDS}s.`);
+      } else {
+        setError(`Incorrect password. ${MAX_ATTEMPTS - newAttempts} attempt(s) remaining.`);
+      }
+      setPassInput('');
     }
   };
 
@@ -67,7 +107,9 @@ export default function Admin() {
     }
   };
 
+
   if (!auth) {
+    const isLocked = lockedUntil && Date.now() < lockedUntil;
     return (
       <div className="min-h-screen bg-zinc-950 flex items-center justify-center p-4">
         <div className="bg-zinc-900 border border-zinc-800 p-8 rounded-2xl w-full max-w-sm">
@@ -79,13 +121,19 @@ export default function Admin() {
                 value={passInput}
                 onChange={(e) => setPassInput(e.target.value)}
                 placeholder="Enter password..."
-                className="w-full px-4 py-2 rounded-lg bg-zinc-800 border border-zinc-700 text-white font-mono focus:outline-none focus:border-black dark:border-white"
+                className="w-full px-4 py-2 rounded-lg bg-zinc-800 border border-zinc-700 text-white font-mono focus:outline-none focus:border-zinc-500 disabled:opacity-50"
                 autoFocus
+                disabled={isLocked}
+                aria-label="Admin password"
               />
             </div>
-            {error && <p className="text-red-400 text-xs font-mono">{error}</p>}
-            <button type="submit" className="w-full bg-black dark:bg-white text-white dark:text-black hover:bg-zinc-800 dark:hover:bg-zinc-200 text-white font-mono py-2 rounded-lg transition-colors">
-              Access Panel
+            {error && <p className={`text-xs font-mono ${isLocked ? 'text-yellow-400' : 'text-red-400'}`}>{isLocked ? `🔒 Locked. Try again in ${countdown}s.` : error}</p>}
+            <button
+              type="submit"
+              disabled={isLocked}
+              className="w-full bg-black dark:bg-white text-white dark:text-black hover:bg-zinc-800 dark:hover:bg-zinc-200 font-mono py-2 rounded-lg transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+            >
+              {isLocked ? `Locked (${countdown}s)` : 'Access Panel'}
             </button>
             <div className="text-center pt-4">
               <Link to="/" className="text-xs text-zinc-500 hover:text-zinc-300 font-mono">← Back to site</Link>

@@ -8,9 +8,10 @@ export default function Gallery() {
   const [lightboxIndex, setLightboxIndex] = useState(null);
   const lang = useLanguage();
 
+  // FIX #25: Dynamic title from profile name
   useEffect(() => {
-    document.title = 'Gallery | Raihan';
-  }, []);
+    document.title = `Gallery | ${data.profile.name || 'Portfolio'}`;
+  }, [data.profile.name]);
 
   const projectsWithGallery = (data.projects || []).filter(p => p.gallery && p.gallery.length > 0);
   const standaloneGallery = data.gallery || [];
@@ -39,7 +40,7 @@ export default function Gallery() {
     setLightboxIndex(prev => (prev === null ? null : (prev - 1 + filteredImages.length) % filteredImages.length));
   }, [filteredImages.length]);
 
-  // Clamp or reset lightboxIndex if filteredImages shrinks (e.g. filter changed while lightbox open)
+  // Clamp or reset lightboxIndex if filteredImages shrinks
   useEffect(() => {
     setLightboxIndex(prev => {
       if (prev === null) return null;
@@ -62,7 +63,7 @@ export default function Gallery() {
   return (
     <main className="min-h-screen bg-[var(--bg)] text-[var(--text)]">
       <div className="max-w-[1024px] mx-auto px-5 py-8 sm:py-14">
-        <Link to="/" className="inline-block text-xs font-mono text-zinc-500 hover:text-black dark:text-white transition-colors mb-10 no-underline">
+        <Link to="/" className="inline-block text-xs font-mono text-zinc-500 hover:text-black dark:text-zinc-400 dark:hover:text-white transition-colors mb-10 no-underline">
           {getLoc(lang, '← Back', '← Kembali', '← 返回', '← 戻る', '← 뒤로가기')}
         </Link>
         <header className="mb-10">
@@ -83,8 +84,8 @@ export default function Gallery() {
               onClick={() => { setFilter(cat); setLightboxIndex(null); }}
               className={`whitespace-nowrap px-3 py-1 rounded-full text-xs font-mono border transition-colors cursor-pointer ${
                 filter === cat 
-                  ? 'bg-black dark:bg-white text-white dark:text-black text-white border-black dark:border-white' 
-                  : 'border-zinc-200 dark:border-zinc-700 text-zinc-500 dark:text-zinc-400 hover:border-black dark:border-white'
+                  ? 'bg-black dark:bg-white text-white dark:text-black border-black dark:border-white' 
+                  : 'border-zinc-200 dark:border-zinc-700 text-zinc-500 dark:text-zinc-400 hover:border-black dark:hover:border-white'
               }`}
             >
               {cat}
@@ -102,12 +103,18 @@ export default function Gallery() {
               <div 
                 key={`${img.src}-${i}`} 
                 onClick={() => openLightbox(i)}
+                role="button"
+                tabIndex={0}
+                aria-label={`View ${img.caption} image ${i + 1}`}
+                onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') openLightbox(i); }}
                 className="rounded-xl overflow-hidden border border-zinc-200/80 dark:border-zinc-700/50 relative group cursor-pointer aspect-video bg-zinc-100 dark:bg-zinc-800"
               >
+                {/* FIX #18: Add loading="lazy" for gallery images */}
                 <img 
                   src={img.src} 
                   alt={img.alt || img.caption}
                   className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                  loading="lazy"
                   onError={e => {
                     e.currentTarget.style.display = 'none';
                     e.currentTarget.nextElementSibling.style.display = 'flex';
@@ -128,14 +135,20 @@ export default function Gallery() {
         )}
       </div>
 
+      {/* Lightbox */}
       {lightboxIndex !== null && filteredImages[lightboxIndex] && (
         <div 
           className="fixed inset-0 z-50 bg-black/90 backdrop-blur-sm flex items-center justify-center"
           onClick={closeLightbox}
+          role="dialog"
+          aria-modal="true"
+          aria-label="Image lightbox"
         >
+          {/* FIX #28: aria-label on lightbox close/prev/next buttons */}
           <button 
             className="absolute top-4 right-4 text-white p-2 hover:bg-white/10 rounded-full transition-colors cursor-pointer"
             onClick={closeLightbox}
+            aria-label="Close lightbox"
           >
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
           </button>
@@ -143,6 +156,7 @@ export default function Gallery() {
           <button 
             className="absolute left-4 top-1/2 -translate-y-1/2 text-white p-3 hover:bg-white/10 rounded-full transition-colors cursor-pointer"
             onClick={(e) => { e.stopPropagation(); prevImage(); }}
+            aria-label="Previous image"
           >
             <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="15 18 9 12 15 6"></polyline></svg>
           </button>
@@ -164,13 +178,14 @@ export default function Gallery() {
              </div>
             <div className="mt-4 text-center">
               <p className="text-white text-lg font-semibold">{filteredImages[lightboxIndex].caption}</p>
-              <p className="text-zinc-400 text-sm font-mono">{filteredImages[lightboxIndex].project}</p>
+              <p className="text-zinc-400 text-sm font-mono">{lightboxIndex + 1} / {filteredImages.length} — {filteredImages[lightboxIndex].project}</p>
             </div>
           </div>
           
           <button 
             className="absolute right-4 top-1/2 -translate-y-1/2 text-white p-3 hover:bg-white/10 rounded-full transition-colors cursor-pointer"
             onClick={(e) => { e.stopPropagation(); nextImage(); }}
+            aria-label="Next image"
           >
             <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
           </button>

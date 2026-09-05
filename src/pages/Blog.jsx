@@ -6,9 +6,10 @@ export default function Blog() {
   const data = usePortfolioData();
   const lang = useLanguage();
 
+  // FIX #25: Dynamic title from profile name
   useEffect(() => {
-    document.title = 'Blog | Raihan';
-  }, []);
+    document.title = `Blog | ${data.profile.name || 'Portfolio'}`;
+  }, [data.profile.name]);
 
   const blogs = data.blogs || [];
   const publishedBlogs = blogs.filter(b => !b.draft).sort((a, b) => new Date(b.date) - new Date(a.date));
@@ -16,7 +17,7 @@ export default function Blog() {
   return (
     <main className="min-h-screen bg-[var(--bg)] text-[var(--text)]">
       <div className="max-w-[760px] mx-auto px-5 py-8 sm:py-14">
-        <Link to="/" className="inline-block text-xs font-mono text-zinc-500 hover:text-black dark:text-white transition-colors mb-10 no-underline">
+        <Link to="/" className="inline-block text-xs font-mono text-zinc-500 hover:text-black dark:text-zinc-400 dark:hover:text-white transition-colors mb-10 no-underline">
           {getLoc(lang, '← Back', '← Kembali', '← 返回', '← 戻る', '← 뒤로가기')}
         </Link>
         <header className="mb-10">
@@ -42,7 +43,9 @@ export default function Blog() {
                   <h2 className="text-lg font-bold text-zinc-900 dark:text-zinc-100 group-hover:text-zinc-600 dark:group-hover:text-zinc-300 transition-colors">
                     {getLoc(lang, b.title, b.title_id, b.title_zh, b.title_ja, b.title_ko)}
                   </h2>
-                  <p className="text-xs text-zinc-400 font-mono mt-1 mb-2">{new Date(b.date).toLocaleDateString(lang === 'zh' ? 'zh-CN' : lang === 'ja' ? 'ja-JP' : lang === 'ko' ? 'ko-KR' : lang === 'id' ? 'id-ID' : 'en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
+                  <p className="text-xs text-zinc-400 font-mono mt-1 mb-2">
+                    <time dateTime={b.date}>{new Date(b.date).toLocaleDateString(lang === 'zh' ? 'zh-CN' : lang === 'ja' ? 'ja-JP' : lang === 'ko' ? 'ko-KR' : lang === 'id' ? 'id-ID' : 'en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</time>
+                  </p>
                   <p className="text-sm text-zinc-600 dark:text-zinc-300 line-clamp-3 mb-4">{getLoc(lang, b.excerpt, b.excerpt_id, b.excerpt_zh, b.excerpt_ja, b.excerpt_ko)}</p>
                   
                   <div className="mt-auto flex items-center justify-between">

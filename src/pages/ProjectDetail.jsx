@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { usePortfolioData, useLanguage, getLoc } from '../store';
 import { Share2 } from 'lucide-react';
+import DOMPurify from 'dompurify';
 
 function useDark() {
   const [dark, setDark] = useState(() => document.documentElement.classList.contains('dark'));
@@ -18,7 +19,7 @@ function useDark() {
 export default function ProjectDetail() {
   const { slug } = useParams();
   const navigate = useNavigate();
-  const dark = useDark();
+  useDark(); // keep dark mode reactive
   const data = usePortfolioData();
   const lang = useLanguage();
   const [copied, setCopied] = useState(false);
@@ -39,11 +40,16 @@ export default function ProjectDetail() {
 
   useEffect(() => {
     if (!project) { navigate('/', { replace: true }); return; }
-    document.title = `${project.title} | Raihan`;
-    return () => { document.title = 'Raihan | Web Developer & Tech Enthusiast'; };
-  }, [project, navigate]);
+    document.title = `${project.title} | ${data.profile.name || 'Portfolio'}`;
+    return () => { document.title = `${data.profile.name || 'Portfolio'} | Web Developer & Tech Enthusiast`; };
+  }, [project, navigate, data.profile.name]);
 
   if (!project) return null;
+
+  // FIX #5: Sanitize HTML content before rendering to prevent XSS
+  const safeOverview = DOMPurify.sanitize(
+    getLoc(lang, project.overview, project.overview_id, project.overview_zh, project.overview_ja, project.overview_ko) || ''
+  );
 
   return (
     <main className="min-h-screen bg-[var(--bg)] text-[var(--text)]">
@@ -52,7 +58,7 @@ export default function ProjectDetail() {
         {/* Back link */}
         <Link
           to="/projects"
-          className="inline-block text-xs font-mono text-zinc-500 hover:text-black dark:text-white transition-colors mb-10 no-underline"
+          className="inline-block text-xs font-mono text-zinc-500 hover:text-black dark:text-zinc-400 dark:hover:text-white transition-colors mb-10 no-underline"
         >
           {getLoc(lang, '← Back to projects', '← Kembali ke proyek', '← 返回项目', '← プロジェクトに戻る', '← 프로젝트로 돌아가기')}
         </Link>
@@ -63,9 +69,10 @@ export default function ProjectDetail() {
           <h1 className="text-4xl sm:text-5xl font-bold tracking-tight text-zinc-900 dark:text-white mb-6 leading-tight">
             {project.title}
           </h1>
+          {/* FIX #5: safeOverview is DOMPurify sanitized */}
           <div 
             className="prose dark:prose-invert max-w-none text-zinc-600 dark:text-zinc-300 leading-relaxed break-words"
-            dangerouslySetInnerHTML={{ __html: getLoc(lang, project.overview, project.overview_id, project.overview_zh, project.overview_ja, project.overview_ko) }}
+            dangerouslySetInnerHTML={{ __html: safeOverview }}
           />
           <div className="flex flex-wrap items-center gap-2 mt-5">
             {project.tags.map(tag => (
@@ -81,6 +88,7 @@ export default function ProjectDetail() {
               onClick={handleShare}
               className="inline-flex items-center gap-1.5 text-[11px] font-mono text-zinc-500 hover:text-black dark:text-zinc-400 dark:hover:text-white transition-colors cursor-pointer"
               title="Share this project"
+              aria-label="Share this project"
             >
               <Share2 size={12} />
               {copied ? getLoc(lang, 'Copied!', 'Tersalin!', '已复制!', 'コピーしました!', '복사됨!') : getLoc(lang, 'Share', 'Bagikan', '分享', '共有する', '공유하기')}
@@ -105,6 +113,7 @@ export default function ProjectDetail() {
                     src={image}
                     alt={`${project.title} preview ${index + 1}`}
                     className="w-full h-auto block"
+                    loading="lazy"
                     onError={e => {
                       e.currentTarget.style.display = 'none';
                       e.currentTarget.nextElementSibling.style.display = 'flex';
@@ -162,13 +171,13 @@ export default function ProjectDetail() {
         <div className="mt-20 pt-8 border-t border-zinc-200 dark:border-zinc-800 flex justify-between items-center">
           <Link
             to="/projects"
-            className="text-sm font-mono text-zinc-500 hover:text-black dark:text-white transition-colors"
+            className="text-sm font-mono text-zinc-500 hover:text-black dark:hover:text-white transition-colors"
           >
             {getLoc(lang, '← All projects', '← Semua proyek', '← 所有项目', '← すべてのプロジェクト', '← 모든 프로젝트')}
           </Link>
           <Link
             to="/"
-            className="text-sm font-mono text-zinc-500 hover:text-black dark:text-white transition-colors"
+            className="text-sm font-mono text-zinc-500 hover:text-black dark:hover:text-white transition-colors"
           >
             {getLoc(lang, 'Home →', 'Beranda →', '首页 →', 'ホーム →', '홈 →')}
           </Link>
