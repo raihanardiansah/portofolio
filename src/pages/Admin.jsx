@@ -144,7 +144,7 @@ export default function Admin() {
     );
   }
 
-  const tabs = ['Profile', 'Projects', 'Experience', 'Stack', 'Learning', 'Gallery', 'Blog', 'Settings'];
+  const tabs = ['Profile', 'Projects', 'Experience', 'Stack', 'Learning', 'Certificates', 'Gallery', 'Blog', 'Settings'];
 
   return (
     <div className="min-h-screen flex flex-col md:flex-row bg-zinc-50 dark:bg-zinc-900 text-zinc-900 dark:text-zinc-100">
@@ -200,6 +200,7 @@ export default function Admin() {
           {activeTab === 'Experience' && <ExperienceSection experiences={currentData.experiences} onSave={(e) => handleSave({experiences: e}, 'Experience')} />}
           {activeTab === 'Stack' && <StackSection stack={currentData.stack} onSave={(s) => handleSave({stack: s}, 'Stack')} />}
           {activeTab === 'Learning' && <LearningSection learning={currentData.currentlyLearning} onSave={(l) => handleSave({currentlyLearning: l}, 'Learning')} />}
+          {activeTab === 'Certificates' && <CertificatesSection certificates={currentData.certificates || []} onSave={(c) => handleSave({certificates: c}, 'Certificates')} />}
           {activeTab === 'Gallery' && <GallerySection gallery={currentData.gallery || []} onSave={(g) => handleSave({gallery: g}, 'Gallery')} />}
           {activeTab === 'Blog' && <BlogSection blogs={currentData.blogs || []} onSave={(b) => handleSave({blogs: b}, 'Blog')} />}
           {activeTab === 'Settings' && <SettingsSection onReset={() => {
@@ -852,12 +853,119 @@ function BlogSection({ blogs = [], onSave }) {
               <p className="text-xs text-zinc-500 font-mono mt-1">{b.date}</p>
             </div>
             <div className="flex gap-2">
-              <button onClick={()=>setEditing(i)} className="px-3 py-1 bg-zinc-200 dark:bg-zinc-700 text-black dark:text-white dark:text-black dark:text-white rounded text-xs font-mono">Edit</button>
-              <button onClick={()=>remove(i)} className="px-3 py-1 bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400 rounded text-xs font-mono">Delete</button>
+              <button onClick={() => setEditing(i)} className="px-3 py-1 bg-zinc-200 dark:bg-zinc-700 text-black dark:text-white rounded text-xs font-mono">Edit</button>
+              <button onClick={() => remove(i)} className="px-3 py-1 bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400 rounded text-xs font-mono">Delete</button>
             </div>
           </div>
         ))}
       </div>
+    </div>
+  );
+}
+
+function CertificatesSection({ certificates, onSave }) {
+
+  const [list, setList] = useState(certificates);
+  const empty = { title: '', title_id: '', issuer: '', date: '', credentialUrl: '', icon: '' };
+  const [form, setForm] = useState(empty);
+  const [editIndex, setEditIndex] = useState(null);
+
+  const openEdit = (i) => {
+    setForm(i === -1 ? empty : { ...empty, ...list[i] });
+    setEditIndex(i);
+  };
+
+  const handleSaveForm = () => {
+    if (!form.title.trim() || !form.issuer.trim()) return;
+    const newList = [...list];
+    if (editIndex === -1) newList.push(form);
+    else newList[editIndex] = form;
+    setList(newList);
+    onSave(newList);
+    setForm(empty);
+    setEditIndex(null);
+  };
+
+  const remove = (i) => {
+    if (!confirm('Hapus sertifikat ini?')) return;
+    const newList = list.filter((_, idx) => idx !== i);
+    setList(newList);
+    onSave(newList);
+  };
+
+  return (
+    <div>
+      <div className="flex items-center justify-between border-b border-zinc-200 dark:border-zinc-700 pb-2 mb-6">
+        <h2 className="text-2xl font-bold font-mono">Certificates &amp; Awards</h2>
+        <button onClick={() => openEdit(-1)} className="bg-zinc-800 text-white px-3 py-1.5 rounded-lg text-sm font-mono">+ Add</button>
+      </div>
+
+      {editIndex !== null && (
+        <div className={`${cardCls} mb-6`}>
+          <h3 className="text-lg font-bold font-mono mb-4">{editIndex === -1 ? 'Add Certificate' : 'Edit Certificate'}</h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+            <div>
+              <label className={labelCls}>Icon / Logo</label>
+              <input type="text" className={inputCls} value={form.icon} onChange={e => setForm({...form, icon: e.target.value})} placeholder="Initials (e.g. DC) or image URL" />
+              <p className="text-[10px] text-zinc-400 font-mono mt-1">Leave empty for default medal icon</p>
+            </div>
+            <div>
+              <label className={labelCls}>Date</label>
+              <input type="text" className={inputCls} value={form.date} onChange={e => setForm({...form, date: e.target.value})} placeholder="e.g. 2024, Jan 2024" />
+            </div>
+            <div className="md:col-span-2">
+              <label className={labelCls}>Title (EN)</label>
+              <input type="text" className={inputCls} value={form.title} onChange={e => setForm({...form, title: e.target.value})} placeholder="Certificate title" />
+            </div>
+            <div className="md:col-span-2">
+              <label className={labelCls}>Title (ID) — optional</label>
+              <input type="text" className={inputCls} value={form.title_id} onChange={e => setForm({...form, title_id: e.target.value})} placeholder="Judul sertifikat dalam bahasa Indonesia" />
+            </div>
+            <div className="md:col-span-2">
+              <label className={labelCls}>Issuer / Institution</label>
+              <input type="text" className={inputCls} value={form.issuer} onChange={e => setForm({...form, issuer: e.target.value})} placeholder="e.g. Dicoding, Google, Coursera" />
+            </div>
+            <div className="md:col-span-2">
+              <label className={labelCls}>Credential URL — optional</label>
+              <input type="url" className={inputCls} value={form.credentialUrl} onChange={e => setForm({...form, credentialUrl: e.target.value})} placeholder="https://..." />
+            </div>
+          </div>
+          <div className="flex gap-3">
+            <button onClick={handleSaveForm} className={btnSaveCls}>Save</button>
+            <button onClick={() => { setForm(empty); setEditIndex(null); }} className={btnCancelCls}>Cancel</button>
+          </div>
+        </div>
+      )}
+
+      {list.length === 0 ? (
+        <p className="text-sm font-mono text-zinc-500 dark:text-zinc-400 text-center py-12">No certificates yet. Click "+ Add" to add one.</p>
+      ) : (
+        <div className="space-y-3">
+          {list.map((cert, i) => (
+            <div key={i} className={`${cardCls} flex items-center justify-between gap-3`}>
+              <div className="flex items-center gap-3 min-w-0">
+                {cert.icon && cert.icon.startsWith('http') ? (
+                  <img src={cert.icon} alt={cert.title} className="w-9 h-9 rounded-lg object-cover border border-zinc-200/80 dark:border-zinc-700/50 shrink-0" />
+                ) : cert.icon ? (
+                  <div className="w-9 h-9 rounded-lg bg-zinc-100 dark:bg-zinc-800 border border-zinc-200/80 dark:border-zinc-700/50 flex items-center justify-center font-mono text-[11px] font-bold shrink-0">{cert.icon}</div>
+                ) : (
+                  <div className="w-9 h-9 rounded-lg bg-zinc-100 dark:bg-zinc-800 border border-zinc-200/80 dark:border-zinc-700/50 flex items-center justify-center text-zinc-400 shrink-0">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/></svg>
+                  </div>
+                )}
+                <div className="min-w-0">
+                  <p className="font-semibold text-sm truncate">{cert.title}</p>
+                  <p className="text-xs text-zinc-500 font-mono">{cert.issuer}{cert.date ? ` · ${cert.date}` : ''}</p>
+                </div>
+              </div>
+              <div className="flex gap-2 shrink-0">
+                <button onClick={() => openEdit(i)} className="px-3 py-1 bg-zinc-200 dark:bg-zinc-700 rounded text-xs font-mono">Edit</button>
+                <button onClick={() => remove(i)} className={btnDeleteCls}>Delete</button>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 }

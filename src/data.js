@@ -4,30 +4,30 @@ export const defaultProfile = {
   "name": "Raihan Ardi Ansah",
   "location": "Yogyakarta, Indonesia",
   "timezone": "Asia/Jakarta",
-  "timezoneLabel": "WIB",
+  "timezoneLabel": "UTC",
   "mapX": 76.6,
   "mapY": 54.8,
   "email": "raihanardiansah@gmail.com",
   "github": "raihanardiansah",
   "linkedin": "raihanardiansah",
-  "whatsapp": "",
+  "whatsapp": "+62 815-1587-4233",
   "availableForWork": true,
   "bio": [
     "Building practical websites and full-stack applications beyond the demo stage.",
     "Connecting design, code, and deployment into products people can actually use.",
-    "Solving problems end to end — from understanding context to iterating on feedback.",
+    "Solving problems end to end, from understanding context to iterating on feedback.",
     "Open to opportunities in software engineering, web development, and tech roles."
   ],
   "bio_id": [
     "Membangun website dan aplikasi full-stack yang praktis, bukan sekadar demo.",
     "Menghubungkan desain, kode, dan deployment menjadi produk yang benar-benar bisa digunakan.",
-    "Menyelesaikan masalah dari awal hingga akhir — dari memahami konteks hingga iterasi berdasarkan masukan.",
+    "Menangani masalah secara menyeluruh, mulai dari memahami kebutuhan hingga menyempurnakan solusi.",
     "Terbuka untuk peluang di bidang software engineering, web development, dan peran teknologi lainnya."
   ],
   "bio_zh": [
     "构建超越演示阶段的实用网站和全栈应用程序。",
     "将设计、代码和部署连接成人们真正可以使用的产品。",
-    "端到端地解决问题 — 从理解上下文到根据反馈进行迭代。",
+    "端到端地解决问题，从理解上下文到根据反馈进行迭代。",
     "对软件工程、Web开发和技术职位的机会持开放态度。"
   ],
   "bio_ja": [
@@ -169,8 +169,8 @@ export const stack = {
       "icon": "looker"
     },
     {
-      "name": "Excel",
-      "icon": "microsoftexcel"
+      "name": "Google Sheets",
+      "icon": "googlesheets"
     }
   ],
   "Tools & Others": [
@@ -224,7 +224,7 @@ export const stack = {
     },
     {
       "name": "Draw.io",
-      "icon": "drawio"
+      "icon": "diagramsdotnet"
     },
     {
       "name": "Lucidchart",
@@ -241,7 +241,7 @@ export const experiences = [
     "role_zh": "自由职业者",
     "role_ja": "フリーランス",
     "role_ko": "프리랜서",
-    "logo": "https://ui-avatars.com/api/?name=FW&background=18181b&color=fff&size=80",
+    "logo": "",
     "period": "2025 — Present",
     "description": "Building websites and web applications that translate real-world needs into clean, user-friendly digital experiences.",
     "description_id": "Membangun website dan aplikasi web yang menerjemahkan kebutuhan nyata menjadi pengalaman digital yang rapi dan mudah digunakan.",
@@ -287,7 +287,7 @@ export const experiences = [
     "role_zh": "日惹AMIKOM大学 · 信息系统",
     "role_ja": "アミコム大学ジョグジャカルタ校 · 情報システム",
     "role_ko": "아미콤 대학교 욕야카르타 · 정보 시스템",
-    "logo": "https://ui-avatars.com/api/?name=AM&background=18181b&color=fff&size=80",
+    "logo": "",
     "period": "2024 — Present",
     "description": "Studying software engineering while building projects that combine web development, databases, and exploration of new technologies.",
     "description_id": "Mempelajari software engineering sambil mengerjakan project yang menggabungkan web development, database, dan eksplorasi teknologi baru.",
@@ -517,4 +517,55 @@ export const currentlyLearning = [
   "Cloud Deployment",
   "Machine Learning & AI",
   "Cybersecurity & Pentesting"
+];
+
+export const certificates = [
+  {
+    "icon": "DC",
+    "title": "Belajar Membuat Aplikasi Web dengan React",
+    "title_id": "Belajar Membuat Aplikasi Web dengan React",
+    "issuer": "Dicoding Indonesia",
+    "date": "2024",
+    "credentialUrl": "https://www.dicoding.com/certificates/erzrm3dokpyv"
+  },
+  {
+    "icon": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2f/Google_2015_logo.svg/1200px-Google_2015_logo.svg.png",
+    "title": "Google IT Support Professional Certificate",
+    "title_id": "Sertifikat Profesional IT Support Google",
+    "issuer": "Google · Coursera",
+    "date": "2023",
+    "credentialUrl": ""
+  },
+  {
+    "icon": "AM",
+    "title": "Best Project — University Tech Competition",
+    "title_id": "Proyek Terbaik — Kompetisi Teknologi Universitas",
+    "issuer": "Universitas AMIKOM Yogyakarta",
+    "date": "2024",
+    "credentialUrl": ""
+  },
+  {
+    "icon": "DC",
+    "title": "Belajar Dasar Pemrograman Web",
+    "title_id": "Belajar Dasar Pemrograman Web",
+    "issuer": "Dicoding Indonesia",
+    "date": "2023",
+    "credentialUrl": ""
+  },
+  {
+    "icon": "CS",
+    "title": "Introduction to Cybersecurity",
+    "title_id": "Pengenalan Keamanan Siber",
+    "issuer": "Cisco Networking Academy",
+    "date": "2024",
+    "credentialUrl": ""
+  },
+  {
+    "icon": "",
+    "title": "Machine Learning Crash Course",
+    "title_id": "Kursus Kilat Machine Learning",
+    "issuer": "Google",
+    "date": "2024",
+    "credentialUrl": ""
+  }
 ];

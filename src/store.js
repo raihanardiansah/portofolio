@@ -5,6 +5,7 @@ import {
   experiences as defaultExperiences,
   projects as defaultProjects,
   currentlyLearning as defaultCurrentlyLearning,
+  certificates as defaultCertificates,
   defaultProfile,
 } from './data';
 
@@ -20,6 +21,7 @@ export const defaultData = {
   experiences: defaultExperiences,
   projects: defaultProjects,
   currentlyLearning: defaultCurrentlyLearning,
+  certificates: defaultCertificates,
   profile: defaultProfile,
   gallery: [],
   blogs: [],
@@ -99,6 +101,8 @@ export const experiences = ${JSON.stringify(d.experiences, null, 2)};
 export const projects = ${JSON.stringify(d.projects, null, 2)};
 
 export const currentlyLearning = ${JSON.stringify(d.currentlyLearning, null, 2)};
+
+export const certificates = ${JSON.stringify(d.certificates || [], null, 2)};
 `;
   const blob = new Blob([content], { type: 'text/javascript' });
   const url = URL.createObjectURL(blob);
@@ -124,6 +128,8 @@ export const experiences = ${JSON.stringify(d.experiences, null, 2)};
 export const projects = ${JSON.stringify(d.projects, null, 2)};
 
 export const currentlyLearning = ${JSON.stringify(d.currentlyLearning, null, 2)};
+
+export const certificates = ${JSON.stringify(d.certificates || [], null, 2)};
 `;
   try {
     await navigator.clipboard.writeText(content);

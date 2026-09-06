@@ -2,24 +2,20 @@ import { useEffect, useRef, useState } from 'react';
 
 export default function CustomCursor() {
   const wrapperRef = useRef(null);
-  const dotRef = useRef(null);
   const [isDesktop, setIsDesktop] = useState(false);
+  const [hovered, setHovered] = useState(false);
 
   useEffect(() => {
-    // Only enable custom cursor on non-touch devices
     if (window.matchMedia('(pointer: fine)').matches) {
       setIsDesktop(true);
-      // Hide default cursor
       document.body.classList.add('custom-cursor-enabled');
     }
   }, []);
 
   useEffect(() => {
     if (!isDesktop) return;
-
     const wrapper = wrapperRef.current;
-    const dot = dotRef.current;
-    if (!wrapper || !dot) return;
+    if (!wrapper) return;
 
     const onMouseMove = (e) => {
       wrapper.style.transform = `translate3d(${e.clientX}px, ${e.clientY}px, 0)`;
@@ -27,11 +23,7 @@ export default function CustomCursor() {
 
     const onMouseOver = (e) => {
       const isClickable = e.target.closest('a, button, input, select, textarea, [role="button"]');
-      if (isClickable) {
-        dot.classList.add('scale-[3.5]', 'opacity-20');
-      } else {
-        dot.classList.remove('scale-[3.5]', 'opacity-20');
-      }
+      setHovered(!!isClickable);
     };
 
     window.addEventListener('mousemove', onMouseMove);
@@ -46,16 +38,65 @@ export default function CustomCursor() {
 
   if (!isDesktop) return null;
 
+  const cx = 18;
+  const cy = 18;
+  const size = 36;
+
+  // Normal: arms close to center
+  // Hover: arms pushed outward slightly, circle appears in center
+  const gap = hovered ? 5.5 : 3;
+  const armLen = hovered ? 6 : 7;
+
   return (
     <div
       ref={wrapperRef}
       className="fixed top-0 left-0 pointer-events-none z-[9999] will-change-transform"
       style={{ transform: 'translate3d(-100px, -100px, 0)' }}
     >
-      <div 
-        ref={dotRef}
-        className="w-2.5 h-2.5 -ml-[5px] -mt-[5px] rounded-full bg-black dark:bg-white transition-all duration-300 ease-out" 
-      />
+      <svg
+        width={size}
+        height={size}
+        viewBox={`0 0 ${size} ${size}`}
+        style={{ marginLeft: -cx, marginTop: -cy, overflow: 'visible' }}
+        className="dark:text-white text-black"
+      >
+        {/* Top arm */}
+        <line
+          x1={cx} y1={cy - gap}
+          x2={cx} y2={cy - gap - armLen}
+          stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"
+          style={{ transition: 'all 200ms cubic-bezier(0.34,1.56,0.64,1)' }}
+        />
+        {/* Bottom arm */}
+        <line
+          x1={cx} y1={cy + gap}
+          x2={cx} y2={cy + gap + armLen}
+          stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"
+          style={{ transition: 'all 200ms cubic-bezier(0.34,1.56,0.64,1)' }}
+        />
+        {/* Left arm */}
+        <line
+          x1={cx - gap} y1={cy}
+          x2={cx - gap - armLen} y2={cy}
+          stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"
+          style={{ transition: 'all 200ms cubic-bezier(0.34,1.56,0.64,1)' }}
+        />
+        {/* Right arm */}
+        <line
+          x1={cx + gap} y1={cy}
+          x2={cx + gap + armLen} y2={cy}
+          stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"
+          style={{ transition: 'all 200ms cubic-bezier(0.34,1.56,0.64,1)' }}
+        />
+        {/* Center: small dot normally, filled smaller circle on hover */}
+        <circle
+          cx={cx} cy={cy}
+          r={hovered ? 2.5 : 1.2}
+          fill="currentColor"
+          stroke="none"
+          style={{ transition: 'all 200ms cubic-bezier(0.34,1.56,0.64,1)' }}
+        />
+      </svg>
     </div>
   );
 }

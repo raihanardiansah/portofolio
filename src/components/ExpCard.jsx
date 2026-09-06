@@ -22,8 +22,21 @@ export default function ExpCard({ title, role, role_id, role_zh, role_ja, role_k
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" />
           </svg>
           
-          {logo && (
-            <img src={logo} alt={`${title} logo`} className="w-10 h-10 rounded-md object-cover border border-zinc-200/50 dark:border-zinc-700/50 bg-[var(--surface)] shrink-0" />
+          {logo ? (
+            logo.startsWith('http') ? (
+              <img src={logo} alt={`${title} logo`} className="w-10 h-10 rounded-md object-cover border border-zinc-200/50 dark:border-zinc-700/50 bg-[var(--surface)] shrink-0" />
+            ) : (
+              <div className="w-10 h-10 rounded-md flex items-center justify-center font-mono text-[13px] font-bold border border-zinc-200/50 dark:border-zinc-700/50 bg-zinc-100 dark:bg-zinc-800 text-black dark:text-white shrink-0">
+                {logo}
+              </div>
+            )
+          ) : (
+            <div className="w-10 h-10 rounded-md flex items-center justify-center border border-zinc-200/50 dark:border-zinc-700/50 bg-zinc-100 dark:bg-zinc-800 text-zinc-400 dark:text-zinc-500 shrink-0">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
+                <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+              </svg>
+            </div>
           )}
           <span>
             <span className="block text-sm font-bold text-zinc-800 dark:text-zinc-100">{title}</span>
@@ -46,8 +59,9 @@ export default function ExpCard({ title, role, role_id, role_zh, role_ja, role_k
             <p className="text-xs text-zinc-500 dark:text-zinc-400 leading-relaxed mb-3">{getLoc(lang, description, description_id, description_zh, description_ja, description_ko)}</p>
             <ul className="space-y-1.5 mb-3.5">
               {getLoc(lang, points, points_id, points_zh, points_ja, points_ko).map((p, i) => (
-                <li key={i} className="text-xs text-zinc-500 dark:text-zinc-400 pl-4 relative before:content-['−'] before:absolute before:left-0 before:text-zinc-300 dark:before:text-zinc-600">
-                  {p}
+                <li key={i} className="flex items-baseline gap-2 text-xs text-zinc-500 dark:text-zinc-400">
+                  <span className="text-zinc-300 dark:text-zinc-600 shrink-0 leading-none">•</span>
+                  <span>{p}</span>
                 </li>
               ))}
             </ul>

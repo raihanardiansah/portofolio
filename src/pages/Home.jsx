@@ -35,7 +35,7 @@ const i18n = {
     idea: 'Have an idea or project in mind?',
     build: "Let's build something useful together.",
     viewProf: 'View profile →',
-    ghUnavail: 'GitHub activity unavailable —',
+    ghUnavail: 'GitHub activity unavailable.',
     visitProf: 'visit profile →',
     localTime: 'Local time:',
     collapse: 'collapse',
@@ -71,7 +71,7 @@ const i18n = {
     idea: 'Punya ide atau proyek?',
     build: "Mari membangun sesuatu bersama.",
     viewProf: 'Lihat profil →',
-    ghUnavail: 'Aktivitas GitHub tidak tersedia —',
+    ghUnavail: 'Aktivitas GitHub tidak tersedia.',
     visitProf: 'kunjungi profil →',
     localTime: 'Waktu lokal:',
     collapse: 'tutup',
@@ -107,7 +107,7 @@ const i18n = {
     idea: '有想法或项目？',
     build: '让我们一起构建有用的东西。',
     viewProf: '查看资料 →',
-    ghUnavail: 'GitHub 动态不可用 —',
+    ghUnavail: 'GitHub 动态不可用。',
     visitProf: '访问资料 →',
     localTime: '当地时间:',
     collapse: '收起',
@@ -143,7 +143,7 @@ const i18n = {
     idea: 'アイデアやプロジェクトはありますか？',
     build: '一緒に役立つものを作りましょう。',
     viewProf: 'プロフィールを見る →',
-    ghUnavail: 'GitHub アクティビティは利用できません —',
+    ghUnavail: 'GitHub アクティビティは利用できません。',
     visitProf: 'プロフィールにアクセス →',
     localTime: '現地時間:',
     collapse: '折りたたむ',
@@ -179,7 +179,7 @@ const i18n = {
     idea: '아이디어나 프로젝트가 있으신가요?',
     build: '함께 유용한 것을 만들어 봅시다.',
     viewProf: '프로필 보기 →',
-    ghUnavail: 'GitHub 활동을 사용할 수 없음 —',
+    ghUnavail: 'GitHub 활동을 사용할 수 없음.',
     visitProf: '프로필 방문 →',
     localTime: '현지 시간:',
     collapse: '접기',
@@ -369,10 +369,74 @@ function LiveTimeWidget({ timezone, displayFormat }) {
     </div>
   );
 }
+// ── CertList (Certificates with show more/less) ──────────────────
+const CERT_LIMIT = 3;
+function CertList({ certs, lang, getLoc }) {
+  const [showAll, setShowAll] = useState(false);
+  const visible = showAll ? certs : certs.slice(0, CERT_LIMIT);
+  const hasMore = certs.length > CERT_LIMIT;
+
+  return (
+    <div>
+      <div className="flex flex-col gap-3">
+        {visible.map((cert, i) => (
+          <div
+            key={i}
+            className="flex items-start gap-3 p-3 rounded-xl border border-zinc-200/70 dark:border-zinc-700/50 bg-zinc-50/50 dark:bg-zinc-800/30 hover:border-black dark:hover:border-zinc-500 transition-colors duration-200"
+          >
+            {cert.icon && cert.icon.startsWith('http') ? (
+              <img src={cert.icon} alt={cert.title} className="shrink-0 w-9 h-9 rounded-lg object-cover border border-zinc-200/80 dark:border-zinc-700/50" />
+            ) : cert.icon ? (
+              <div className="shrink-0 w-9 h-9 rounded-lg bg-zinc-100 dark:bg-zinc-800 border border-zinc-200/80 dark:border-zinc-700/50 flex items-center justify-center font-mono text-[11px] font-bold text-black dark:text-white">
+                {cert.icon}
+              </div>
+            ) : (
+              <div className="shrink-0 w-9 h-9 rounded-lg bg-zinc-100 dark:bg-zinc-800 border border-zinc-200/80 dark:border-zinc-700/50 flex items-center justify-center text-zinc-500 dark:text-zinc-400">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                  <circle cx="12" cy="8" r="6"/>
+                  <path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/>
+                </svg>
+              </div>
+            )}
+            <div className="flex-1 min-w-0">
+              <p className="text-sm font-semibold text-zinc-800 dark:text-zinc-100 leading-snug">
+                {getLoc(lang, cert.title, cert.title_id, cert.title_zh, cert.title_ja, cert.title_ko) || cert.title}
+              </p>
+              <p className="text-[11px] font-mono text-zinc-500 dark:text-zinc-400 mt-0.5">
+                {cert.issuer}{cert.date ? ` · ${cert.date}` : ''}
+              </p>
+            </div>
+            {cert.credentialUrl && (
+              <a
+                href={cert.credentialUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="shrink-0 text-[10px] font-mono text-zinc-400 dark:text-zinc-500 hover:text-black dark:hover:text-white transition-colors no-underline mt-1"
+                aria-label={`View credential for ${cert.title}`}
+              >
+                Verify ↗
+              </a>
+            )}
+          </div>
+        ))}
+      </div>
+      {hasMore && (
+        <button
+          onClick={() => setShowAll(v => !v)}
+          className="mt-3 text-[11px] font-mono text-zinc-500 dark:text-zinc-400 hover:text-black dark:hover:text-white transition-colors bg-transparent border-0 cursor-pointer"
+        >
+          {showAll
+            ? getLoc(lang, 'Show less ↑', 'Tampilkan lebih sedikit ↑', '显示更少 ↑', '少なく表示 ↑', '간략히 보기 ↑')
+            : getLoc(lang, `Show all ${certs.length} →`, `Lihat semua ${certs.length} →`, `显示全部 ${certs.length} →`, `すべて表示 ${certs.length} →`, `전체 ${certs.length}개 보기 →`)}
+        </button>
+      )}
+    </div>
+  );
+}
 
 function DetailedDottedMap({ profile }) {
   return (
-    <div id="world-map-wrapper" className="sticky top-24 -z-10 w-full h-[150px] md:h-[220px] mb-4 mx-auto overflow-hidden opacity-70 will-change-transform">
+    <div id="world-map-wrapper" className="sticky top-24 -z-10 w-full h-[150px] md:h-[220px] mt-2 mb-4 mx-auto overflow-hidden opacity-70 will-change-transform">
       {/* Inner wrapper preserves perfect 2:1 aspect ratio for coordinate accuracy */}
       <div className="absolute top-1/2 left-0 w-full aspect-[2/1] -translate-y-1/2">
         
@@ -439,6 +503,7 @@ export default function Home() {
 
   const [dark, toggleDark] = useDarkMode();
   const [activeSection, setActiveSection] = useState('home');
+  const [avatarFlipped, setAvatarFlipped] = useState(false);
   const [copiedId, setCopiedId] = useState(null);
   const location = useLocation();
   // FIX #4: chartError resets when github username changes
@@ -660,17 +725,48 @@ export default function Home() {
       {/* Main Content */}
       <div className="animate-page-enter">
         {/* Home */}
-        <section id="home" className="max-w-[760px] mx-auto px-5 pt-8 pb-12 max-sm:pt-6 max-sm:pb-[30px] relative">
+        <section id="home" className="max-w-[760px] mx-auto px-5 pt-2 pb-12 max-sm:pt-1 max-sm:pb-[30px] relative">
         <DetailedDottedMap profile={data.profile} />
-        <div className="flex gap-6 items-start max-sm:gap-4 max-sm:flex-col max-sm:items-center max-sm:text-center">
-          <img
-            src={`https://github.com/${data.profile.github}.png?size=400`}
-            alt={data.profile.name}
-            width="160"
-            height="160"
-            onError={e => { e.currentTarget.onerror = null; e.currentTarget.src = '/avatar-fallback.svg'; }}
-            className="w-[120px] h-[120px] md:w-[160px] md:h-[160px] shrink-0 rounded-full object-cover bg-gradient-to-br from-zinc-200 to-zinc-300 dark:from-zinc-700 dark:to-zinc-800 border border-zinc-200 dark:border-zinc-700 shadow-sm"
-          />
+        <div className="flex gap-6 items-start mt-8 max-sm:mt-6 max-sm:gap-4 max-sm:flex-col max-sm:items-center max-sm:text-center">
+          {/* Profile avatar with pixel art flip Easter egg */}
+          <div
+            onClick={() => setAvatarFlipped(f => !f)}
+            title={avatarFlipped ? 'Click to go back' : 'Click me!'}
+            style={{ perspective: '600px', cursor: 'pointer' }}
+            className="w-[120px] h-[120px] md:w-[160px] md:h-[160px] shrink-0 relative"
+          >
+            <div
+              style={{
+                width: '100%', height: '100%',
+                position: 'relative',
+                transformStyle: 'preserve-3d',
+                transition: 'transform 0.55s cubic-bezier(0.4,0.2,0.2,1)',
+                transform: avatarFlipped ? 'rotateY(180deg)' : 'rotateY(0deg)'
+              }}
+            >
+              {/* Front: real GitHub photo */}
+              <img
+                src={`https://github.com/${data.profile.github}.png?size=400`}
+                alt={data.profile.name}
+                width="160" height="160"
+                onError={e => { e.currentTarget.onerror = null; e.currentTarget.src = '/avatar-fallback.svg'; }}
+                style={{ backfaceVisibility: 'hidden', WebkitBackfaceVisibility: 'hidden' }}
+                className="absolute inset-0 w-full h-full rounded-full object-cover bg-gradient-to-br from-zinc-200 to-zinc-300 dark:from-zinc-700 dark:to-zinc-800 border border-zinc-200 dark:border-zinc-700 shadow-sm"
+              />
+              {/* Back: DiceBear pixel art avatar */}
+              <img
+                src={`https://api.dicebear.com/9.x/pixel-art/svg?seed=${encodeURIComponent(data.profile.name)}&size=160&backgroundColor=b6e3f4,c0aede,d1d4f9,ffd5dc,ffdfbf`}
+                alt="Pixel art avatar"
+                width="160" height="160"
+                style={{
+                  backfaceVisibility: 'hidden',
+                  WebkitBackfaceVisibility: 'hidden',
+                  transform: 'rotateY(180deg)'
+                }}
+                className="absolute inset-0 w-full h-full rounded-full object-cover border border-zinc-200 dark:border-zinc-700 shadow-sm"
+              />
+            </div>
+          </div>
           <div>
             <div className="mb-4 text-[11px] font-mono uppercase tracking-[0.18em] text-zinc-500 dark:text-zinc-400 text-left max-sm:text-center">
               {data.profile.availableForWork ? (
@@ -725,8 +821,9 @@ export default function Home() {
         <ul className="space-y-3">
           {/* FIX #2 & #25: use getLoc from store (with proper empty check) */}
           {(getLoc(lang, data.profile.bio, data.profile.bio_id, data.profile.bio_zh, data.profile.bio_ja, data.profile.bio_ko) || []).map((item, i) => (
-            <li key={i} className="pl-5 relative text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed before:content-['→'] before:absolute before:left-0 before:text-black dark:before:text-white before:font-mono before:text-xs">
-              {item}
+            <li key={i} className="flex items-baseline gap-2 text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed">
+              <span className="text-black dark:text-white shrink-0 text-xs leading-none">•</span>
+              <span>{item}</span>
             </li>
           ))}
         </ul>
@@ -749,6 +846,20 @@ export default function Home() {
           ))}
         </div>
       </section>
+
+      {/* Certificates & Awards — only shown if data exists */}
+      {(data.certificates || []).length > 0 && (
+        <section className="max-w-[760px] mx-auto px-5 pb-[30px]">
+          <div className="flex items-center gap-3 mb-3">
+            <span className="text-[11px] font-mono font-semibold tracking-[0.18em] uppercase text-zinc-500 dark:text-zinc-400">
+              {getLoc(lang, 'Certificates & Awards', 'Sertifikat & Penghargaan', '证书与奖项', '資格・受賞', '자격증 및 수상')}
+            </span>
+            <span className="h-px flex-1 bg-zinc-200/80 dark:bg-zinc-800" />
+            <span className="text-[10px] font-mono text-zinc-400 dark:text-zinc-500">{(data.certificates || []).length}</span>
+          </div>
+          <CertList certs={data.certificates || []} lang={lang} getLoc={getLoc} />
+        </section>
+      )}
 
       {/* GitHub Activity */}
       <section className="max-w-[760px] mx-auto px-5 pb-[30px]">

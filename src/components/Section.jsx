@@ -22,6 +22,7 @@ export default function Section({ id, label, children, startOpen = false, t }) {
     <section
       id={id}
       className="rounded-2xl border border-zinc-200/80 dark:border-zinc-800 bg-white/70 dark:bg-zinc-900/40 overflow-hidden shadow-sm shadow-zinc-200/30 dark:shadow-black/10"
+      style={{ scrollMarginTop: '72px' }}
     >
       <button
         onClick={() => setOpen(!open)}
