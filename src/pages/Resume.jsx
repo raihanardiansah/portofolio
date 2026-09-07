@@ -77,6 +77,7 @@ export default function Resume() {
                 </div>
                 <div className="flex justify-between items-baseline mb-2">
                   <p className="text-sm font-medium text-zinc-700">{getLoc(lang, exp.role, exp.role_id, exp.role_zh, exp.role_ja, exp.role_ko)}</p>
+                  {exp.location && <span className="text-xs text-zinc-500 shrink-0">{exp.location}</span>}
                 </div>
                 {exp.description && (
                   <p className="text-sm text-zinc-600 whitespace-pre-wrap leading-relaxed">
@@ -108,6 +109,7 @@ export default function Resume() {
                   </div>
                   <div className="flex justify-between items-baseline mb-2">
                     <p className="text-sm font-medium text-zinc-700">{getLoc(lang, edu.role, edu.role_id, edu.role_zh, edu.role_ja, edu.role_ko)}</p>
+                    {edu.location && <span className="text-xs text-zinc-500 shrink-0">{edu.location}</span>}
                   </div>
                   {edu.description && (
                     <p className="text-sm text-zinc-600 whitespace-pre-wrap leading-relaxed">

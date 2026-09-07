@@ -463,7 +463,10 @@ function ExperienceSection({ experiences, onSave }) {
             <div><label className={labelCls}>Title / Company</label><input type="text" className={inputCls} value={eData.title} onChange={e=>setEData({...eData, title:e.target.value})} required/></div>
             <div><label className={labelCls}>Company Logo URL (optional)</label><input type="url" className={inputCls} value={eData.logo || ''} onChange={e=>setEData({...eData, logo:e.target.value})} placeholder="https://..." /></div>
           </div>
-          <div><label className={labelCls}>Period (e.g. 2021 - Present)</label><input type="text" className={inputCls} value={eData.period} onChange={e=>setEData({...eData, period:e.target.value})} required/></div>
+          <div className="grid grid-cols-2 gap-4">
+            <div><label className={labelCls}>Period (e.g. 2021 - Present)</label><input type="text" className={inputCls} value={eData.period} onChange={e=>setEData({...eData, period:e.target.value})} required/></div>
+            <div><label className={labelCls}>Location</label><input type="text" className={inputCls} value={eData.location || ''} onChange={e=>setEData({...eData, location:e.target.value})} placeholder="e.g. Yogyakarta, Indonesia"/></div>
+          </div>
           
           <div className="border border-zinc-200 dark:border-zinc-700 rounded-lg p-4 bg-zinc-50 dark:bg-zinc-800/30">
             <div className="flex gap-2 mb-4">
@@ -569,6 +572,7 @@ function EducationSection({ educations, onSave }) {
             <div><label className={labelCls}>Degree / Major</label><input type="text" className={inputCls} value={eData.title} onChange={e=>setEData({...eData, title:e.target.value})} required placeholder="e.g. Bachelor of Computer Science"/></div>
             <div><label className={labelCls}>Institution Logo URL (optional)</label><input type="url" className={inputCls} value={eData.logo || ''} onChange={e=>setEData({...eData, logo:e.target.value})} placeholder="https://..."/></div>
             <div><label className={labelCls}>Period (e.g. 2022 - 2026)</label><input type="text" className={inputCls} value={eData.period} onChange={e=>setEData({...eData, period:e.target.value})} required/></div>
+            <div><label className={labelCls}>Location</label><input type="text" className={inputCls} value={eData.location || ''} onChange={e=>setEData({...eData, location:e.target.value})} placeholder="e.g. Yogyakarta, Indonesia"/></div>
           </div>
           
           <div className="border border-zinc-200 dark:border-zinc-700 rounded-lg p-4 bg-zinc-50 dark:bg-zinc-800/30">

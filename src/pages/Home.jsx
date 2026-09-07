@@ -58,9 +58,9 @@ const i18n = {
     projects: 'Proyek',
     contact: 'Kontak',
     navHome: 'home',
-    navStack: 'tekno',
-    navExp: 'pnglmn',
-    navEdu: 'pnddkn',
+    navStack: 'teknologi',
+    navExp: 'pengalaman',
+    navEdu: 'pendidikan',
     navProj: 'proyek',
     navContact: 'kontak',
     navGallery: 'galeri',
@@ -781,12 +781,12 @@ export default function Home() {
           <div>
             <div className="mb-4 text-[11px] font-mono uppercase tracking-[0.18em] text-zinc-500 dark:text-zinc-400 text-left max-sm:text-center">
               {data.profile.availableForWork ? (
-                <a href="#contact" className="inline-block text-center text-zinc-500 dark:text-zinc-400 hover:text-black dark:hover:text-white transition-colors no-underline">
-                  <span className="max-sm:block max-sm:mb-1">
-                    <span className="inline-block w-1.5 h-1.5 rounded-full bg-black dark:bg-white shadow-[0_0_0_4px_rgba(0,0,0,0.1)] dark:shadow-[0_0_0_4px_rgba(255,255,255,0.1)] mr-2 relative -top-0.5" />
+                <a href="#contact" className="inline-flex flex-wrap items-center gap-1.5 max-sm:justify-center text-center text-zinc-500 dark:text-zinc-400 hover:text-black dark:hover:text-white transition-colors no-underline">
+                  <span className="inline-flex items-center max-sm:w-full max-sm:justify-center max-sm:mb-1">
+                    <span className="inline-block w-1.5 h-1.5 rounded-full bg-black dark:bg-white shadow-[0_0_0_4px_rgba(0,0,0,0.1)] dark:shadow-[0_0_0_4px_rgba(255,255,255,0.1)] mr-2" />
                     {t.available}
                   </span>
-                  <span className="max-sm:hidden"> · </span>
+                  <span className="max-sm:hidden">·</span>
                   <span className="max-sm:block max-sm:text-[10px] max-sm:text-zinc-500">
                     {data.profile.location}
                   </span>

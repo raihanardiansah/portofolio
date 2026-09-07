@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { getLoc } from '../store';
 
 // ── ExpCard ──────────────────────────────────────────────────────
-export default function ExpCard({ title, role, role_id, role_zh, role_ja, role_ko, period, description, description_id, description_zh, description_ja, description_ko, points, points_id, points_zh, points_ja, points_ko, tags, logo, t, lang }) {
+export default function ExpCard({ title, role, role_id, role_zh, role_ja, role_ko, period, location, description, description_id, description_zh, description_ja, description_ko, points, points_id, points_zh, points_ja, points_ko, tags, logo, t, lang }) {
   const [open, setOpen] = useState(false);
 
   return (
@@ -40,7 +40,11 @@ export default function ExpCard({ title, role, role_id, role_zh, role_ja, role_k
           )}
           <span>
             <span className="block text-sm font-bold text-zinc-800 dark:text-zinc-100">{title}</span>
-            <span className="block text-xs text-zinc-500 dark:text-zinc-400 mt-0.5">{getLoc(lang, role, role_id, role_zh, role_ja, role_ko)}</span>
+            <span className="block text-xs text-zinc-500 dark:text-zinc-400 mt-0.5">
+              {getLoc(lang, role, role_id, role_zh, role_ja, role_ko)}
+              {location && <span className="hidden sm:inline"> • {location}</span>}
+            </span>
+            {location && <span className="block sm:hidden text-xs text-zinc-500 dark:text-zinc-400 mt-0.5">{location}</span>}
           </span>
         </span>
         <span className="text-right shrink-0">
