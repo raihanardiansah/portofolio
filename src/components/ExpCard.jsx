@@ -58,7 +58,7 @@ export default function ExpCard({ title, role, role_id, role_zh, role_ja, role_k
           <div className="pt-3 pb-1 pl-9 sm:pl-11">
             <p className="text-xs text-zinc-500 dark:text-zinc-400 leading-relaxed mb-3">{getLoc(lang, description, description_id, description_zh, description_ja, description_ko)}</p>
             <ul className="space-y-1.5 mb-3.5">
-              {getLoc(lang, points, points_id, points_zh, points_ja, points_ko).map((p, i) => (
+              {(getLoc(lang, points, points_id, points_zh, points_ja, points_ko) || []).map((p, i) => (
                 <li key={i} className="flex items-baseline gap-2 text-xs text-zinc-500 dark:text-zinc-400">
                   <span className="text-zinc-300 dark:text-zinc-600 shrink-0 leading-none">•</span>
                   <span>{p}</span>
@@ -66,7 +66,7 @@ export default function ExpCard({ title, role, role_id, role_zh, role_ja, role_k
               ))}
             </ul>
             <div className="flex flex-wrap gap-1.5">
-              {tags.map(tag => (
+              {(tags || []).map(tag => (
                 <span key={tag} className="text-[10px] px-2 py-0.5 bg-zinc-100 dark:bg-zinc-800/80 border border-zinc-200 dark:border-zinc-700/80 rounded text-zinc-600 dark:text-zinc-400 font-mono transition-colors hover:border-zinc-300 dark:hover:border-zinc-500">{tag}</span>
               ))}
             </div>

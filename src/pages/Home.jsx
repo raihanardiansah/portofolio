@@ -16,11 +16,13 @@ const i18n = {
     cv: 'CV coming soon',
     stack: 'Stack',
     experience: 'Experience',
+    education: 'Education',
     projects: 'Projects',
     contact: 'Contact',
     navHome: 'home',
     navStack: 'stack',
     navExp: 'exp',
+    navEdu: 'edu',
     navProj: 'proj',
     navContact: 'contact',
     navGallery: 'gallery',
@@ -52,11 +54,13 @@ const i18n = {
     cv: 'CV segera hadir',
     stack: 'Teknologi',
     experience: 'Pengalaman',
+    education: 'Pendidikan',
     projects: 'Proyek',
     contact: 'Kontak',
-    navHome: 'beranda',
-    navStack: 'teknologi',
-    navExp: 'pengalaman',
+    navHome: 'home',
+    navStack: 'tekno',
+    navExp: 'pnglmn',
+    navEdu: 'pnddkn',
     navProj: 'proyek',
     navContact: 'kontak',
     navGallery: 'galeri',
@@ -88,11 +92,13 @@ const i18n = {
     cv: '简历即将推出',
     stack: '技术栈',
     experience: '经验',
+    education: '教育经历',
     projects: '项目',
     contact: '联系',
     navHome: '首页',
     navStack: '技术栈',
     navExp: '经验',
+    navEdu: '教育',
     navProj: '项目',
     navContact: '联系',
     navGallery: '画廊',
@@ -124,11 +130,13 @@ const i18n = {
     cv: '履歴書準備中',
     stack: '技術スタック',
     experience: '経歴',
+    education: '学歴',
     projects: 'プロジェクト',
     contact: '連絡先',
     navHome: 'ホーム',
     navStack: 'スタック',
     navExp: '経歴',
+    navEdu: '学歴',
     navProj: 'プロジェクト',
     navContact: '連絡先',
     navGallery: 'ギャラリー',
@@ -160,11 +168,13 @@ const i18n = {
     cv: '이력서 준비 중',
     stack: '기술 스택',
     experience: '경력',
+    education: '학력',
     projects: '프로젝트',
     contact: '연락처',
     navHome: '홈',
     navStack: '스택',
     navExp: '경력',
+    navEdu: '학력',
     navProj: '프로젝트',
     navContact: '연락처',
     navGallery: '갤러리',
@@ -583,7 +593,7 @@ export default function Home() {
   // 3. Scroll Spy (Active Section) optimized with IntersectionObserver
   useEffect(() => {
     if (!splashDone) return;
-    const ids = ['home', 'stack', 'exp', 'proj', 'contact'];
+    const ids = ['home', 'stack', 'exp', 'edu', 'proj', 'contact'];
     
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
@@ -622,11 +632,12 @@ export default function Home() {
 
   if (!splashDone) return <SplashScreen onDone={finishSplash} greetingsData={data.greetings} />;
 
-  const sections = ['home', 'stack', 'exp', 'proj', 'contact'];
+  const sections = ['home', 'stack', 'exp', 'edu', 'proj', 'contact'];
   const sectionLabels = {
     home: t.navHome,
     stack: t.navStack,
     exp: t.navExp,
+    edu: t.navEdu || 'edu',
     proj: t.navProj,
     contact: t.navContact
   };
@@ -670,22 +681,22 @@ export default function Home() {
 
       {/* Header */}
       <div className="sticky top-0 z-40 w-full bg-[var(--bg)]/70 backdrop-blur-md border-b border-zinc-200/50 dark:border-zinc-800/50">
-        <header className="max-w-[760px] mx-auto px-5 py-4 flex items-center justify-between gap-4">
+        <header className="max-w-[800px] mx-auto px-5 py-4 flex items-center justify-between gap-2 md:gap-4">
           <span className="text-sm font-semibold shrink-0">{data.profile.name.split(' ')[0]}</span>
-          <nav className="flex gap-4 max-md:hidden" aria-label="Section links">
+          <nav className="flex gap-2 md:gap-4 max-md:hidden min-w-0" aria-label="Section links">
             {sections.map(l => (
               <a
                 key={l}
                 href={`#${l}`}
-                className={`text-xs font-mono transition-colors ${activeSection === l ? 'text-black dark:text-white' : 'text-zinc-500 dark:text-zinc-400 hover:text-zinc-700 dark:hover:text-zinc-200'}`}
+                className={`text-xs font-mono transition-colors truncate ${activeSection === l ? 'text-black dark:text-white' : 'text-zinc-500 dark:text-zinc-400 hover:text-zinc-700 dark:hover:text-zinc-200'}`}
               >
                 /{sectionLabels[l]}
               </a>
             ))}
           </nav>
-          <div className="flex items-center gap-2.5">
+          <div className="flex items-center gap-2.5 shrink-0">
             {/* FIX #26: aria-label on language buttons */}
-            <div className="flex gap-4">
+            <div className="flex gap-2 md:gap-3">
               {['en', 'id', 'zh', 'ja', 'ko'].map(l => (
                 <button
                   key={l}
@@ -793,21 +804,13 @@ export default function Home() {
               {t.subtitle}
             </p>
             
-            {data.profile.cvUrl ? (
-              <a
-                href={data.profile.cvUrl}
-                download
-                className="inline-flex items-center gap-1.5 px-4 py-2 text-xs font-mono font-semibold bg-black dark:bg-white text-white dark:text-black hover:bg-zinc-800 dark:hover:bg-zinc-200 rounded-lg transition-colors no-underline"
-              >
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-                Download CV
-              </a>
-            ) : (
-              <span className="inline-flex items-center gap-1.5 px-4 py-2 text-xs font-mono font-semibold text-zinc-500 dark:text-zinc-400 bg-zinc-100 dark:bg-zinc-800 rounded-lg cursor-not-allowed">
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 6v12M6 12h12"/></svg>
-                {t.cv}
-              </span>
-            )}
+            <Link
+              to="/cv"
+              className="inline-flex items-center gap-1.5 px-4 py-2 text-xs font-mono font-semibold bg-black dark:bg-white text-white dark:text-black hover:bg-zinc-800 dark:hover:bg-zinc-200 rounded-lg transition-colors no-underline"
+            >
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+              View / Download CV
+            </Link>
           </div>
         </div>
       </section>
@@ -917,6 +920,11 @@ export default function Home() {
         {/* Experience — FIX #24: use title as key instead of index */}
         <Section id="exp" label={t.experience} startOpen t={t}>
           {data.experiences.map((exp) => <ExpCard key={exp.title} {...exp} t={t} lang={lang} />)}
+        </Section>
+
+        {/* Education */}
+        <Section id="edu" label={t.education} startOpen t={t}>
+          {(data.educations || []).map((edu) => <ExpCard key={edu.title} {...edu} t={t} lang={lang} />)}
         </Section>
 
         {/* Projects — FIX #25: variable shadowing fixed (tag instead of t) */}

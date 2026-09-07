@@ -324,54 +324,7 @@ export const experiences = [
       "Database"
     ]
   },
-  {
-    "title": "Active Student",
-    "role": "AMIKOM University Yogyakarta · Information Systems",
-    "role_id": "Universitas AMIKOM Yogyakarta · Sistem Informasi",
-    "role_zh": "日惹AMIKOM大学 · 信息系统",
-    "role_ja": "アミコム大学ジョグジャカルタ校 · 情報システム",
-    "role_ko": "아미콤 대학교 욕야카르타 · 정보 시스템",
-    "logo": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSXzAOh5RU1VRgDxIzxvrpAIqy3Mp6xMfGqD9TyrvQBot_HiZkWVG9MoZ8&s=30",
-    "period": "2023 — Present",
-    "description": "Studying how information technology can be a solution for business and organizational needs, with an approach that combines technical, management, and strategic aspects.",
-    "description_id": "Mempelajari bagaimana teknologi informasi dapat menjadi solusi bagi kebutuhan bisnis dan organisasi, dengan pendekatan yang menggabungkan aspek teknis, manajemen, dan strategi.",
-    "description_zh": "研究信息技术如何成为业务和组织需求的解决方案，采用结合技术、管理和战略方面的方法。",
-    "description_ja": "情報技術がビジネスや組織のニーズにどのように解決策となるかを、技術、管理、戦略的な側面を組み合わせたアプローチで学習。",
-    "description_ko": "정보기술이 비즈니스 및 조직의 요구에 어떻게 해결책이 될 수 있는지 기술, 관리, 전략적 측면을 결합한 접근 방식으로 학습.",
-    "points": [
-      "Deepening knowledge in system analysis and design to bridge business needs with technological solutions",
-      "Studying IT project management, databases, and web-based application development",
-      "Exploring new technologies such as AI and cloud infrastructure to support digital transformation"
-    ],
-    "points_id": [
-      "Mendalami analisis dan perancangan sistem untuk menjembatani kebutuhan bisnis dengan solusi teknologi",
-      "Mempelajari manajemen proyek TI, basis data, serta pengembangan aplikasi berbasis web",
-      "Eksplorasi teknologi baru seperti AI dan cloud infrastructure untuk mendukung transformasi digital"
-    ],
-    "points_zh": [
-      "深化系统分析与设计知识，将业务需求与技术解决方案联系起来",
-      "学习IT项目管理、数据库和基于Web的应用程序开发",
-      "探索AI和云基础设施等新技术以支持数字化转型"
-    ],
-    "points_ja": [
-      "ビジネス要件と技術的ソリューションを結びつけるためのシステム分析と設計の知識を深める",
-      "ITプロジェクト管理、データベース、およびウェブベースのアプリケーション開発を学習",
-      "デジタルトランスフォーメーションを支援するためのAIやクラウドインフラストラクチャなどの新技術の探求"
-    ],
-    "points_ko": [
-      "비즈니스 요구와 기술 솔루션을 연결하기 위한 시스템 분석 및 설계 지식 심화",
-      "IT 프로젝트 관리, 데이터베이스 및 웹 기반 애플리케이션 개발 학습",
-      "디지털 전환을 지원하기 위한 AI 및 클라우드 인프라와 같은 신기술 탐구"
-    ],
-    "tags": [
-      "Software Engineering",
-      "Web Development",
-      "Database",
-      "System Analysis",
-      "Business Solutions",
-      "Information Systems"
-    ]
-  },
+
     {
     "title": "IT Internship",
     "role": "ADI Computer · Computer and Network Technician Intern",
@@ -418,6 +371,29 @@ export const experiences = [
       "Troubleshooting"
     ]
   },
+];
+
+export const educations = [
+  {
+    "title": "Bachelor of Information Systems",
+    "title_id": "S1 Sistem Informasi",
+    "title_zh": "信息系统学士",
+    "title_ja": "情報システム学士",
+    "title_ko": "정보 시스템 학사",
+    "role": "AMIKOM University Yogyakarta",
+    "role_id": "Universitas AMIKOM Yogyakarta",
+    "role_zh": "日惹AMIKOM大学",
+    "role_ja": "アミコム大学ジョグジャカルタ校",
+    "role_ko": "아미콤 대학교 욕야카르타",
+    "period": "2022 — Present",
+    "description": "Currently pursuing a degree in Information Systems with a focus on web development, software engineering, and database management.",
+    "description_id": "Saat ini sedang menempuh pendidikan S1 Sistem Informasi dengan fokus pada pengembangan web, rekayasa perangkat lunak, dan manajemen basis data.",
+    "description_zh": "目前正在攻读信息系统学位，专注于Web开发、软件工程和数据库管理。",
+    "description_ja": "現在、情報システムの学位を取得中で、ウェブ開発、ソフトウェアエンジニアリング、データベース管理に焦点を当てています。",
+    "description_ko": "현재 웹 개발, 소프트웨어 엔지니어링 및 데이터베이스 관리에 중점을 둔 정보 시스템 학위를 취득 중입니다.",
+    "logo": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSXzAOh5RU1VRgDxIzxvrpAIqy3Mp6xMfGqD9TyrvQBot_HiZkWVG9MoZ8&s=30",
+    "tags": ["Software Engineering", "Web Development", "Database Management"]
+  }
 ];
 
 export const projects = [
@@ -473,7 +449,7 @@ export const projects = [
       "CodeIgniter 3",
       "Postman"
     ],
-    "gallery": [],
+    "gallery": ["/svarga1.png"],
     "githubUrl": "https://github.com/raihanardiansah/svargaApp",
     "featured": true
   },
@@ -502,7 +478,7 @@ export const projects = [
       "Supabase",
       "Vercel"
     ],
-    "gallery": [],
+    "gallery": ["/manukan1.png", "/manukan2.png", "/manukan3.png", "/manukan4.png"],
     "liveUrl": "https://manukan.web.id",
     "liveLabel": "Live web",
     "featured": true
@@ -531,7 +507,7 @@ export const projects = [
       "Tailwind CSS",
       "Vercel"
     ],
-    "gallery": [],
+    "gallery": ["/caffe1.png", "/caffe2.png", "/caffe1.jpg", "/caffe2.jpg", "/caffe3.jpg", "/caffe4.jpg", "/caffe5.jpg", "/caffe6.jpg", "/caffe7.jpg", "/caffe8.jpg", "/caffe9.jpg", "/caffe10.jpg", "/caffe11.jpg"],
     "liveUrl": "https://caffe-han.vercel.app",
     "liveLabel": "Live app",
     "featured": true
@@ -560,7 +536,7 @@ export const projects = [
       "Vite",
       "Vercel"
     ],
-    "gallery": [],
+    "gallery": ["/bolatix1.jpg", "/bolatix2.jpg", "/bolatix3.jpg", "/bolatix4.jpg", "/bolatix5.jpg", "/bolatix6.jpg", "/bolatix7.jpg", "/bolatix8.jpg", "/bolatix9.jpg", "/bolatix10.jpg"],
     "githubUrl": "https://github.com/raihanardiansah/bolatix",
     "featured": true
   },
@@ -749,5 +725,56 @@ export const certificates = [
     "issuer": "GEMASI",
     "date": "2026",
     "credentialUrl": ""
+  }
+];
+
+export const blogs = [
+  {
+    slug: "ui-ux-gemasi-2025-case-study",
+    title: "Behind the Scenes: 2nd Place UI/UX Design at GEMASI 2025",
+    title_id: "Di Balik Layar: Desain UI/UX Juara 2 GEMASI 2025",
+    excerpt: "A deep dive into the research, wireframing, and design process that led to our team winning 2nd place at the GEMASI 2025 UI/UX Competition.",
+    excerpt_id: "Pembahasan mendalam tentang proses riset, wireframing, dan desain yang membawa tim kami meraih Juara 2 di Lomba UI/UX GEMASI 2025.",
+    content: "<p>Participating in the GEMASI 2025 UI/UX Competition was a challenging yet rewarding experience. Our goal was to create an application that wasn't just visually appealing, but also deeply solved user problems.</p><h2>The Core Problem</h2><p>Many users struggle with managing their digital finances because existing apps are either too complex or lack personalization. We realized that a simple, intuitive dashboard could bridge this gap.</p><h2>The Design Process</h2><p>We adopted a user-centric approach:</p><ul><li><strong>Wireframing:</strong> We sketched multiple layouts to find the quickest path for users to check their balance.</li><li><strong>Prototyping:</strong> We used Figma to build high-fidelity prototypes and tested them with real users.</li><li><strong>Iteration:</strong> Based on feedback, we increased the contrast of primary buttons and simplified the navigation bar.</li></ul><p>Winning 2nd place taught me that design isn't just about making things look pretty—it's about making things work seamlessly for the end-user.</p>",
+    content_id: "<p>Berpartisipasi dalam Lomba UI/UX GEMASI 2025 adalah pengalaman yang menantang sekaligus memuaskan. Tujuan kami adalah menciptakan aplikasi yang tidak hanya menarik secara visual, tetapi juga benar-benar memecahkan masalah pengguna.</p><h2>Masalah Utama</h2><p>Banyak pengguna kesulitan mengatur keuangan digital mereka karena aplikasi yang ada terlalu rumit atau kurang personal. Kami menyadari bahwa dasbor yang sederhana dan intuitif dapat menjembatani kesenjangan ini.</p><h2>Proses Desain</h2><p>Kami menerapkan pendekatan yang berpusat pada pengguna (user-centric):</p><ul><li><strong>Wireframing:</strong> Kami membuat beberapa sketsa tata letak untuk menemukan jalur tercepat bagi pengguna untuk mengecek saldo.</li><li><strong>Prototyping:</strong> Kami menggunakan Figma untuk membuat prototipe interaktif dan mengujinya ke pengguna langsung.</li><li><strong>Iterasi:</strong> Berdasarkan masukan, kami meningkatkan kontras tombol utama dan menyederhanakan menu navigasi.</li></ul><p>Meraih Juara 2 mengajarkan saya bahwa desain bukan hanya soal membuat sesuatu terlihat cantik—tetapi tentang membuat sesuatu berfungsi dengan lancar bagi pengguna akhir.</p>",
+    date: "2025-10-15",
+    tags: ["UI/UX", "Case Study", "Design"],
+    draft: false
+  },
+  {
+    slug: "transitioning-react-to-nextjs",
+    title: "Transitioning from React to Next.js: What Changed?",
+    title_id: "Transisi dari React ke Next.js: Apa Saja yang Berubah?",
+    excerpt: "My experience moving from traditional Create React App to Next.js, and why Server-Side Rendering (SSR) is a game changer for performance.",
+    excerpt_id: "Pengalaman saya beralih dari Create React App tradisional ke Next.js, dan mengapa Server-Side Rendering (SSR) sangat mengubah performa web.",
+    content: "<p>After building several projects with standard React (using Vite or CRA), I finally decided to dive into <strong>Next.js</strong>. The transition was eye-opening.</p><h2>Why Next.js?</h2><p>The primary reason was SEO and initial load performance. With traditional React, the browser downloads a large JavaScript bundle before rendering anything. Next.js solves this with <em>Server-Side Rendering (SSR)</em> and <em>Static Site Generation (SSG)</em>, delivering pre-rendered HTML instantly.</p><h2>Key Differences I Noticed</h2><ol><li><strong>Routing:</strong> No more <code>react-router-dom</code>. The file-system based routing in the App Router is incredibly intuitive.</li><li><strong>Data Fetching:</strong> Using async/await directly in React Server Components feels like magic compared to the old <code>useEffect</code> pattern.</li><li><strong>Image Optimization:</strong> The built-in <code>&lt;Image&gt;</code> component automatically optimizes and lazy-loads images, which drastically improved my Lighthouse scores.</li></ol><p>If you're still on the fence about Next.js, I highly recommend giving it a try. The learning curve is worth the performance benefits!</p>",
+    content_id: "<p>Setelah membangun beberapa proyek dengan React standar (menggunakan Vite atau CRA), saya akhirnya memutuskan untuk terjun ke <strong>Next.js</strong>. Transisi ini sangat membuka wawasan.</p><h2>Mengapa Next.js?</h2><p>Alasan utamanya adalah SEO dan performa pemuatan awal (initial load). Dengan React tradisional, browser harus mengunduh bundle JavaScript yang besar sebelum merender apapun. Next.js mengatasi ini dengan <em>Server-Side Rendering (SSR)</em> dan <em>Static Site Generation (SSG)</em>, mengirimkan HTML yang sudah dirender secara instan.</p><h2>Perbedaan Utama yang Saya Rasakan</h2><ol><li><strong>Routing:</strong> Tidak perlu lagi <code>react-router-dom</code>. Routing berbasis file-system di App Router sangat intuitif.</li><li><strong>Pengambilan Data (Data Fetching):</strong> Menggunakan async/await secara langsung di dalam React Server Components terasa seperti sihir dibandingkan dengan pola <code>useEffect</code> yang lama.</li><li><strong>Optimasi Gambar:</strong> Komponen <code>&lt;Image&gt;</code> bawaan secara otomatis mengoptimalkan dan melakukan lazy-load pada gambar, yang secara drastis meningkatkan skor Lighthouse saya.</li></ol><p>Jika Anda masih ragu untuk mencoba Next.js, saya sangat menyarankan Anda untuk mencobanya. Kurva pembelajarannya sangat sepadan dengan manfaat performa yang didapat!</p>",
+    date: "2026-02-20",
+    tags: ["React", "Next.js", "Web Development"],
+    draft: false
+  },
+  {
+    slug: "stop-following-tech-trends-blindly",
+    title: "Stop Following Tech Trends Blindly: Why User Needs Matter More",
+    title_id: "Berhenti Mengikuti Tren Teknologi Secara Buta: Mengapa Kebutuhan User Lebih Penting",
+    excerpt: "A reflection on the hype-driven development culture and why we should focus on solving actual user problems rather than using the newest frameworks.",
+    excerpt_id: "Sebuah refleksi tentang budaya development yang didorong oleh tren (hype), dan mengapa kita harus fokus menyelesaikan masalah pengguna daripada sekadar menggunakan framework terbaru.",
+    content: "<p>In the fast-paced world of tech, there's always a new framework, a new database, or a new paradigm every few months. It's easy to fall into the trap of <em>Hype-Driven Development (HDD)</em>.</p><h2>The Problem with Hype</h2><p>I've seen projects delayed for months because a team decided to migrate from a perfectly fine monolithic architecture to microservices, simply because it was the \"industry standard\"—even though they only had a few hundred users. We often forget that technology is just a tool.</p><h2>Focusing on the User</h2><p>As I mentioned in my portfolio bio: <strong>I always ensure each feature is built based on clear needs and objectives, not just technology trends.</strong></p><p>Before adopting a new technology, ask yourself:</p><ul><li>Will this make the app faster for the user?</li><li>Will this reduce bugs and improve stability?</li><li>Will this help us ship necessary features quicker?</li></ul><p>If the answer is no, stick to what works. A well-built app in an \"older\" technology is infinitely better than a broken app built with the newest framework.</p>",
+    content_id: "<p>Dunia teknologi bergerak sangat cepat. Selalu ada framework baru, database baru, atau paradigma baru setiap beberapa bulan. Sangat mudah untuk jatuh ke dalam perangkap <em>Hype-Driven Development (HDD)</em>.</p><h2>Masalah dengan Tren (Hype)</h2><p>Saya pernah melihat proyek tertunda berbulan-bulan karena sebuah tim memutuskan untuk bermigrasi dari arsitektur monolitik yang sudah berjalan baik ke microservices, hanya karena itu adalah \"standar industri\"—padahal mereka hanya memiliki beberapa ratus pengguna. Kita sering lupa bahwa teknologi hanyalah alat.</p><h2>Fokus pada Pengguna</h2><p>Seperti yang saya sebutkan di bio portofolio saya: <strong>Saya selalu memastikan setiap fitur dibangun berdasarkan kebutuhan dan tujuan yang jelas, bukan sekadar tren teknologi.</strong></p><p>Sebelum mengadopsi teknologi baru, tanyakan pada diri sendiri:</p><ul><li>Apakah ini akan membuat aplikasi lebih cepat bagi pengguna?</li><li>Apakah ini akan mengurangi bug dan meningkatkan stabilitas?</li><li>Apakah ini akan membantu kita merilis fitur yang dibutuhkan lebih cepat?</li></ul><p>Jika jawabannya tidak, tetap gunakan apa yang sudah terbukti berhasil. Aplikasi yang dibangun dengan baik menggunakan teknologi \"lama\" jauh lebih berharga daripada aplikasi rusak yang dibangun dengan framework terbaru.</p>",
+    date: "2026-05-10",
+    tags: ["Mindset", "Software Engineering"],
+    draft: false
+  },
+  {
+    slug: "lessons-from-being-a-lab-assistant",
+    title: "What I Learned from Being a Lab Assistant at AMIKOM",
+    title_id: "Apa Saja yang Saya Pelajari Menjadi Asisten Praktikum di AMIKOM?",
+    excerpt: "Teaching others is the best way to learn. Here are my takeaways from guiding students as a Laboratory Assistant.",
+    excerpt_id: "Mengajar orang lain adalah cara terbaik untuk belajar. Berikut adalah pelajaran yang saya dapatkan selama membimbing mahasiswa sebagai Asisten Praktikum.",
+    content: "<p>Becoming a Laboratory Assistant at AMIKOM University Yogyakarta was one of the most impactful decisions in my academic journey. It wasn't just about getting extra credits; it was a profound learning experience.</p><h2>1. Teaching Solidifies Your Knowledge</h2><p>You never truly understand a concept until you have to explain it to someone else. When students asked me unexpected questions about a piece of code, it forced me to dive deep into the documentation and understand the <em>why</em>, not just the <em>how</em>.</p><h2>2. Empathy in Debugging</h2><p>Seeing beginners struggle with syntax errors reminded me of my early days. It taught me patience and empathy. Instead of just fixing their code, I learned to guide them to find the solution themselves.</p><h2>3. Time Management</h2><p>Balancing my own studies, participating in competitions like GEMASI, and grading lab assignments required strict time management. It forced me to be disciplined and prioritize my tasks effectively.</p><p>If you're a student considering a teaching assistant role, go for it. The soft skills you gain are just as important as the technical ones.</p>",
+    content_id: "<p>Menjadi Asisten Praktikum di Universitas AMIKOM Yogyakarta adalah salah satu keputusan paling berdampak dalam perjalanan akademis saya. Ini bukan hanya tentang mendapatkan nilai ekstra; ini adalah pengalaman belajar yang sangat mendalam.</p><h2>1. Mengajar Memperkuat Pengetahuan</h2><p>Anda tidak akan pernah benar-benar memahami suatu konsep sampai Anda harus menjelaskannya kepada orang lain. Ketika mahasiswa mengajukan pertanyaan tak terduga tentang suatu kode, saya dituntut untuk menggali dokumentasi lebih dalam dan memahami <em>mengapa</em> kode itu bekerja, bukan sekadar <em>bagaimana</em> menulisnya.</p><h2>2. Empati dalam Debugging</h2><p>Melihat pemula berjuang dengan error sintaksis mengingatkan saya pada masa awal saya belajar coding. Hal ini mengajarkan saya kesabaran dan empati. Alih-alih langsung memperbaiki kode mereka, saya belajar untuk membimbing mereka menemukan solusinya sendiri.</p><h2>3. Manajemen Waktu</h2><p>Menyeimbangkan kuliah saya sendiri, mengikuti lomba seperti GEMASI, dan mengoreksi tugas praktikum membutuhkan manajemen waktu yang ketat. Ini memaksa saya untuk disiplin dan memprioritaskan tugas secara efektif.</p><p>Jika Anda seorang mahasiswa yang mempertimbangkan peran asisten dosen/praktikum, ambil saja peluang itu. Soft skill yang Anda dapatkan sama pentingnya dengan skill teknis Anda.</p>",
+    date: "2026-08-01",
+    tags: ["Campus Life", "Soft Skills", "Experience"],
+    draft: false
   }
 ];

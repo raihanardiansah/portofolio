@@ -3,6 +3,9 @@ import { useParams, Link, useNavigate } from 'react-router-dom';
 import { usePortfolioData, useLanguage, getLoc } from '../store';
 import { Share2 } from 'lucide-react';
 import DOMPurify from 'dompurify';
+import { Helmet } from 'react-helmet-async';
+import hljs from 'highlight.js';
+import 'highlight.js/styles/atom-one-dark.css';
 
 export default function BlogDetail() {
   const { slug } = useParams();
@@ -27,9 +30,7 @@ export default function BlogDetail() {
 
   useEffect(() => {
     if (!blog) { navigate('/blog', { replace: true }); return; }
-    document.title = `${getLoc(lang, blog.title, blog.title_id, blog.title_zh, blog.title_ja, blog.title_ko)} | ${data.profile.name || 'Portfolio'}`;
-    return () => { document.title = `${data.profile.name || 'Portfolio'} | Web Developer & Tech Enthusiast`; };
-  }, [blog, lang, navigate, data.profile.name]);
+  }, [blog, navigate]);
 
   if (!blog) return null;
 
@@ -37,13 +38,46 @@ export default function BlogDetail() {
   const safeContent = DOMPurify.sanitize(
     getLoc(lang, blog.content, blog.content_id, blog.content_zh, blog.content_ja, blog.content_ko) || ''
   );
+  
+  // Syntax Highlighting
+  useEffect(() => {
+    if (safeContent) {
+      document.querySelectorAll('pre').forEach((block) => {
+        hljs.highlightElement(block);
+      });
+    }
+  }, [safeContent]);
+
+  const title = `${getLoc(lang, blog.title, blog.title_id, blog.title_zh, blog.title_ja, blog.title_ko)} | ${data.profile.name || 'Portfolio'}`;
+  const excerpt = getLoc(lang, blog.excerpt, blog.excerpt_id, blog.excerpt_zh, blog.excerpt_ja, blog.excerpt_ko);
+  const url = typeof window !== 'undefined' ? window.location.href : '';
+  const ogImage = blog.coverImage || '/og-image.svg';
 
   return (
     <main className="min-h-screen bg-[var(--bg)] text-[var(--text)]">
-      <div className="max-w-[680px] mx-auto px-5 py-8 sm:py-14">
+      <Helmet>
+        <title>{title}</title>
+        <meta name="description" content={excerpt} />
+        <meta property="og:title" content={title} />
+        <meta property="og:description" content={excerpt} />
+        <meta property="og:image" content={ogImage} />
+        <meta property="og:url" content={url} />
+        <meta name="twitter:title" content={title} />
+        <meta name="twitter:description" content={excerpt} />
+        <meta name="twitter:image" content={ogImage} />
+      </Helmet>
+      <div className="max-w-[768px] mx-auto px-5 py-8 sm:py-14">
         <Link to="/blog" className="inline-block text-xs font-mono text-zinc-500 hover:text-black dark:text-zinc-400 dark:hover:text-white transition-colors mb-10 no-underline">
           {getLoc(lang, '← Back to blog', '← Kembali ke blog', '← 返回博客', '← ブログに戻る', '← 블로그로 돌아가기')}
         </Link>
+        
+        {blog.coverImage && (
+          <img 
+            src={blog.coverImage} 
+            alt={blog.title} 
+            className="w-full h-48 sm:h-80 object-cover rounded-xl sm:rounded-2xl mb-8 border border-zinc-200/80 dark:border-zinc-700/50" 
+          />
+        )}
 
         <header className="mb-12">
           <h1 className="text-3xl sm:text-4xl font-bold tracking-tight text-zinc-900 dark:text-white leading-tight mb-4">

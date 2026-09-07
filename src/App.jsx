@@ -8,6 +8,7 @@ import Gallery from './pages/Gallery';
 import Blog from './pages/Blog';
 import BlogDetail from './pages/BlogDetail';
 import Admin from './pages/Admin';
+import Resume from './pages/Resume';
 import CustomCursor from './CustomCursor';
 
 function ScrollToTop() {
@@ -31,6 +32,7 @@ export default function App() {
         <Route path="/blog" element={<Blog />} />
         <Route path="/blog/:slug" element={<BlogDetail />} />
         <Route path="/admin" element={<Admin />} />
+        <Route path="/cv" element={<Resume />} />
       </Routes>
       <Analytics />
     </BrowserRouter>

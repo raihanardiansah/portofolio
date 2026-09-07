@@ -3,28 +3,31 @@ import {
   greetings as defaultGreetings,
   stack as defaultStack,
   experiences as defaultExperiences,
+  educations as defaultEducations,
   projects as defaultProjects,
   currentlyLearning as defaultCurrentlyLearning,
   certificates as defaultCertificates,
   defaultProfile,
+  blogs as defaultBlogs,
 } from './data';
 
 // ── Storage keys ──────────────────────────────────────────────────
 export const ADMIN_PASSWORD_KEY = 'portfolio_admin_pass';
 export const DEFAULT_PASSWORD = 'admin123';
-const DATA_STORAGE_KEY = 'portfolio_data_v14';
+const DATA_STORAGE_KEY = 'portfolio_data_v15';
 
 // ── Default data ──────────────────────────────────────────────────
 export const defaultData = {
   greetings: defaultGreetings,
   stack: defaultStack,
   experiences: defaultExperiences,
+  educations: defaultEducations || [],
   projects: defaultProjects,
   currentlyLearning: defaultCurrentlyLearning,
   certificates: defaultCertificates,
   profile: defaultProfile,
   gallery: [],
-  blogs: [],
+  blogs: defaultBlogs || [],
 };
 
 // ── In-memory cache ───────────────────────────────────────────────
@@ -98,11 +101,17 @@ export const stack = ${JSON.stringify(d.stack, null, 2)};
 
 export const experiences = ${JSON.stringify(d.experiences, null, 2)};
 
+export const educations = ${JSON.stringify(d.educations || [], null, 2)};
+
 export const projects = ${JSON.stringify(d.projects, null, 2)};
 
 export const currentlyLearning = ${JSON.stringify(d.currentlyLearning, null, 2)};
 
 export const certificates = ${JSON.stringify(d.certificates || [], null, 2)};
+
+export const gallery = ${JSON.stringify(d.gallery || [], null, 2)};
+
+export const blogs = ${JSON.stringify(d.blogs || [], null, 2)};
 `;
   const blob = new Blob([content], { type: 'text/javascript' });
   const url = URL.createObjectURL(blob);
@@ -125,11 +134,17 @@ export const stack = ${JSON.stringify(d.stack, null, 2)};
 
 export const experiences = ${JSON.stringify(d.experiences, null, 2)};
 
+export const educations = ${JSON.stringify(d.educations || [], null, 2)};
+
 export const projects = ${JSON.stringify(d.projects, null, 2)};
 
 export const currentlyLearning = ${JSON.stringify(d.currentlyLearning, null, 2)};
 
 export const certificates = ${JSON.stringify(d.certificates || [], null, 2)};
+
+export const gallery = ${JSON.stringify(d.gallery || [], null, 2)};
+
+export const blogs = ${JSON.stringify(d.blogs || [], null, 2)};
 `;
   try {
     await navigator.clipboard.writeText(content);

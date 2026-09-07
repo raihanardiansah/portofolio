@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { usePortfolioData, useLanguage, getLoc } from '../store';
 
@@ -16,18 +16,28 @@ export default function Gallery() {
   const projectsWithGallery = (data.projects || []).filter(p => p.gallery && p.gallery.length > 0);
   const standaloneGallery = data.gallery || [];
 
-  const allImages = [
+  const allImagesUnshuffled = useMemo(() => [
     ...projectsWithGallery.flatMap(p => 
       p.gallery.map(src => ({ src, caption: p.title, project: p.title }))
     ),
     ...standaloneGallery.map(g => ({ src: g.src, caption: g.caption, alt: g.alt, project: 'Standalone' }))
-  ];
+  ], [data.projects, data.gallery]);
+
+  const allImagesShuffled = useMemo(() => {
+    const images = [...allImagesUnshuffled];
+    // Fisher-Yates shuffle
+    for (let i = images.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [images[i], images[j]] = [images[j], images[i]];
+    }
+    return images;
+  }, [allImagesUnshuffled]);
 
   const categories = ['All', ...projectsWithGallery.map(p => p.title), ...(standaloneGallery.length > 0 ? ['Standalone'] : [])];
 
   const filteredImages = filter === 'All' 
-    ? allImages 
-    : allImages.filter(img => img.project === filter);
+    ? allImagesShuffled 
+    : allImagesUnshuffled.filter(img => img.project === filter);
 
   const openLightbox = (index) => setLightboxIndex(index);
   const closeLightbox = () => setLightboxIndex(null);
@@ -60,6 +70,32 @@ export default function Gallery() {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [lightboxIndex, nextImage, prevImage]);
 
+  const [visibleCount, setVisibleCount] = useState(9);
+  const [isAnimating, setIsAnimating] = useState(false);
+
+  const handleFilterChange = (cat) => {
+    if (cat === filter) return;
+    setIsAnimating(true);
+    setTimeout(() => {
+      setFilter(cat);
+      setLightboxIndex(null);
+      setVisibleCount(9);
+      setIsAnimating(false);
+    }, 200);
+  };
+
+  useEffect(() => {
+    if (visibleCount >= filteredImages.length) return;
+    const observer = new IntersectionObserver((entries) => {
+      if (entries[0].isIntersecting) {
+        setVisibleCount(prev => Math.min(prev + 6, filteredImages.length));
+      }
+    }, { threshold: 0.1 });
+    const sentinel = document.getElementById('scroll-sentinel');
+    if (sentinel) observer.observe(sentinel);
+    return () => observer.disconnect();
+  }, [visibleCount, filteredImages.length]);
+
   return (
     <main className="min-h-screen bg-[var(--bg)] text-[var(--text)]">
       <div className="max-w-[1024px] mx-auto px-5 py-8 sm:py-14">
@@ -74,14 +110,14 @@ export default function Gallery() {
         </header>
 
         <div className="flex items-center justify-between border-b border-zinc-200 dark:border-zinc-800 pb-4 mb-6">
-          <span className="text-xs font-mono text-zinc-500">{allImages.length} {getLoc(lang, 'images', 'gambar', '张图片', '枚の画像', '개의 이미지')}</span>
+          <span className="text-xs font-mono text-zinc-500">{filteredImages.length} {getLoc(lang, 'images', 'gambar', '张图片', '枚の画像', '개의 이미지')}</span>
         </div>
 
         <div className="flex overflow-x-auto gap-2 pb-2 mb-6 scrollbar-hide">
           {categories.map(cat => (
             <button
               key={cat}
-              onClick={() => { setFilter(cat); setLightboxIndex(null); }}
+              onClick={() => handleFilterChange(cat)}
               className={`whitespace-nowrap px-3 py-1 rounded-full text-xs font-mono border transition-colors cursor-pointer ${
                 filter === cat 
                   ? 'bg-black dark:bg-white text-white dark:text-black border-black dark:border-white' 
@@ -98,39 +134,49 @@ export default function Gallery() {
              {getLoc(lang, 'No images found.', 'Tidak ada gambar yang ditemukan.', '未找到图片。', '画像が見つかりません。', '이미지를 찾을 수 없습니다.')}
            </div>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-            {filteredImages.map((img, i) => (
-              <div 
-                key={`${img.src}-${i}`} 
-                onClick={() => openLightbox(i)}
-                role="button"
-                tabIndex={0}
-                aria-label={`View ${img.caption} image ${i + 1}`}
-                onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') openLightbox(i); }}
-                className="rounded-xl overflow-hidden border border-zinc-200/80 dark:border-zinc-700/50 relative group cursor-pointer aspect-video bg-zinc-100 dark:bg-zinc-800"
-              >
-                {/* FIX #18: Add loading="lazy" for gallery images */}
-                <img 
-                  src={img.src} 
-                  alt={img.alt || img.caption}
-                  className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-                  loading="lazy"
-                  onError={e => {
-                    e.currentTarget.style.display = 'none';
-                    e.currentTarget.nextElementSibling.style.display = 'flex';
-                  }}
-                />
-                <div className="hidden absolute inset-0 bg-gradient-to-br from-zinc-200 to-zinc-300 dark:from-zinc-700 dark:to-zinc-800 items-center justify-center p-4 text-center">
-                    <span className="text-xs font-mono text-zinc-500 dark:text-zinc-400">{img.project}</span>
-                </div>
-                <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-3">
-                  <div>
-                    <p className="text-white text-sm font-semibold">{img.caption}</p>
-                    <p className="text-zinc-300 text-xs font-mono">{img.project}</p>
+          <div className={`transition-opacity duration-200 ${isAnimating ? 'opacity-0' : 'opacity-100'}`}>
+            <div className="columns-2 md:columns-3 gap-3 sm:gap-4 space-y-3 sm:space-y-4">
+              {filteredImages.slice(0, visibleCount).map((img, i) => (
+                <div 
+                  key={`${img.src}-${i}`} 
+                  onClick={() => openLightbox(i)}
+                  role="button"
+                  tabIndex={0}
+                  aria-label={`View ${img.caption} image ${i + 1}`}
+                  onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') openLightbox(i); }}
+                  className="rounded-xl overflow-hidden border border-zinc-200/80 dark:border-zinc-700/50 relative group cursor-pointer bg-zinc-100 dark:bg-zinc-800 break-inside-avoid"
+                >
+                  <img 
+                    src={img.src} 
+                    alt={img.alt || img.caption}
+                    className="w-full h-auto object-cover transition-transform duration-300 group-hover:scale-105"
+                    loading="lazy"
+                    onError={e => {
+                      e.currentTarget.style.display = 'none';
+                      e.currentTarget.nextElementSibling.style.display = 'flex';
+                    }}
+                  />
+                  <div className="hidden absolute inset-0 bg-gradient-to-br from-zinc-200 to-zinc-300 dark:from-zinc-700 dark:to-zinc-800 items-center justify-center p-4 text-center">
+                      <span className="text-xs font-mono text-zinc-500 dark:text-zinc-400">{img.project}</span>
+                  </div>
+                  <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-3">
+                    <div>
+                      <p className="text-white text-sm font-semibold">{img.caption}</p>
+                      <p className="text-zinc-300 text-xs font-mono">
+                        {img.project === 'Standalone' 
+                          ? getLoc(lang, 'Standalone', 'Mandiri', '独立', 'スタンドアロン', '독립')
+                          : getLoc(lang, 'Project', 'Proyek', '项目', 'プロジェクト', '프로젝트')}
+                      </p>
+                    </div>
                   </div>
                 </div>
+              ))}
+            </div>
+            {visibleCount < filteredImages.length && (
+              <div id="scroll-sentinel" className="h-10 mt-4 flex items-center justify-center">
+                <div className="w-5 h-5 border-2 border-zinc-300 dark:border-zinc-600 border-t-zinc-800 dark:border-t-zinc-200 rounded-full animate-spin"></div>
               </div>
-            ))}
+            )}
           </div>
         )}
       </div>

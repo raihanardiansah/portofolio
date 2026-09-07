@@ -144,7 +144,7 @@ export default function Admin() {
     );
   }
 
-  const tabs = ['Profile', 'Projects', 'Experience', 'Stack', 'Learning', 'Certificates', 'Gallery', 'Blog', 'Settings'];
+  const tabs = ['Profile', 'Projects', 'Experience', 'Education', 'Stack', 'Learning', 'Certificates', 'Gallery', 'Blog', 'Settings'];
 
   return (
     <div className="min-h-screen flex flex-col md:flex-row bg-zinc-50 dark:bg-zinc-900 text-zinc-900 dark:text-zinc-100">
@@ -198,6 +198,7 @@ export default function Admin() {
           {activeTab === 'Profile' && <ProfileSection profile={currentData.profile} onSave={(p) => handleSave({profile: p}, 'Profile')} />}
           {activeTab === 'Projects' && <ProjectsSection projects={currentData.projects} onSave={(p) => handleSave({projects: p}, 'Projects')} />}
           {activeTab === 'Experience' && <ExperienceSection experiences={currentData.experiences} onSave={(e) => handleSave({experiences: e}, 'Experience')} />}
+          {activeTab === 'Education' && <EducationSection educations={currentData.educations || []} onSave={(e) => handleSave({educations: e}, 'Education')} />}
           {activeTab === 'Stack' && <StackSection stack={currentData.stack} onSave={(s) => handleSave({stack: s}, 'Stack')} />}
           {activeTab === 'Learning' && <LearningSection learning={currentData.currentlyLearning} onSave={(l) => handleSave({currentlyLearning: l}, 'Learning')} />}
           {activeTab === 'Certificates' && <CertificatesSection certificates={currentData.certificates || []} onSave={(c) => handleSave({certificates: c}, 'Certificates')} />}
@@ -519,6 +520,110 @@ function ExperienceSection({ experiences, onSave }) {
   );
 }
 
+function EducationSection({ educations, onSave }) {
+  const [list, setList] = useState(educations);
+
+  const remove = (index) => {
+    if(confirm('Delete education?')) {
+      const newList = list.filter((_, i) => i !== index);
+      setList(newList);
+      onSave(newList);
+    }
+  };
+
+  const emptyEdu = {title:'', role:'', period:'', description:'', tags:[], logo:''};
+  const [eData, setEData] = useState({...emptyEdu, tags: ''});
+  const [editIndex, setEditIndex] = useState(null);
+  const [editLang, setEditLang] = useState('en');
+
+  const openEduForm = (index) => {
+    const edu = index === -1 ? emptyEdu : list[index];
+    setEData({
+      ...edu,
+      tags: (edu.tags || []).join(', '),
+      logo: edu.logo || ''
+    });
+    setEditIndex(index);
+    setEditLang('en');
+  };
+
+  if (editIndex !== null) {
+    return (
+      <form onSubmit={(e) => {
+        e.preventDefault();
+        const obj = {...eData, 
+          tags: eData.tags.split(',').map(s=>s.trim()).filter(Boolean)
+        };
+        delete obj.logo;
+        if (eData.logo) obj.logo = eData.logo;
+        const newList = [...list];
+        if (editIndex === -1) newList.unshift(obj);
+        else newList[editIndex] = obj;
+        setList(newList);
+        onSave(newList);
+        setEditIndex(null);
+      }} className={cardCls}>
+        <h3 className="text-lg font-bold font-mono mb-4">{editIndex === -1 ? 'New Education' : 'Edit Education'}</h3>
+        <div className="space-y-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div><label className={labelCls}>Degree / Major</label><input type="text" className={inputCls} value={eData.title} onChange={e=>setEData({...eData, title:e.target.value})} required placeholder="e.g. Bachelor of Computer Science"/></div>
+            <div><label className={labelCls}>Institution Logo URL (optional)</label><input type="url" className={inputCls} value={eData.logo || ''} onChange={e=>setEData({...eData, logo:e.target.value})} placeholder="https://..."/></div>
+            <div><label className={labelCls}>Period (e.g. 2022 - 2026)</label><input type="text" className={inputCls} value={eData.period} onChange={e=>setEData({...eData, period:e.target.value})} required/></div>
+          </div>
+          
+          <div className="border border-zinc-200 dark:border-zinc-700 rounded-lg p-4 bg-zinc-50 dark:bg-zinc-800/30">
+            <div className="flex gap-2 mb-4">
+              {['en', 'id', 'zh', 'ja', 'ko'].map(l => (
+                <button type="button" key={l} onClick={()=>setEditLang(l)} className={`px-3 py-1 text-xs font-mono rounded ${editLang === l ? 'bg-black text-white dark:bg-white dark:text-black' : 'bg-zinc-200 text-zinc-600 dark:bg-zinc-800 dark:text-zinc-400'}`}>{l.toUpperCase()}</button>
+              ))}
+            </div>
+            
+            <div className={editLang === 'en' ? 'block' : 'hidden'}>
+              <div className="mb-3"><label className={labelCls}>Institution (EN)</label><input type="text" className={inputCls} value={eData.role || ''} onChange={e=>setEData({...eData, role:e.target.value})} required placeholder="e.g. AMIKOM University"/></div>
+              <div className="mb-3"><label className={labelCls}>Desc (EN)</label><textarea className={`${inputCls} h-20`} value={eData.description || ''} onChange={e=>setEData({...eData, description:e.target.value})} placeholder="Optional: GPA, Thesis, etc."/></div>
+            </div>
+            
+            {['id', 'zh', 'ja', 'ko'].map(l => (
+              <div key={l} className={editLang === l ? 'block' : 'hidden'}>
+                <div className="mb-3"><label className={labelCls}>Institution ({l.toUpperCase()})</label><input type="text" className={inputCls} value={eData[`role_${l}`] || ''} onChange={e=>setEData({...eData, [`role_${l}`]:e.target.value})} /></div>
+                <div className="mb-3"><label className={labelCls}>Desc ({l.toUpperCase()})</label><textarea className={`${inputCls} h-20`} value={eData[`description_${l}`] || ''} onChange={e=>setEData({...eData, [`description_${l}`]:e.target.value})} /></div>
+              </div>
+            ))}
+          </div>
+          <div><label className={labelCls}>Tags (comma separated)</label><input type="text" className={inputCls} value={eData.tags} onChange={e=>setEData({...eData, tags:e.target.value})} /></div>
+        </div>
+        <div className="mt-6 flex gap-3">
+          <button type="submit" className={btnSaveCls}>Save Education</button>
+          <button type="button" onClick={()=>setEditIndex(null)} className={btnCancelCls}>Cancel</button>
+        </div>
+      </form>
+    );
+  }
+
+  return (
+    <div>
+      <div className="flex items-center justify-between border-b border-zinc-200 dark:border-zinc-700 pb-2 mb-6">
+        <h2 className="text-2xl font-bold font-mono">Education</h2>
+        <button onClick={() => openEduForm(-1)} className="bg-zinc-800 text-white px-3 py-1.5 rounded-lg text-sm font-mono">+ New</button>
+      </div>
+      <div className="space-y-3">
+        {list.map((e, i) => (
+          <div key={i} className={`${cardCls} p-4 flex items-center justify-between`}>
+            <div>
+              <h3 className="font-bold">{e.title}</h3>
+              <p className="text-xs text-zinc-500 font-mono mt-1">{e.role} ({e.period})</p>
+            </div>
+            <div className="flex gap-2">
+              <button onClick={()=>openEduForm(i)} className="px-3 py-1 bg-zinc-200 dark:bg-zinc-700 text-black dark:text-white rounded text-xs font-mono">Edit</button>
+              <button onClick={()=>remove(i)} className="px-3 py-1 bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400 rounded text-xs font-mono">Delete</button>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 function StackSection({ stack, onSave }) {
   const [s, setS] = useState(stack);
   const [newCat, setNewCat] = useState('');
@@ -762,7 +867,7 @@ function SettingsSection({ onReset, onExport }) {
 
 
 function BlogForm({ post, onSave, onCancel }) {
-  const [bData, setBData] = useState({...post, tags: (post.tags||[]).join(', '), title_zh: post.title_zh || '', excerpt_zh: post.excerpt_zh || '', content_zh: post.content_zh || '', title_ja: post.title_ja || '', excerpt_ja: post.excerpt_ja || '', content_ja: post.content_ja || '', title_ko: post.title_ko || '', excerpt_ko: post.excerpt_ko || '', content_ko: post.content_ko || ''});
+  const [bData, setBData] = useState({...post, tags: (post.tags||[]).join(', '), coverImage: post.coverImage || '', title_zh: post.title_zh || '', excerpt_zh: post.excerpt_zh || '', content_zh: post.content_zh || '', title_ja: post.title_ja || '', excerpt_ja: post.excerpt_ja || '', content_ja: post.content_ja || '', title_ko: post.title_ko || '', excerpt_ko: post.excerpt_ko || '', content_ko: post.content_ko || ''});
   const [editLang, setEditLang] = useState('en');
 
   return (
@@ -774,6 +879,7 @@ function BlogForm({ post, onSave, onCancel }) {
       <h3 className="text-lg font-bold font-mono mb-4">{!post.slug ? 'New Post' : 'Edit Post'}</h3>
       <div className="space-y-4">
         <div><label className={labelCls}>Date (YYYY-MM-DD)</label><input type="date" className={inputCls} value={bData.date} onChange={e=>setBData({...bData, date:e.target.value})} required/></div>
+        <div><label className={labelCls}>Cover Image URL (optional)</label><input type="url" className={inputCls} value={bData.coverImage} onChange={e=>setBData({...bData, coverImage:e.target.value})} placeholder="https://..." /></div>
         
         <div className="border border-zinc-200 dark:border-zinc-700 rounded-lg p-4 bg-zinc-50 dark:bg-zinc-800/30">
           <div className="flex gap-2 mb-4">
@@ -828,7 +934,7 @@ function BlogSection({ blogs = [], onSave }) {
   };
 
   if (editing !== null) {
-    const post = editing === 'new' ? {title:'', title_id:'', title_zh:'', excerpt:'', excerpt_id:'', excerpt_zh:'', content:'', content_id:'', content_zh:'', date: new Date().toISOString().split('T')[0], tags:[], draft: false} : list[editing];
+    const post = editing === 'new' ? {title:'', title_id:'', title_zh:'', excerpt:'', excerpt_id:'', excerpt_zh:'', content:'', content_id:'', content_zh:'', coverImage:'', date: new Date().toISOString().split('T')[0], tags:[], draft: false} : list[editing];
     return <BlogForm post={post} onSave={(obj) => {
       const newList = [...list];
       if (editing === 'new') newList.unshift(obj);
