@@ -241,8 +241,8 @@ export const experiences = [
     "role_zh": "日惹AMIKOM大学 · 信息系统",
     "role_ja": "アミコム大学ジョグジャカルタ校 · 情報システム",
     "role_ko": "아미콤 대학교 욕야카르타 · 정보 시스템",
-    "logo": "",
-    "period": "2025 — 2026 · 3 semesters",
+    "logo": "https://pbs.twimg.com/profile_images/1411925480911953927/HtzC6UuZ_400x400.jpg",
+    "period": "2025 — 2026",
     "description": "Served as a practical assistant for Data Structures, Programming Language 2, and Structured Programming, supporting both regular and international classes over 3 semesters.",
     "description_id": "Bertanggung jawab sebagai asisten praktikum untuk mata kuliah Struktur Data, Bahasa Pemrograman 2, dan Pemrograman Terstruktur, baik di kelas reguler maupun internasional.",
     "description_zh": "担任数据结构、编程语言2和结构化编程的实验助教，在3个学期内支持普通班和国际班。",
@@ -331,7 +331,7 @@ export const experiences = [
     "role_zh": "日惹AMIKOM大学 · 信息系统",
     "role_ja": "アミコム大学ジョグジャカルタ校 · 情報システム",
     "role_ko": "아미콤 대학교 욕야카르타 · 정보 시스템",
-    "logo": "",
+    "logo": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSXzAOh5RU1VRgDxIzxvrpAIqy3Mp6xMfGqD9TyrvQBot_HiZkWVG9MoZ8&s=30",
     "period": "2023 — Present",
     "description": "Studying how information technology can be a solution for business and organizational needs, with an approach that combines technical, management, and strategic aspects.",
     "description_id": "Mempelajari bagaimana teknologi informasi dapat menjadi solusi bagi kebutuhan bisnis dan organisasi, dengan pendekatan yang menggabungkan aspek teknis, manajemen, dan strategi.",
@@ -444,7 +444,7 @@ export const projects = [
       "Tailwind CSS",
       "Gemini AI"
     ],
-    "gallery": [],
+    "gallery": ["/ereport1.png", "/ereport2.png", "/ereport3.png", "/ereport4.png", "/ereport5.png", "/ereport6.png", "/ereport7.png", "/ereport8.png", "/ereport9.png", "/ereport10.png", "/ereport11.png", "/ereport12.png"],
     "githubUrl": "https://github.com/raihanardiansah/ereport",
     "featured": true
   },
@@ -452,21 +452,21 @@ export const projects = [
   {
     "slug": "svarga-app",
     "title": "Svarga Cafe App",
-    "desc": "An F&B ordering application built for Svarga Cafe, developed for academic and competition purposes.",
-    "desc_id": "Aplikasi pemesanan F&B yang dibangun untuk Svarga Cafe, dikembangkan untuk keperluan akademik dan lomba.",
-    "desc_zh": "为Svarga Cafe构建的餐饮订购应用程序，专为学术和竞赛目的而开发。",
-    "desc_ja": "学術およびコンペティション目的で開発された、Svarga Cafe向けの飲食注文アプリ。",
-    "desc_ko": "학술 및 대회 목적으로 개발된 Svarga Cafe용 F&B 주문 애플리케이션.",
-    "overview": "Designed and developed a digital menu and ordering system to streamline the transaction process in a cafe environment. Highlighted as a flagship project for university competitions.",
-    "overview_id": "Merancang dan mengembangkan menu digital serta sistem pemesanan untuk menyederhanakan proses transaksi di lingkungan kafe. Menjadi proyek unggulan dalam kompetisi universitas.",
-    "overview_zh": "设计并开发了数字菜单和订购系统，以简化咖啡厅环境中的交易流程。作为大学竞赛的旗舰项目而备受瞩目。",
-    "overview_ja": "カフェ環境での取引プロセスを合理化するためのデジタルメニューと注文システムを設計・開発。大学のコンペティションで注目されるプロジェクトとなりました。",
-    "overview_ko": "카페 환경에서 거래 프로세스를 간소화하기 위한 디지털 메뉴 및 주문 시스템을 설계하고 개발했습니다. 대학 대회의 주력 프로젝트로 강조되었습니다.",
-    "role": "Fullstack Developer / Competitor",
-    "role_id": "Fullstack Developer / Peserta Lomba",
-    "role_zh": "全栈开发人员 / 参赛者",
-    "role_ja": "フルスタック開発者 / 競技参加者",
-    "role_ko": "풀스택 개발자 / 참가자",
+    "desc": "An F&B ordering application built for Svarga Cafe.",
+    "desc_id": "Aplikasi pemesanan F&B yang dibangun untuk Svarga Cafe.",
+    "desc_zh": "为Svarga Cafe构建的餐饮订购应用程序。",
+    "desc_ja": "Svarga Cafe向けに開発された飲食注文アプリ。",
+    "desc_ko": "Svarga Cafe용 F&B 주문 애플리케이션.",
+    "overview": "Designed and developed a digital menu and ordering system to streamline the transaction process in a cafe environment.",
+    "overview_id": "Merancang dan mengembangkan menu digital serta sistem pemesanan untuk menyederhanakan proses transaksi di lingkungan kafe.",
+    "overview_zh": "设计并开发了数字菜单和订购系统，以简化咖啡厅环境中的交易流程。",
+    "overview_ja": "カフェ環境での取引プロセスを合理化するためのデジタルメニューと注文システムを設計・開発。",
+    "overview_ko": "카페 환경에서 거래 프로세스를 간소화하기 위한 디지털 메뉴 및 주문 시스템을 설계하고 개발했습니다.",
+    "role": "Fullstack Developer",
+    "role_id": "Fullstack Developer",
+    "role_zh": "全栈开发人员",
+    "role_ja": "フルスタック開発者",
+    "role_ko": "풀스택 개발자",
     "tags": [
       "Kotlin",
       "Android",
@@ -707,7 +707,7 @@ export const currentlyLearning = [
 
 export const certificates = [
   {
-    "icon": "M",
+    "icon": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSTtK61S298GAxItQkZgu6VPydK-EFmgOZ53gpKiDqrM1wb6yQCK6Nm4_Ld&s=10.svg",
     "title": "MTCNA 2022",
     "title_id": "MTCNA 2022",
     "title_zh": "MTCNA 2022",
@@ -718,7 +718,7 @@ export const certificates = [
     "credentialUrl": ""
   },
   {
-    "icon": "AP",
+    "icon": "https://pbs.twimg.com/profile_images/1411925480911953927/HtzC6UuZ_400x400.jpg",
     "title": "Laboratory Assistant",
     "title_id": "Asisten Praktikum ",
     "title_zh": "实验助教",
@@ -729,7 +729,7 @@ export const certificates = [
     "credentialUrl": ""
   },
   {
-    "icon": "G",
+    "icon": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcThDs8DOyzQ8Z1wUK523o9R-b9F4IIeHTvc2W_e_XPjA6HtCVYXzmOKv2gW&s=10",
     "title": "GEMASI 2025 Competition — UI/UX, 2nd Place",
     "title_id": "Lomba GEMASI 2025 — UI/UX, Juara 2",
     "title_zh": "GEMASI 2025竞赛 — UI/UX，第二名",
@@ -740,7 +740,7 @@ export const certificates = [
     "credentialUrl": ""
   },
   {
-    "icon": "G",
+    "icon": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcThDs8DOyzQ8Z1wUK523o9R-b9F4IIeHTvc2W_e_XPjA6HtCVYXzmOKv2gW&s=10",
     "title": "GEMASI 2026 Competition — Business & Digital Fintech, 3rd Place",
     "title_id": "Lomba GEMASI 2026 — Bisnis & Digital Fintech, Juara 3",
     "title_zh": "GEMASI 2026竞赛 — 商业与数字金融科技，第三名",
