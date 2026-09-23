@@ -2,6 +2,7 @@
 
 export const defaultProfile = {
   "name": "Raihan Ardi Ansah",
+  "headline": "Fullstack Web Developer",
   "location": "Yogyakarta, Indonesia",
   "timezone": "Asia/Jakarta",
   "timezoneLabel": "UTC",
@@ -239,52 +240,6 @@ export const stack = {
 
 export const experiences = [
   {
-    "title": "Laboratory Assistant",
-    "role": "AMIKOM University Yogyakarta",
-    "role_id": "Universitas AMIKOM Yogyakarta",
-    "role_zh": "日惹AMIKOM大学",
-    "role_ja": "アミコム大学ジョグジャカルタ校",
-    "role_ko": "아미콤 대학교 욕야카르타",
-    "location": "Yogyakarta, Indonesia",
-    "logo": "https://pbs.twimg.com/profile_images/1411925480911953927/HtzC6UuZ_400x400.jpg",
-    "period": "2025 — 2026",
-    "description": "Served as a practical assistant for Data Structures, Programming Language 2, and Structured Programming, supporting both regular and international classes over 3 semesters.",
-    "description_id": "Bertanggung jawab sebagai asisten praktikum untuk mata kuliah Struktur Data, Bahasa Pemrograman 2, dan Pemrograman Terstruktur, baik di kelas reguler maupun internasional.",
-    "description_zh": "担任数据结构、编程语言2和结构化编程的实验助教，在3个学期内支持普通班和国际班。",
-    "description_ja": "データ構造、プログラミング言語2、構造化プログラミングの実習補助を3学期にわたり、通常クラスと国際クラスの両方で担当しました。",
-    "description_ko": "자료 구조, 프로그래밍 언어 2, 구조화 프로그래밍 실습 보조를 3학기 동안 정규반과 국제반 모두에서 담당했습니다.",
-    "points": [
-      "Guiding students directly during practical sessions and programming exercises",
-      "Explaining concepts, assisting with debugging, and providing feedback on students' code",
-      "Supporting lecturers in preparing practical modules and evaluating student assignments"
-    ],
-    "points_id": [
-      "Membimbing mahasiswa dalam sesi praktikum dan latihan pemrograman secara langsung",
-      "Memberikan penjelasan konsep, membantu debugging, dan memberikan umpan balik terhadap kode mahasiswa",
-      "Mendukung dosen dalam menyiapkan modul praktikum dan mengevaluasi tugas mahasiswa"
-    ],
-    "points_zh": [
-      "在实验课和编程练习中直接指导学生",
-      "解释概念，协助调试，并提供对学生代码的反馈",
-      "协助讲师准备实验模块并评估学生作业"
-    ],
-    "points_ja": [
-      "実習セッションやプログラミング演習で学生を直接指導",
-      "概念の説明、デバッグの支援、学生のコードに対するフィードバックを提供",
-      "講師の実習モジュールの準備と学生の課題の評価をサポート"
-    ],
-    "points_ko": [
-      "실습 세션 및 프로그래밍 연습에서 학생 직접 지도",
-      "개념 설명, 디버깅 지원 및 학생 코드에 대한 피드백 제공",
-      "강사의 실습 모듈 준비 및 학생 과제 평가 지원"
-    ],
-    "tags": [
-      "Teaching Assistant",
-      "Data Structures",
-      "Programming"
-    ]
-  },
-  {
     "title": "Freelance Web Developer",
     "role": "Self-employed",
     "role_id": "Pekerja Lepas",
@@ -328,6 +283,52 @@ export const experiences = [
       "Frontend",
       "Backend",
       "Database"
+    ]
+  },
+  {
+    "title": "Laboratory Assistant",
+    "role": "AMIKOM University Yogyakarta",
+    "role_id": "Universitas AMIKOM Yogyakarta",
+    "role_zh": "日惹AMIKOM大学",
+    "role_ja": "アミコム大学ジョグジャカルタ校",
+    "role_ko": "아미콤 대학교 욕야카르타",
+    "location": "Yogyakarta, Indonesia",
+    "logo": "https://pbs.twimg.com/profile_images/1411925480911953927/HtzC6UuZ_400x400.jpg",
+    "period": "2025 — 2026",
+    "description": "Served as a practical assistant for Data Structures, Programming Language 2, and Structured Programming, supporting both regular and international classes over 3 semesters.",
+    "description_id": "Bertanggung jawab sebagai asisten praktikum untuk mata kuliah Struktur Data, Bahasa Pemrograman 2, dan Pemrograman Terstruktur, baik di kelas reguler maupun internasional.",
+    "description_zh": "担任数据结构、编程语言2和结构化编程的实验助教，在3个学期内支持普通班和国际班。",
+    "description_ja": "データ構造、プログラミング言語2、構造化プログラミングの実習補助を3学期にわたり、通常クラスと国際クラスの両方で担当しました。",
+    "description_ko": "자료 구조, 프로그래밍 언어 2, 구조화 프로그래밍 실습 보조를 3학기 동안 정규반과 국제반 모두에서 담당했습니다.",
+    "points": [
+      "Guiding students directly during practical sessions and programming exercises",
+      "Explaining concepts, assisting with debugging, and providing feedback on students' code",
+      "Supporting lecturers in preparing practical modules and evaluating student assignments"
+    ],
+    "points_id": [
+      "Membimbing mahasiswa dalam sesi praktikum dan latihan pemrograman secara langsung",
+      "Memberikan penjelasan konsep, membantu debugging, dan memberikan umpan balik terhadap kode mahasiswa",
+      "Mendukung dosen dalam menyiapkan modul praktikum dan mengevaluasi tugas mahasiswa"
+    ],
+    "points_zh": [
+      "在实验课和编程练习中直接指导学生",
+      "解释概念，协助调试，并提供对学生代码的反馈",
+      "协助讲师准备实验模块并评估学生作业"
+    ],
+    "points_ja": [
+      "実習セッションやプログラミング演習で学生を直接指導",
+      "概念の説明、デバッグの支援、学生のコードに対するフィードバックを提供",
+      "講師の実習モジュールの準備と学生の課題の評価をサポート"
+    ],
+    "points_ko": [
+      "실습 세션 및 프로그래밍 연습에서 학생 직접 지도",
+      "개념 설명, 디버깅 지원 및 학생 코드에 대한 피드백 제공",
+      "강사의 실습 모듈 준비 및 학생 과제 평가 지원"
+    ],
+    "tags": [
+      "Teaching Assistant",
+      "Data Structures",
+      "Programming"
     ]
   },
 
@@ -393,7 +394,7 @@ export const educations = [
     "role_ja": "アミコム大学ジョグジャカルタ校",
     "role_ko": "아미콤 대학교 욕야카르타",
     "location": "Yogyakarta, Indonesia",
-    "period": "2022 — Present",
+    "period": "2023 — Present",
     "description": "Currently pursuing a degree in Information Systems with a focus on web development, software engineering, and database management.",
     "description_id": "Saat ini sedang menempuh pendidikan S1 Sistem Informasi dengan fokus pada pengembangan web, rekayasa perangkat lunak, dan manajemen basis data.",
     "description_zh": "目前正在攻读信息系统学位，专注于Web开发、软件工程和数据库管理。",
@@ -725,7 +726,7 @@ export const certificates = [
   {
     "icon": "https://pbs.twimg.com/profile_images/1411925480911953927/HtzC6UuZ_400x400.jpg",
     "title": "Laboratory Assistant",
-    "title_id": "Asisten Praktikum ",
+    "title_id": "Asisten Praktikum",
     "title_zh": "实验助教",
     "title_ja": "実習アシスタント",
     "title_ko": "실습 조교",

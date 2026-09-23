@@ -45,6 +45,7 @@ export default function Resume() {
         {/* Header */}
         <header className="border-b-2 border-zinc-900 pb-6 mb-6">
           <h1 className="text-4xl font-bold tracking-tight mb-2 uppercase text-zinc-900">{data.profile.name}</h1>
+          {data.profile.headline && <p className="text-base font-medium text-zinc-700 mb-1">{data.profile.headline}</p>}
           <p className="text-zinc-600 mb-4">{data.profile.location}</p>
           <div className="flex flex-wrap gap-x-6 gap-y-2 text-sm text-zinc-600 font-mono">
             {data.profile.email && <a href={`mailto:${data.profile.email}`} className="text-black">{data.profile.email}</a>}
