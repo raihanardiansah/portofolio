@@ -3,9 +3,93 @@ import { usePortfolioData, useLanguage, getLoc } from '../store';
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
 
+const T = {
+  en: {
+    profile: 'Profile',
+    experience: 'Experience',
+    education: 'Education',
+    certifications: 'Certifications & Awards',
+    skills: 'Skills',
+    backHome: '← Back to Home',
+    printPdf: 'Print / Download PDF',
+    categories: {
+      'Frontend': 'Frontend',
+      'Mobile': 'Mobile',
+      'Backend & Database': 'Backend & Database',
+      'Data Science & AI': 'Data Science & AI',
+      'Tools & Workflow': 'Tools & Workflow',
+    },
+  },
+  id: {
+    profile: 'Profil',
+    experience: 'Pengalaman',
+    education: 'Pendidikan',
+    certifications: 'Sertifikasi & Penghargaan',
+    skills: 'Keahlian',
+    backHome: '← Kembali ke Beranda',
+    printPdf: 'Cetak / Unduh PDF',
+    categories: {
+      'Frontend': 'Frontend',
+      'Mobile': 'Mobile',
+      'Backend & Database': 'Backend & Database',
+      'Data Science & AI': 'Data Science & AI',
+      'Tools & Workflow': 'Alat & Alur Kerja',
+    },
+  },
+  zh: {
+    profile: '个人简介',
+    experience: '工作经验',
+    education: '教育背景',
+    certifications: '证书与奖项',
+    skills: '技能',
+    backHome: '← 返回首页',
+    printPdf: '打印 / 下载 PDF',
+    categories: {
+      'Frontend': '前端',
+      'Mobile': '移动端',
+      'Backend & Database': '后端与数据库',
+      'Data Science & AI': '数据科学与AI',
+      'Tools & Workflow': '工具与工作流',
+    },
+  },
+  ja: {
+    profile: 'プロフィール',
+    experience: '職歴',
+    education: '学歴',
+    certifications: '資格・受賞歴',
+    skills: 'スキル',
+    backHome: '← ホームへ戻る',
+    printPdf: '印刷 / PDFをダウンロード',
+    categories: {
+      'Frontend': 'フロントエンド',
+      'Mobile': 'モバイル',
+      'Backend & Database': 'バックエンド＆データベース',
+      'Data Science & AI': 'データサイエンス＆AI',
+      'Tools & Workflow': 'ツール＆ワークフロー',
+    },
+  },
+  ko: {
+    profile: '프로필',
+    experience: '경력',
+    education: '학력',
+    certifications: '자격증 및 수상',
+    skills: '기술',
+    backHome: '← 홈으로 돌아가기',
+    printPdf: '인쇄 / PDF 다운로드',
+    categories: {
+      'Frontend': '프론트엔드',
+      'Mobile': '모바일',
+      'Backend & Database': '백엔드 및 데이터베이스',
+      'Data Science & AI': '데이터 과학 및 AI',
+      'Tools & Workflow': '도구 및 워크플로우',
+    },
+  },
+};
+
 export default function Resume() {
   const data = usePortfolioData();
   const lang = useLanguage();
+  const L = T[lang] || T.en;
 
   useEffect(() => {
     document.title = `Resume - ${data.profile.name}`;
@@ -29,13 +113,13 @@ export default function Resume() {
       {/* Action Bar (hidden when printing) */}
       <div className="max-w-[800px] mx-auto px-5 mb-6 flex justify-between items-center print:hidden">
         <Link to="/" className="text-sm font-mono text-zinc-500 hover:text-black dark:hover:text-white transition-colors">
-          ← Back to Home
+          {L.backHome}
         </Link>
         <button 
           onClick={handlePrint}
           className="bg-black dark:bg-white text-white dark:text-black px-4 py-2 rounded-lg text-sm font-bold shadow-md hover:bg-zinc-800 dark:hover:bg-zinc-200 transition-colors cursor-pointer"
         >
-          Print / Download PDF
+          {L.printPdf}
         </button>
       </div>
 
@@ -58,7 +142,7 @@ export default function Resume() {
         {/* Bio */}
         {getBio().length > 0 && (
           <section className="mb-8">
-            <h2 className="text-lg font-bold uppercase tracking-widest text-zinc-900 border-b border-zinc-200 pb-1 mb-3">Profile</h2>
+            <h2 className="text-lg font-bold uppercase tracking-widest text-zinc-900 border-b border-zinc-200 pb-1 mb-3">{L.profile}</h2>
             <p className="text-sm text-zinc-700 leading-relaxed print:break-inside-avoid">
               {getBio().join(' ')}
             </p>
@@ -67,7 +151,7 @@ export default function Resume() {
 
         {/* Experience */}
         <section className="mb-8">
-          <h2 className="text-lg font-bold uppercase tracking-widest text-zinc-900 border-b border-zinc-200 pb-1 mb-3">Experience</h2>
+          <h2 className="text-lg font-bold uppercase tracking-widest text-zinc-900 border-b border-zinc-200 pb-1 mb-3">{L.experience}</h2>
           <div className="space-y-6">
             {data.experiences.map((exp, i) => (
               <div key={i} className="print:break-inside-avoid">
@@ -99,7 +183,7 @@ export default function Resume() {
         {/* Education */}
         {data.educations && data.educations.length > 0 && (
           <section className="mb-8">
-            <h2 className="text-lg font-bold uppercase tracking-widest text-zinc-900 border-b border-zinc-200 pb-1 mb-3">Education</h2>
+            <h2 className="text-lg font-bold uppercase tracking-widest text-zinc-900 border-b border-zinc-200 pb-1 mb-3">{L.education}</h2>
             <div className="space-y-6">
               {data.educations.map((edu, i) => (
                 <div key={i} className="print:break-inside-avoid">
@@ -125,7 +209,7 @@ export default function Resume() {
         {/* Certificates & Awards */}
         {data.certificates && data.certificates.length > 0 && (
           <section className="mb-8">
-            <h2 className="text-lg font-bold uppercase tracking-widest text-zinc-900 border-b border-zinc-200 pb-1 mb-3">Certifications & Awards</h2>
+            <h2 className="text-lg font-bold uppercase tracking-widest text-zinc-900 border-b border-zinc-200 pb-1 mb-3">{L.certifications}</h2>
             <div className="space-y-3">
               {data.certificates.map((cert, i) => (
                 <div key={i} className="print:break-inside-avoid">
@@ -142,11 +226,11 @@ export default function Resume() {
 
         {/* Tech Stack */}
         <section className="print:break-inside-avoid">
-          <h2 className="text-lg font-bold uppercase tracking-widest text-zinc-900 border-b border-zinc-200 pb-1 mb-3">Skills</h2>
+          <h2 className="text-lg font-bold uppercase tracking-widest text-zinc-900 border-b border-zinc-200 pb-1 mb-3">{L.skills}</h2>
           <div className="text-sm text-zinc-700 grid grid-cols-1 gap-2 leading-relaxed">
             {Object.entries(data.stack).map(([category, items]) => (
               <div key={category} className="print:break-inside-avoid">
-                <strong className="text-zinc-900">{category}:</strong> {items.map(i => i.name).join(', ')}
+                <strong className="text-zinc-900">{L.categories[category] || category}:</strong> {items.map(i => i.name).join(', ')}
               </div>
             ))}
           </div>
