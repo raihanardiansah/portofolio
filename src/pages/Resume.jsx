@@ -60,9 +60,9 @@ export default function Resume() {
         {getBio().length > 0 && (
           <section className="mb-8">
             <h2 className="text-lg font-bold uppercase tracking-widest text-zinc-900 border-b border-zinc-200 pb-1 mb-3">Profile</h2>
-            <div className="text-sm text-zinc-700 space-y-1 print:break-inside-avoid">
-              {getBio().map((b, i) => <p key={i}>{b}</p>)}
-            </div>
+            <p className="text-sm text-zinc-700 leading-relaxed print:break-inside-avoid">
+              {getBio().join(' ')}
+            </p>
           </section>
         )}
 
@@ -122,29 +122,6 @@ export default function Resume() {
             </div>
           </section>
         )}
-
-        {/* Projects */}
-        <section className="mb-8">
-          <h2 className="text-lg font-bold uppercase tracking-widest text-zinc-900 border-b border-zinc-200 pb-1 mb-3">Selected Projects</h2>
-          <div className="space-y-5">
-            {(data.projects.filter(p => p.featured).length > 0 ? data.projects.filter(p => p.featured) : data.projects).slice(0, 4).map((p, i) => (
-              <div key={i} className="print:break-inside-avoid">
-                <div className="flex justify-between items-baseline mb-1">
-                  <h3 className="font-bold text-zinc-900">{p.title}</h3>
-                  <span className="text-sm font-mono text-zinc-500 shrink-0">{getLoc(lang, p.role, p.role_id, p.role_zh, p.role_ja, p.role_ko)}</span>
-                </div>
-                <p className="text-sm text-zinc-600 mb-1 leading-relaxed">{getLoc(lang, p.desc, p.desc_id, p.desc_zh, p.desc_ja, p.desc_ko)}</p>
-                <div className="flex justify-between items-baseline">
-                  <p className="text-xs font-mono text-zinc-500">Tech: {p.tags.join(', ')}</p>
-                  <div className="flex gap-3 text-xs font-mono text-black">
-                    {p.liveUrl && <a href={p.liveUrl}>Live Demo ↗</a>}
-                    {p.githubUrl && <a href={p.githubUrl}>GitHub ↗</a>}
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </section>
 
         {/* Certificates & Awards */}
         {data.certificates && data.certificates.length > 0 && (
