@@ -2,7 +2,6 @@
 
 export const defaultProfile = {
   "name": "Raihan Ardi Ansah",
-  "headline": "",
   "location": "Yogyakarta, Indonesia",
   "timezone": "Asia/Jakarta",
   "timezoneLabel": "UTC",
@@ -14,19 +13,19 @@ export const defaultProfile = {
   "whatsapp": "+62 815-1587-4233",
   "availableForWork": true,
   "bio": [
-    "I build web applications that turn everyday workflows into clear, practical digital tools. My work spans responsive interfaces, backend and database integration, and deployment, with attention to how people will actually use each feature."
+    "I am an Information Systems undergraduate with experience as a Web Developer and Laboratory Assistant. I build web applications spanning responsive interface development, backend and database integration, and deployment. I am experienced in translating user needs into practical digital solutions and have a strong interest in software development, databases, and web technologies."
   ],
   "bio_id": [
-    "Saya membangun aplikasi web yang mengubah alur kerja sehari-hari menjadi solusi digital yang jelas dan praktis. Pekerjaan saya mencakup antarmuka responsif, integrasi backend dan database, hingga deployment, dengan perhatian pada cara pengguna benar-benar memakai setiap fitur."
+    "Saya merupakan mahasiswa S1 Sistem Informasi dengan pengalaman sebagai Web Developer dan Laboratory Assistant. Saya membangun aplikasi web yang mencakup pengembangan antarmuka responsif, integrasi backend dan database, hingga deployment. Saya terbiasa menerjemahkan kebutuhan pengguna menjadi solusi digital yang praktis serta memiliki ketertarikan pada pengembangan perangkat lunak, database, dan teknologi web."
   ],
   "bio_zh": [
-    "我构建将日常工作流程转化为清晰、实用数字工具的Web应用。我的工作涵盖响应式界面、后端与数据库集成以及部署，并关注用户实际使用每项功能的方式。"
+    "我是信息系统专业本科生，拥有 Web 开发人员和实验室助教的经验。我构建的 Web 应用涵盖响应式界面开发、后端与数据库集成直至部署。我善于将用户需求转化为实用的数字解决方案，并对软件开发、数据库和 Web 技术充满兴趣。"
   ],
   "bio_ja": [
-    "日常の業務フローを分かりやすく実用的なデジタルツールに変えるWebアプリケーションを開発しています。レスポンシブなインターフェース、バックエンドとデータベースの連携、デプロイまでを担当し、各機能が実際にどう使われるかを重視しています。"
+    "私は情報システム専攻の学部生で、Web開発者および実習アシスタントとしての経験があります。レスポンシブなインターフェース開発、バックエンドとデータベースの統合、デプロイまでをカバーするWebアプリケーションを構築しています。ユーザーのニーズを実用的なデジタルソリューションに落とし込むことに慣れており、ソフトウェア開発、データベース、Web技術に強い関心を持っています。"
   ],
   "bio_ko": [
-    "일상 업무 흐름을 명확하고 실용적인 디지털 도구로 바꾸는 웹 애플리케이션을 개발합니다. 반응형 인터페이스, 백엔드 및 데이터베이스 연동, 배포까지 담당하며 각 기능이 사용자의 실제 업무에 어떻게 쓰이는지에 집중합니다."
+    "저는 정보시스템 학부생으로 웹 개발자 및 실습 조교 경험이 있습니다. 반응형 인터페이스 개발, 백엔드 및 데이터베이스 통합, 배포까지 아우르는 웹 애플리케이션을 구축합니다. 사용자 요구를 실용적인 디지털 솔루션으로 전환하는 데 익숙하며, 소프트웨어 개발, 데이터베이스, 웹 기술에 강한 관심을 가지고 있습니다."
   ],
   "cvUrl": ""
 };
@@ -71,13 +70,11 @@ export const stack = {
       "icon": "tailwindcss"
     },
     {
-      "name": "Bootstrap",
-      "icon": "bootstrap"
-    },
-    {
       "name": "Vite",
       "icon": "vite"
-    },
+    }
+  ],
+  "Mobile": [
     {
       "name": "Android",
       "icon": "android"
@@ -95,10 +92,6 @@ export const stack = {
     {
       "name": "Python",
       "icon": "python"
-    },
-    {
-      "name": "C++",
-      "icon": "cplusplus"
     },
     {
       "name": "Laravel",
@@ -123,10 +116,6 @@ export const stack = {
     {
       "name": "Supabase",
       "icon": "supabase"
-    },
-    {
-      "name": "Firebase",
-      "icon": "firebase"
     }
   ],
   "Data Science & AI": [
@@ -147,16 +136,8 @@ export const stack = {
       "icon": "huggingface"
     },
     {
-      "name": "Kaggle",
-      "icon": "kaggle"
-    },
-    {
-      "name": "Looker Studio",
-      "icon": "looker"
-    },
-    {
-      "name": "Google Sheets",
-      "icon": "googlesheets"
+      "name": "Google Colab",
+      "icon": "googlecolab"
     }
   ],
   "Tools & Workflow": [
@@ -197,28 +178,12 @@ export const stack = {
       "icon": "vercel"
     },
     {
-      "name": "DigitalOcean",
-      "icon": "digitalocean"
-    },
-    {
-      "name": "Google Cloud",
-      "icon": "googlecloud"
-    },
-    {
-      "name": "Nginx",
-      "icon": "nginx"
-    },
-    {
       "name": "Trello",
       "icon": "trello"
     },
     {
       "name": "Draw.io",
       "icon": "diagramsdotnet"
-    },
-    {
-      "name": "Lucidchart",
-      "icon": "lucid"
     }
   ]
 };
@@ -316,8 +281,7 @@ export const experiences = [
       "Programming"
     ]
   },
-
-    {
+  {
     "title": "IT Internship",
     "role": "ADI Computer",
     "role_id": "ADI Computer",
@@ -326,7 +290,7 @@ export const experiences = [
     "role_ko": "ADI Computer",
     "location": "Kotamobagu, Indonesia",
     "logo": "",
-    "period": "January — April 2021",
+    "period": "2021",
     "description": "Completed an internship at ADI Computer focusing on network installation, computer assembly, operating system installation, and network troubleshooting.",
     "description_id": "Magang di ADI Computer dengan fokus pada instalasi jaringan, perakitan komputer, instalasi sistem operasi, dan troubleshooting jaringan.",
     "description_zh": "在ADI Computer实习，负责网络安装、电脑组装、操作系统安装和网络故障排除。",
@@ -690,7 +654,7 @@ export const projects = [
 ];
 
 export const currentlyLearning = [
-  "Next.js",
+  "Testing & CI/CD",
   "Cloud Deployment",
   "Machine Learning & AI",
   "Cybersecurity & Pentesting"
@@ -716,7 +680,7 @@ export const certificates = [
     "title_ja": "実習アシスタント",
     "title_ko": "실습 조교",
     "issuer": "AMIKOM University Yogyakarta",
-    "date": "2024/2025 — 2025/2026",
+    "date": "2025 — 2026",
     "credentialUrl": ""
   },
   {
