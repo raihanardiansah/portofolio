@@ -821,15 +821,12 @@ export default function Home() {
           <span className="text-[11px] font-mono font-semibold tracking-[0.18em] uppercase text-zinc-500 dark:text-zinc-400">{t.aboutMe}</span>
           <span className="h-px flex-1 bg-zinc-200/80 dark:bg-zinc-800" />
         </div>
-        <ul className="space-y-3">
+        <div>
           {/* FIX #2 & #25: use getLoc from store (with proper empty check) */}
-          {(getLoc(lang, data.profile.bio, data.profile.bio_id, data.profile.bio_zh, data.profile.bio_ja, data.profile.bio_ko) || []).map((item, i) => (
-            <li key={i} className="flex items-baseline gap-2 text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed">
-              <span className="text-black dark:text-white shrink-0 text-xs leading-none">•</span>
-              <span>{item}</span>
-            </li>
-          ))}
-        </ul>
+          <p className="text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed">
+            {(getLoc(lang, data.profile.bio, data.profile.bio_id, data.profile.bio_zh, data.profile.bio_ja, data.profile.bio_ko) || []).join(' ')}
+          </p>
+        </div>
       </Reveal>
 
       {/* Currently learning */}

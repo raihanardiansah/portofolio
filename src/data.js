@@ -2,7 +2,7 @@
 
 export const defaultProfile = {
   "name": "Raihan Ardi Ansah",
-  "headline": "Fullstack Web Developer",
+  "headline": "",
   "location": "Yogyakarta, Indonesia",
   "timezone": "Asia/Jakarta",
   "timezoneLabel": "UTC",
@@ -14,34 +14,19 @@ export const defaultProfile = {
   "whatsapp": "+62 815-1587-4233",
   "availableForWork": true,
   "bio": [
-    "Experienced in building stable, responsive applications focused on user experience.",
-    "I always ensure each feature is built based on clear needs and objectives, not just technology trends.",
-    "I believe communication and teamwork are essential foundations for every successful project.",
-    "I believe learning never stops, and I'm always enthusiastic about exploring new technologies."
+    "I build web applications that turn everyday workflows into clear, practical digital tools. My work spans responsive interfaces, backend and database integration, and deployment, with attention to how people will actually use each feature."
   ],
   "bio_id": [
-    "Berpengalaman dalam membangun aplikasi yang stabil, responsif, dan berfokus pada pengalaman pengguna.",
-    "Saya selalu memastikan setiap fitur dibangun berdasarkan kebutuhan dan tujuan yang jelas, bukan sekadar tren teknologi.",
-    "Saya percaya bahwa komunikasi dan kerja sama tim adalah fondasi penting dalam setiap proyek yang sukses.",
-    "Saya percaya proses belajar tidak pernah berhenti, dan saya selalu antusias mengeksplorasi hal-hal baru di dunia teknologi."
+    "Saya membangun aplikasi web yang mengubah alur kerja sehari-hari menjadi solusi digital yang jelas dan praktis. Pekerjaan saya mencakup antarmuka responsif, integrasi backend dan database, hingga deployment, dengan perhatian pada cara pengguna benar-benar memakai setiap fitur."
   ],
   "bio_zh": [
-    "具有构建稳定、响应迅速且以用户体验为中心的应用程序的经验。",
-    "我始终确保每个功能都是基于明确的需求和目标构建，而不是仅仅追随技术潮流。",
-    "我相信沟通与团队合作是每个成功项目的重要基础。",
-    "我相信学习的过程永无止境，并且我始终热衷于探索科技领域的新事物。"
+    "我构建将日常工作流程转化为清晰、实用数字工具的Web应用。我的工作涵盖响应式界面、后端与数据库集成以及部署，并关注用户实际使用每项功能的方式。"
   ],
   "bio_ja": [
-    "ユーザー体験に重点を置いた、安定でレスポンシブなアプリケーションの構築経験があります。",
-    "私は常に、各機能が明確なニーズと目的に基づいて構築されていることを確認し、単なる技術トレンドに流されないようにしています。",
-    "コミュニケーションとチームワークは、あらゆる成功するプロジェクトの重要な基盤であると信じています。",
-    "学びのプロセスは終わらないと信じており、常にテクノロジーの新しいことを探求することに熱意を持っています。"
+    "日常の業務フローを分かりやすく実用的なデジタルツールに変えるWebアプリケーションを開発しています。レスポンシブなインターフェース、バックエンドとデータベースの連携、デプロイまでを担当し、各機能が実際にどう使われるかを重視しています。"
   ],
   "bio_ko": [
-    "사용자 경험에 중점을 둔 안정적이고 반응성이 뛰어난 애플리케이션을 구축한 경험이 있습니다.",
-    "저는 각 기능이 명확한 요구와 목표를 기반으로 구축되도록 항상 확인하며, 단순한 기술 트렌드에 따르지 않습니다.",
-    "커뮤니케이션과 팀 협업은 모든 성공적인 프로젝트의 중요한 기반이라고 믿습니다.",
-    "배움의 과정은 끝나지 않는다고 믿으며, 기술 분야의 새로운 것을 탐구하는 데 항상 열정을 가지고 있습니다."
+    "일상 업무 흐름을 명확하고 실용적인 디지털 도구로 바꾸는 웹 애플리케이션을 개발합니다. 반응형 인터페이스, 백엔드 및 데이터베이스 연동, 배포까지 담당하며 각 기능이 사용자의 실제 업무에 어떻게 쓰이는지에 집중합니다."
   ],
   "cvUrl": ""
 };
@@ -249,34 +234,34 @@ export const experiences = [
     "location": "Remote",
     "logo": "",
     "period": "2024 — Present",
-    "description": "Building websites and web applications that translate real-world needs into clean, user-friendly digital experiences.",
-    "description_id": "Membangun website dan aplikasi web yang menerjemahkan kebutuhan nyata menjadi pengalaman digital yang rapi dan mudah digunakan.",
-    "description_zh": "构建将现实需求转化为整洁、用户友好数字体验的网站和Web应用程序。",
-    "description_ja": "現実のニーズをすっきりと使いやすいデジタル体験に変換するウェブサイトやウェブアプリケーションを構築します。",
-    "description_ko": "현실의 요구를 깔끔하고 사용자 친화적인 디지털 경험으로 변환하는 웹사이트와 웹 애플리케이션을 구축합니다.",
+    "description": "Turning client requirements into responsive websites and web applications, from frontend implementation and backend/database integration through deployment.",
+    "description_id": "Menerjemahkan kebutuhan klien menjadi website dan aplikasi web responsif, mulai dari implementasi frontend dan integrasi backend/database hingga deployment.",
+    "description_zh": "将客户需求转化为响应式网站和Web应用，涵盖前端实现、后端与数据库集成以及部署准备。",
+    "description_ja": "クライアントの要件をレスポンシブなWebサイトやWebアプリに落とし込み、フロントエンドの実装からバックエンド・データベース連携、デプロイ準備まで対応します。",
+    "description_ko": "고객 요구사항을 반응형 웹사이트와 웹 애플리케이션으로 구현하며, 프런트엔드 개발부터 백엔드·데이터베이스 연동과 배포 준비까지 담당합니다.",
     "points": [
-      "Developing various responsive websites",
-      "Connecting frontend, backend, database, and deployment in a single workflow",
+      "Building responsive website interfaces for desktop and mobile",
+      "Integrating frontend features with backend services and databases, then preparing applications for deployment",
       "Collaborating with stakeholders to translate requirements into technical solutions"
     ],
     "points_id": [
-      "Mengembangkan beberapa website yang responsif",
-      "Menghubungkan frontend, backend, database, dan deployment dalam satu alur kerja",
+      "Membangun antarmuka website responsif untuk desktop dan perangkat mobile",
+      "Mengintegrasikan fitur frontend dengan layanan backend dan database, lalu menyiapkan aplikasi untuk deployment",
       "Berkolaborasi dengan stakeholder untuk menerjemahkan kebutuhan menjadi solusi teknis"
     ],
     "points_zh": [
-      "开发各种响应式网站",
-      "在单一工作流中连接前端、后端、数据库和部署",
-      "与利益相关者合作，将需求转化为技术解决方案"
+      "构建适配桌面和移动设备的响应式网站界面",
+      "将前端功能与后端服务及数据库集成，并完成应用部署准备",
+      "与相关方沟通需求，并将其转化为具体的技术方案"
     ],
     "points_ja": [
-      "様々なレスポンシブウェブサイトを開発",
-      "フロントエンド、バックエンド、データベース、デプロイメントを単一のワークフローに統合",
-      "関係者と協力して要件を技術的な解決策に変換"
+      "デスクトップとモバイルに対応したレスポンシブなWebインターフェースを構築",
+      "フロントエンド機能をバックエンドサービスやデータベースと連携し、デプロイに向けて準備",
+      "関係者と要件を整理し、具体的な技術ソリューションに落とし込む"
     ],
     "points_ko": [
-      "다양한 반응형 웹사이트 개발",
-      "프론트엔드, 백엔드, 데이터베이스 및 배포를 단일 워크플로우로 연결",
+      "데스크톱과 모바일에 맞는 반응형 웹 인터페이스 구축",
+      "프론트엔드 기능을 백엔드 서비스 및 데이터베이스와 연동하고 배포 준비",
       "이해관계자와 협력하여 요구 사항을 기술 솔루션으로 변환"
     ],
     "tags": [
@@ -435,11 +420,11 @@ export const projects = [
     "desc_zh": "一个基于AI的学校数字投诉系统。",
     "desc_ja": "学校向けのAIベースのデジタル苦情システム。",
     "desc_ko": "학교를 위한 AI 기반 디지털 불만 접수 시스템.",
-    "overview": "A complaint system focused on analyzing reports using AI, equipped with multiple role access management tailored for school needs. Successfully increased school complaint reporting efficiency by 40% and accelerated administration response time.",
-    "overview_id": "Sistem pengaduan yang berfokus pada analisis keluhan menggunakan AI, dilengkapi dengan manajemen akses multi-role yang disesuaikan untuk kebutuhan sekolah. Berhasil meningkatkan efisiensi pelaporan keluhan sekolah hingga 40% dan mempercepat waktu respons administrasi.",
-    "overview_zh": "一个专注于使用AI分析投诉的系统，配备了为学校需求量身定制的多角色访问管理。成功将学校投诉报告效率提高了40%，并加快了行政响应时间。",
-    "overview_ja": "AIを使用して苦情を分析することに焦点を当てたシステムで、学校のニーズに合わせた複数の役割アクセス管理を備えています。",
-    "overview_ko": "AI를 사용하여 불만을 분석하는 데 중점을 둔 시스템으로, 학교 요구에 맞춘 다중 역할 액세스 관리를 갖추고 있습니다.",
+    "overview": "A school complaint system that uses AI to analyze reports and provides role-based access for administrators and reporters. It centralizes submissions and supports more organized follow-up by the school administration.",
+    "overview_id": "Sistem pengaduan sekolah yang menggunakan AI untuk menganalisis laporan serta menyediakan akses berbasis peran bagi admin dan pelapor. Sistem ini memusatkan pengajuan laporan dan mendukung tindak lanjut yang lebih terorganisasi oleh administrasi sekolah.",
+    "overview_zh": "一套面向学校的投诉系统，使用AI分析报告，并为管理员和报告者提供基于角色的访问权限。它集中管理报告提交，并帮助学校行政部门更有条理地跟进处理。",
+    "overview_ja": "AIで報告を分析し、管理者と報告者に役割ベースのアクセスを提供する学校向け苦情システムです。報告を一元管理し、学校管理部門による整理されたフォローアップを支援します。",
+    "overview_ko": "AI로 신고 내용을 분석하고 관리자와 신고자에게 역할 기반 접근 권한을 제공하는 학교 민원 시스템입니다. 신고를 한곳에서 관리하고 학교 행정팀이 체계적으로 후속 조치할 수 있도록 지원합니다.",
     "role": "Fullstack Web Developer",
     "role_id": "Fullstack Web Developer",
     "role_zh": "全栈Web开发人员",
@@ -463,11 +448,11 @@ export const projects = [
     "desc_zh": "为Svarga Cafe构建的餐饮订购应用程序。",
     "desc_ja": "Svarga Cafe向けに開発された飲食注文アプリ。",
     "desc_ko": "Svarga Cafe용 F&B 주문 애플리케이션.",
-    "overview": "A comprehensive cashier application built for Svarga Cafe, enabling fast and precise point-of-sale transactions. Simplified ordering and stock management, increasing order accuracy to 95% and reducing customer wait times.",
-    "overview_id": "Aplikasi kasir komprehensif yang dibangun untuk Svarga Cafe, memungkinkan transaksi point-of-sale yang cepat dan tepat. Mempermudah pemesanan dan manajemen stok, meningkatkan akurasi pesanan hingga 95% dan mengurangi waktu tunggu pelanggan.",
-    "overview_zh": "为Svarga Cafe构建的全面收银应用程序，实现快速准确的销售点交易。简化了订购和库存管理，将订单准确率提高到95%，并减少了客户等待时间。",
-    "overview_ja": "カフェ環境での取引プロセスを合理化するためのデジタルメニューと注文システムを設計・開発。",
-    "overview_ko": "카페 환경에서 거래 프로세스를 간소화하기 위한 디지털 메뉴 및 주문 시스템을 설계하고 개발했습니다.",
+    "overview": "A cashier application built for Svarga Cafe to support point-of-sale transactions, ordering, and stock management. It helps staff record orders consistently and manage daily cafe operations in one system.",
+    "overview_id": "Aplikasi kasir untuk Svarga Cafe yang mendukung transaksi point-of-sale, pemesanan, dan manajemen stok. Sistem ini membantu staf mencatat pesanan secara konsisten dan mengelola operasional kafe harian dalam satu sistem.",
+    "overview_zh": "为Svarga Cafe构建的收银应用，支持销售点交易、点单和库存管理。它帮助员工一致地记录订单，并在一个系统中管理日常咖啡馆运营。",
+    "overview_ja": "Svarga Cafe向けに構築したレジアプリで、POS取引、注文、在庫管理をサポートします。スタッフが注文を一貫して記録し、日々のカフェ運営を一つのシステムで管理できるようにします。",
+    "overview_ko": "Svarga Cafe를 위해 구축한 계산대 애플리케이션으로 POS 거래, 주문 및 재고 관리를 지원합니다. 직원이 주문을 일관되게 기록하고 일상적인 카페 운영을 하나의 시스템에서 관리하도록 돕습니다.",
     "role": "Fullstack Developer",
     "role_id": "Fullstack Developer",
     "role_zh": "全栈开发人员",
@@ -607,11 +592,11 @@ export const projects = [
     "desc_zh": "包含RSVP系统和优雅设计的数字婚礼邀请平台系列。",
     "desc_ja": "RSVPシステムとエレガントなデザインを備えたデジタル結婚式招待状プラットフォームのコレクション。",
     "desc_ko": "RSVP 시스템과 우아한 디자인을 갖춘 디지털 웨딩 청첩장 플랫폼 컬렉션.",
-    "overview": "Developed comprehensive digital invitation solutions allowing users to manage guest lists, RSVPs, and display event details with beautiful layouts. Reduced traditional invitation printing costs by up to 100% and facilitated real-time guest tracking.",
-    "overview_id": "Mengembangkan solusi undangan digital komprehensif yang memungkinkan pengguna mengelola daftar tamu, RSVP, dan menampilkan detail acara dengan tata letak yang indah. Menurunkan biaya cetak undangan fisik hingga 100% dan memudahkan pelacakan kehadiran tamu secara langsung.",
-    "overview_zh": "开发了全面的数字邀请解决方案，允许用户管理客人名单、RSVP并以精美的布局显示活动详细信息。将传统请柬打印成本降低多达100%，并实现了实时宾客跟踪。",
-    "overview_ja": "ユーザーがゲストリスト、RSVPを管理し、美しいレイアウトでイベントの詳細を表示できる包括的なデジタル招待状ソリューションを開発しました。",
-    "overview_ko": "사용자가 게스트 목록, RSVP를 관리하고 아름다운 레이아웃으로 이벤트 세부 정보를 표시할 수 있는 포괄적인 디지털 초청장 솔루션을 개발했습니다.",
+    "overview": "Developed digital invitation platforms that let users manage guest lists, collect RSVPs, and present event details through shareable, elegant pages. The platforms replace printed invitations while making guest responses easier to track.",
+    "overview_id": "Mengembangkan platform undangan digital yang memungkinkan pengguna mengelola daftar tamu, mengumpulkan RSVP, dan menampilkan detail acara melalui halaman yang elegan serta mudah dibagikan. Platform ini menggantikan undangan cetak dan memudahkan pelacakan respons tamu.",
+    "overview_zh": "开发了数字邀请平台，让用户能够管理宾客名单、收集RSVP，并通过可分享的优雅页面展示活动详情。该平台可替代纸质请柬，并使宾客回复更易于跟踪。",
+    "overview_ja": "ゲストリストの管理、RSVPの収集、共有しやすく洗練されたページでのイベント詳細表示を可能にするデジタル招待状プラットフォームを開発しました。紙の招待状に代わり、ゲストの回答を追跡しやすくします。",
+    "overview_ko": "게스트 목록 관리, RSVP 수집, 공유하기 쉬운 세련된 페이지를 통한 행사 정보 제공이 가능한 디지털 초대장 플랫폼을 개발했습니다. 종이 초대장을 대체하고 게스트 응답을 더 쉽게 추적할 수 있도록 합니다.",
     "role": "Fullstack Development, UI/UX Design",
     "role_id": "Fullstack Development, Desain UI/UX",
     "role_zh": "全栈开发，UI/UX设计",
