@@ -48,7 +48,7 @@ export default function Resume() {
           <p className="text-zinc-600 mb-4">{data.profile.location}</p>
           <div className="flex flex-wrap gap-x-6 gap-y-2 text-sm text-zinc-600 font-mono">
             {data.profile.email && <a href={`mailto:${data.profile.email}`} className="text-black">{data.profile.email}</a>}
-            {data.profile.whatsapp && <span>{data.profile.whatsapp}</span>}
+            {data.profile.whatsapp && <a href={`https://wa.me/${data.profile.whatsapp.replace(/\D/g, '')}`} className="text-black">{data.profile.whatsapp}</a>}
             {data.profile.linkedin && <a href={`https://linkedin.com/in/${data.profile.linkedin}`} className="text-black">linkedin.com/in/{data.profile.linkedin}</a>}
             {data.profile.github && <a href={`https://github.com/${data.profile.github}`} className="text-black">github.com/{data.profile.github}</a>}
             <a href={window.location.origin} className="text-black">{window.location.host}</a>
